@@ -1,0 +1,693 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:tournament_client/utils/mystring.dart';
+import 'package:tournament_client/lib/models/roundModel.dart';
+import 'package:tournament_client/lib/models/stationmodel.dart';
+import 'package:tournament_client/lib/models/roundModelRealtime.dart';
+import 'package:tournament_client/screen/admin/model/rankingList.dart';
+
+class ServiceAPIs {
+  Dio dio = Dio();
+  final int receiveAndSendTimeout = 15000;
+  // NetworkCache networkCache = NetworkCache();
+
+  Future fetchInit() async {}
+  //List report
+  Future<ListStationModel?> listStationData() async {
+    try {
+      final response = await dio.get(
+        MyString.list_station,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      // print(response.data);
+      return ListStationModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  //update member station
+  Future<dynamic> updateMemberStation({ip, member}) async {
+    final Map<String, dynamic> body = {"ip": ip, "member": member};
+    try {
+      final response = await dio.post(
+        MyString.update_member_station,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  Future<List<List<double>>> fetchData() async {
+    final response = await http.get(Uri.parse(MyString.list_data_station));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+
+      List<List<double>> result = [];
+
+      for (var subArray in data) {
+        List<double> creditValues = (subArray as List<dynamic>)
+            .map<double>((value) => value.toDouble())
+            .toList();
+        result.add(creditValues);
+      }
+
+      return result;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<List<List<double>>> getData() async {
+    final response = await dio.get(
+      MyString.list_data_station,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        // receiveTimeout: receiveAndSendTimeout,
+        // sendTimeout: receiveAndSendTimeout,
+        // followRedirects: false,
+        // validateStatus: (status) {
+        //   return true;
+        // },
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    // print('response data from request: ${response.data}');
+    // final List<List<double>> list = response.data;
+    // print('reponse: $list');
+    return response.data;
+  }
+
+  //List report
+  Future<RankingModel?> listRanking() async {
+    try {
+      final response = await dio.get(
+        MyString.list_ranking,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      // print(response.data);
+      return RankingModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  //List rounds
+  Future<RoundModel?> listRounds() async {
+    try {
+      final response = await dio.get(
+        MyString.list_round,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      return RoundModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+//create new ranking
+  //List report
+  Future<dynamic> createRanking({customer_name, customer_number, point}) async {
+    Map<String, dynamic> body = {
+      "customer_name": customer_name,
+      "customer_number": customer_number,
+      "point": point,
+    };
+    try {
+      final response = await dio.post(
+        MyString.create_ranking,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  //create new round
+  Future<dynamic> createRound(
+      // {required List<Ranking>? rankings}
+      ) async {
+    // Map<String, dynamic> body = {
+    //   "rankings": rankings,
+    // };
+    try {
+      final response = await dio.post(
+        MyString.create_round,
+        data: null,
+        // data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      // print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  //create new round realtime
+  Future<dynamic> createRoundRealTime() async {
+    try {
+      final response = await dio.get(
+        MyString.create_round_realtime,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  //ADD ALL REALTIME RANKING
+  Future<dynamic> addRealTimeRanking() async {
+    debugPrint('addRealTimeRanking');
+    try {
+      final response = await dio.post(
+        MyString.add_ranking_realtime,
+        data: null,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      // print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  //update display station data
+  Future<dynamic> updateDisplayStatus({ip, display}) async {
+    Map<String, dynamic> body = {
+      "ip": ip,
+      "display": display,
+    };
+    try {
+      final response = await dio.post(
+        MyString.update_station_status,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> updateRanking({customer_name, customer_number, point}) async {
+    Map<String, dynamic> body = {
+      "customer_name": customer_name,
+      "customer_number": customer_number,
+      "point": point
+    };
+    try {
+      final response = await dio.put(
+        MyString.update_ranking,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<dynamic> updateRankingById({customer_number, point, id}) async {
+    Map<String, dynamic> body = {
+      "customer_number": customer_number,
+      "point": point,
+      "_id": id
+    };
+    try {
+      final response = await dio.put(
+        MyString.update_ranking_by_id,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+//delete report by customer_name & customer_number
+  Future<dynamic> deleteRanking({customer_name, customer_number}) async {
+    Map<String, dynamic> body = {
+      "customer_name": customer_name,
+      "customer_number": customer_number,
+    };
+    try {
+      final response = await dio.delete(
+        MyString.delete_ranking,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+//delete report by customer_name & customer_number
+  Future<dynamic> deleteRankingById({id}) async {
+    try {
+      final response = await dio.delete(
+        MyString.delete_ranking_byid(id),
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<dynamic> createStation({machine, member}) async {
+    Map<String, dynamic> body = {
+      "machine": machine,
+      "member": member,
+      "bet": 0,
+      "credit": 0,
+      "connect": 0,
+      "status": 0,
+      "aft": 0,
+      "lastupdate": DateTime.now().toString(),
+      "display": 0
+    };
+    try {
+      final response = await dio.post(
+        MyString.create_station,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<dynamic> deleteStation({machine, member}) async {
+    Map<String, dynamic> body = {
+      "machine": machine,
+      "member": member,
+    };
+    try {
+      final response = await dio.delete(
+        MyString.delete_station,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<dynamic> deleteRankingAllAndAddDefault() async {
+    try {
+      final response = await dio.delete(
+        MyString.delete_ranking_all_and_add,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print(response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<List<Ranking>> fetchRanking([int startIndex = 0, postLimit]) async {
+    const postLimit = 20;
+    try {
+      debugPrint('_fetchRaking');
+      final dio = Dio();
+      final response = await dio.get(
+        MyString.list_ranking_data, // Use http instead of https if it's not secured
+        queryParameters: {'start': '$startIndex', 'limit': '$postLimit'},
+      );
+      if (response.statusCode == 200) {
+        debugPrint('200 status');
+        final body = response.data as List;
+        return body.map((dynamic json) {
+          final map = json as Map<String, dynamic>;
+          return Ranking(
+            id: map['_id'] as String?,
+            customerName: map['customer_name'] as String?,
+            customerNumber: map['customer_number'] as String?,
+            point:  (map['point'] as num?)?.toDouble(),
+            createdAt: map['createdAt'] as String?,
+            v: map['_v'] as int?,
+          );
+        }).toList();
+      } else {
+        debugPrint('something wrong');
+        return [];
+      }
+    } catch (e) {
+      debugPrint('something went wrong $e');
+      return [];
+    }
+    
+  }
+//end service APIs here
+
+//export data excel
+  Future exportDataExcel() async {
+    final response = await dio.get(
+      MyString.export_round,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return (response.data);
+  }
+//export data excel
+  Future exportDataExcelRealTime() async {
+    final response = await dio.get(
+      MyString.export_round_realtime,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return (response.data);
+  }
+
+  //update display status
+  Future<dynamic> updateDisplayTopRankingStatus(
+      {required String id, String? name, required bool? enable}) async {
+    Map<String, dynamic> body = {
+      "name": "display_top_ranking",
+      "enable": enable,
+      "content": "display_top_ranking_content"
+    };
+    final response = await dio.put(
+      MyString.update_display(id),
+      data: body,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return (response.data);
+  }
+  //update display status
+  Future<dynamic> updateDisplayTopRealRankingStatus(
+      {required String id, String? name, required bool? enable}) async {
+    Map<String, dynamic> body = {
+      "name": "display view real/top",
+      "enable": enable,
+      "content": "display view real/top"
+    };
+    final response = await dio.put(
+      MyString.update_display_realtop(id),
+      data: body,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return (response.data);
+  }
+
+
+
+
+
+
+
+  //show list display status
+  Future<dynamic> listDisplayTopRankingStatus() async {
+    final response = await dio.get(
+      MyString.list_display,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return response.data;
+  }
+
+//List rounds realtime ranking
+  Future<ListRoundRealTimeModel?> listRoundRealTime() async {
+     final response = await dio.get(
+        MyString.list_round_realtime,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      // print(response.data);
+      return ListRoundRealTimeModel.fromJson(response.data);
+  }
+
+  Future login({required String username,required password}) async {
+    Map<String,dynamic> body ={
+      'username':username,
+      "password":password
+    };
+     final response = await dio.post(
+        MyString.login,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      print('${response.data}');
+      return (response.data);
+  }
+
+
+
+
+
+
+}

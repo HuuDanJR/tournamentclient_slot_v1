@@ -1,0 +1,219 @@
+import 'package:flutter/material.dart';
+import 'package:tournament_client/main.dart';
+import 'package:tournament_client/setuppage.dart';
+import 'package:tournament_client/displaypage.dart';
+import 'package:tournament_client/widget/text.dart';
+import 'package:tournament_client/historypagetop.dart';
+import 'package:tournament_client/utils/mycolors.dart';
+import 'package:tournament_client/utils/mystring.dart';
+import 'package:tournament_client/setuptopranking.dart';
+import 'package:tournament_client/historypagerealtime.dart';
+import 'package:tournament_client/lib/socket/socket_manager.dart';
+
+
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<NavigationPage> createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+  final double groupAligment = -1.0;
+  final NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  int _selectedIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final SocketManager mySocket = SocketManager();
+
+  @override
+  void initState() {
+    debugPrint('initState NavigationPage');
+    mySocket.initSocket();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    mySocket.disposeSocket();
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final List<Widget> mainContents = [
+      SetupTopranking(mySocket: mySocket),
+      SetupPage(mySocket: mySocket),
+      const HistoryPageTop(),
+      const HistoryPageRealTime(),
+      DisplayPage(mySocket: mySocket)
+    ];
+    return
+        // MaterialApp(
+        // debugShowCheckedModeBanner: false,
+        // themeMode: ThemeMode.system,
+        // theme: ThemeData(
+        //   primaryColor: Colors.deepOrangeAccent,
+        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent),
+        //   unselectedWidgetColor: Colors.grey, //
+        //   appBarTheme: const AppBarTheme(
+        //     centerTitle: false,
+        //   ),
+        //   useMaterial3: false,
+        // ),
+        // home:
+        Scaffold(
+      key: _scaffoldKey,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          NavigationRail(
+            useIndicator: true,
+            indicatorColor: MyColor.grey_tab,
+            extended: false,
+            minWidth: width / 12.5,
+            // minExtendedWidth: width / 10,
+            selectedLabelTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600,color:MyColor.black_text),
+            unselectedLabelTextStyle: const TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: MyColor.grey),
+            backgroundColor: MyColor.white,
+            leading: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  width: 75.0,
+                  height: 35.0,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                      image: AssetImage('asset/image/logo_new.png'),
+                      fit: BoxFit.contain)),
+                ),
+                const SizedBox(
+                  height: MyString.padding16,
+                ),
+              ],
+            ),
+            trailing: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: MyString.padding16,
+                ),
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const Text("Logout"),
+                                content: textcustom(text: "Click ok to log out this user"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: textcustom(text: "CANCEL")),
+                                  TextButton(
+                                      onPressed: () {
+                                        debugPrint('confirm');
+                                        // Navigator.of(context).pushNamed('/authentication');
+                                        UserLoginManager.setLoggedIn(false);
+                                        SocketManager().disposeSocket();
+                                        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (_) => const MyApp()));
+                                      },
+                                      child: textcustom(text: "OK")),
+                                ],
+                              ));
+                    },
+                    icon: const Icon(
+                      Icons.logout_rounded,
+                      color: MyColor.black_text,
+                      size: MyString.padding24,
+                    ))
+              ],
+            ),
+            groupAlignment: groupAligment,
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: (int index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            labelType: labelType,
+            destinations: const <NavigationRailDestination>[
+              NavigationRailDestination(
+                icon: Icon(
+                  Icons.list,
+                  size: MyString.padding24,
+                ),
+                indicatorColor: MyColor.orange,
+                selectedIcon: Icon(
+                  Icons.view_carousel,
+                  size: MyString.padding24,
+                ),
+                label: Text('Top'),
+              ),
+          
+              NavigationRailDestination(
+                indicatorColor: MyColor.orange,
+                icon: Icon(
+                  Icons.grid_3x3,
+                  size: MyString.padding24,
+                ),
+                selectedIcon: Icon(
+                  Icons.grid_4x4_sharp,
+                  size: MyString.padding24,
+                ),
+                label: Text('Realtime'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(
+                  Icons.data_array,
+                  size: MyString.padding24,
+                ),
+                indicatorColor: MyColor.orange,
+                selectedIcon: Icon(
+                  Icons.data_object,
+                  size: MyString.padding24,
+                ),
+                label: Text('History\nTop',textAlign: TextAlign.center),
+              ),
+              NavigationRailDestination(
+                icon: Icon(
+                  Icons.data_array_outlined,
+                  size: MyString.padding24,
+                ),
+                indicatorColor: MyColor.orange,
+                selectedIcon: Icon(
+                  Icons.data_object_outlined,
+                  size: MyString.padding24,
+                ),
+                label: Text('History\nRealtime',textAlign: TextAlign.center,),
+              ),
+              NavigationRailDestination(
+                icon: Icon(
+                  Icons.display_settings,
+                  size: MyString.padding24,
+                ),
+                indicatorColor: MyColor.orange,
+                selectedIcon: Icon(
+                  Icons.display_settings_rounded,
+                  size: MyString.padding24,
+                ),
+                label: Text('Display'),
+              ),
+            ],
+          ),
+          const VerticalDivider(thickness: 1, width: 1, color: MyColor.grey_tab),
+          Expanded(child: mainContents[_selectedIndex]),
+        ],
+      ),
+      // ),
+    );
+  }
+}

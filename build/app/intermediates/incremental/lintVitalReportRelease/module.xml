@@ -1,0 +1,18 @@
+<lint-module
+    format="1"
+    dir="/Users/thomas.dan/Projects/Finished/tournament/tnm_app_v4/android/app"
+    name=":app"
+    type="APP"
+    maven="android:app:"
+    gradle="7.3.0"
+    buildFolder="/Users/thomas.dan/Projects/Finished/tournament/tnm_app_v4/build/app"
+    bootClassPath="/Users/thomas.dan/Library/Android/sdk/platforms/android-34/android.jar:/Users/thomas.dan/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-34">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="release"/>
+</lint-module>
