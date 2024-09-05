@@ -2,8 +2,13 @@ import 'package:flutter/foundation.dart';
 
 class MyString {
   static const int DEFAULTNUMBER = 111111;
-  // static const String ADRESS_SERVER = "localhost";
-  static const String ADRESS_SERVER = "10.20.10.36";
+  static const String DEFAULT_USERNAME = 'admin';
+  static const String DEFAULTP_PASS = 'vegas123456';
+
+  static const String APP_NAME = "TNM SLOT V1";
+
+  static const String ADRESS_SERVER = "localhost";
+  // static const String ADRESS_SERVER = "10.20.10.36";
   // static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8096/api/';
   static const String BASEURL = 'http://$ADRESS_SERVER:8096/';
@@ -51,6 +56,7 @@ class MyString {
   static String update_display(id) {
     return '${BASE}update_display/$id';
   }
+
   //DISPLAY REALTOP
   static String update_display_realtop(id) {
     return '${BASE}update_display_realtop/$id';

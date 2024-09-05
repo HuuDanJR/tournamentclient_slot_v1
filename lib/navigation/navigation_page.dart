@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/main.dart';
-import 'package:tournament_client/setuppage.dart';
-import 'package:tournament_client/displaypage.dart';
+import 'package:tournament_client/x_page/setup/setup_realtime.dart';
+import 'package:tournament_client/x_page/display/displaypage.dart';
 import 'package:tournament_client/widget/text.dart';
-import 'package:tournament_client/historypagetop.dart';
+import 'package:tournament_client/x_page/history/historypagetop.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/setuptopranking.dart';
-import 'package:tournament_client/historypagerealtime.dart';
+import 'package:tournament_client/x_page/setup/setup_topranking.dart';
+import 'package:tournament_client/x_page/history/historypagerealtime.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 
 
@@ -45,27 +45,14 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final List<Widget> mainContents = [
-      SetupTopranking(mySocket: mySocket),
-      SetupPage(mySocket: mySocket),
+      SetupTopRankingPage(mySocket: mySocket),
+      SetupRealtimePage(mySocket: mySocket),
       const HistoryPageTop(),
       const HistoryPageRealTime(),
       DisplayPage(mySocket: mySocket)
     ];
     return
-        // MaterialApp(
-        // debugShowCheckedModeBanner: false,
-        // themeMode: ThemeMode.system,
-        // theme: ThemeData(
-        //   primaryColor: Colors.deepOrangeAccent,
-        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent),
-        //   unselectedWidgetColor: Colors.grey, //
-        //   appBarTheme: const AppBarTheme(
-        //     centerTitle: false,
-        //   ),
-        //   useMaterial3: false,
-        // ),
-        // home:
-        Scaffold(
+      Scaffold(
       key: _scaffoldKey,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,8 +97,8 @@ class _NavigationPageState extends State<NavigationPage> {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: const Text("Logout"),
-                                content: textcustom(text: "Click ok to log out this user"),
+                                title: const Text("Confirm Logout"),
+                                content: textcustom(text: "Are you sure you want to log out? Click 'OK' to proceed."),
                                 actions: [
                                   TextButton(
                                       onPressed: () {

@@ -10,7 +10,7 @@ import 'package:tournament_client/utils/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/screen/admin/bloc/list_bloc.dart';
 import 'package:tournament_client/screen/admin/view/item_list.dart';
-import 'package:tournament_client/widget/bottom_loader_custom.dart';
+import 'package:tournament_client/widget/loader.bottom.custom.dart';
 
 
 

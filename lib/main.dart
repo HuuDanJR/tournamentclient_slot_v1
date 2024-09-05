@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tournament_client/admin_verify.dart';
-import 'package:tournament_client/containerpage.dart';
+import 'package:tournament_client/x_page/admin/admin_verify.dart';
+import 'package:tournament_client/x_page/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp(
-    
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key, }) : super(key: key);
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -27,25 +26,27 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _checkLoginStatus();
   }
+
   Future<void> _checkLoginStatus() async {
     isLoggedIn = await UserLoginManager.isLoggedIn();
     setState(() {}); // Update the UI based on the login status
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'TNM APP SLOT V1',
+        title: MyString.APP_NAME,
         theme: ThemeData(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           cardColor: Colors.white,
           platform: TargetPlatform.windows,
-          hoverColor: Colors.grey,
-          primaryColor: Colors.orange,
-          dividerColor: Colors.grey,
-          indicatorColor: Colors.orange,
+          hoverColor: Colors.grey.shade200,
+          primaryColor: Colors.red,
+          dividerColor: Colors.grey.shade200,
+          indicatorColor: Colors.red,
           scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
           useMaterial3: false,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: GoogleFonts.poppins().fontFamily,
@@ -53,24 +54,16 @@ class _MyAppState extends State<MyApp> {
             Theme.of(context).textTheme,
           ),
         ),
-        routes: {
-          '/containerPage': (context) => ContainerPage(
+        routes: {'/containerPage': (context) => ContainerPage(
                 url: MyString.BASEURL,
                 selectedIndex: MyString.DEFAULTNUMBER,
           ),
         },
-        home: isLoggedIn == false ? const AdminVerify() : const NavigationPage()
-        );
+        home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
   }
 }
 
-
-
-
-
-
-
-//user login 
+//user login
 class UserLoginManager {
   static const String _loggedInKey = 'isLoggedIn';
   static Future<bool> isLoggedIn() async {
