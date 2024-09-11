@@ -25,8 +25,7 @@ class MyString {
   }
 
   static const String list_round = '${BASE}list_round';
-  static const String list_round_realtime =
-      '${BASE}list_ranking_realtime_group';
+  static const String list_round_realtime ='${BASE}list_ranking_realtime_group';
   static const String create_round = '${BASE}create_round';
   static const String create_round_realtime = '${BASE}save_list_station';
   static const String create_round_input = '${BASE}create_round_input';
@@ -49,6 +48,8 @@ class MyString {
   static const String delete_station = '${BASE}delete_station';
   static const String update_station_status = '${BASE}update_station';
   static const String add_ranking_realtime = '${BASE}add_ranking_realtime';
+  static const String settings = '${BASE}findsetting';
+  static const String setting_update = '${BASE}update_setting';
   //DEFAULT PADDING IN SETTING
   static const double TOP_PADDING_TOPRAKINGREALTIME = 18.0;
 
@@ -92,6 +93,8 @@ class MyString {
   // static const double DEFAULT_OFFSETX_TEXT = 3.5;
   // static const double DEFAULT_OFFSETX_TITLE = 3.5;
 
+  static const double padding02 = 02.0;
+  static const double padding04 = 04.0;
   static const double padding08 = 08.0;
   static const double padding16 = 16.0;
   static const double padding12 = 12.0;

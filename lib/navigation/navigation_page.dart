@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/main.dart';
-import 'package:tournament_client/x_page/setup/setup_realtime.dart';
-import 'package:tournament_client/x_page/display/displaypage.dart';
+import 'package:tournament_client/xpage/setting/setting.container.dart';
+import 'package:tournament_client/xpage/setup/setup_realtime.dart';
+import 'package:tournament_client/xpage/display/displaypage.dart';
 import 'package:tournament_client/widget/text.dart';
-import 'package:tournament_client/x_page/history/historypagetop.dart';
+import 'package:tournament_client/xpage/history/historypagetop.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/x_page/setup/setup_topranking.dart';
-import 'package:tournament_client/x_page/history/historypagerealtime.dart';
+import 'package:tournament_client/xpage/setup/setup_topranking.dart';
+import 'package:tournament_client/xpage/history/historypagerealtime.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 
 
@@ -45,8 +46,12 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final List<Widget> mainContents = [
+      // const SettingPage(), //setting realtime page
+      const SettingContainer(), //setting realtime page
+
       SetupTopRankingPage(mySocket: mySocket),
       SetupRealtimePage(mySocket: mySocket),
+      
       const HistoryPageTop(),
       const HistoryPageRealTime(),
       DisplayPage(mySocket: mySocket)
@@ -133,6 +138,20 @@ class _NavigationPageState extends State<NavigationPage> {
             },
             labelType: labelType,
             destinations: const <NavigationRailDestination>[
+               NavigationRailDestination(
+                icon: Icon(
+                  Icons.settings,
+                  size: MyString.padding24,
+                ),
+                indicatorColor: MyColor.orange,
+                selectedIcon: Icon(
+                  Icons.settings_outlined,
+                  size: MyString.padding24,
+                ),
+                label: Text('Settings',textAlign: TextAlign.center),
+              ),
+
+
               NavigationRailDestination(
                 icon: Icon(
                   Icons.list,
@@ -158,6 +177,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
                 label: Text('Realtime'),
               ),
+             
               NavigationRailDestination(
                 icon: Icon(
                   Icons.data_array,

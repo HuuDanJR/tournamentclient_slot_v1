@@ -47,13 +47,14 @@ class _ListRankingState extends State<ListRanking> {
         switch (state.status) {
           case ListStatus.failure:
             return Center(
-                child: TextButton(
+              child: TextButton.icon(
+              icon:Icon(Icons.refresh),
               onPressed: () {
                 context.read<ListBloc>().add(ListFetched());
                 // ignore: invalid_use_of_visible_for_testing_member
                 context.read<ListBloc>().emit(const ListState());
               },
-              child: const Text('no ranking founds,press to retry'),
+              label: const Text('no ranking founds, press to retry'),
             ));
           case ListStatus.success:
             if (state.posts.isEmpty) {
@@ -210,7 +211,7 @@ class _ListRankingState extends State<ListRanking> {
                         ),
                       )),
                 ),
-                const SizedBox(height: MyString.padding42,)
+                const SizedBox(height: MyString.padding16,)
               ],
             );
           case ListStatus.initial:
@@ -229,7 +230,7 @@ class _ListRankingState extends State<ListRanking> {
   }
 
   void _onScroll() {
-    debugPrint('reach bottom ');
+    // debugPrint('reach bottom list.dart');
     if (_isBottom) context.read<ListBloc>().add(ListFetched());
   }
 

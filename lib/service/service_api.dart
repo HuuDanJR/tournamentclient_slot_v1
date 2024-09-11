@@ -8,6 +8,7 @@ import 'package:tournament_client/lib/models/roundModel.dart';
 import 'package:tournament_client/lib/models/stationmodel.dart';
 import 'package:tournament_client/lib/models/roundModelRealtime.dart';
 import 'package:tournament_client/screen/admin/model/rankingList.dart';
+import 'package:tournament_client/xpage/setup/model/settingslot.model.dart';
 
 class ServiceAPIs {
   Dio dio = Dio();
@@ -456,6 +457,73 @@ class ServiceAPIs {
     }
   }
 
+  Future<SettingSlotList?> findSettings() async {
+    debugPrint('findSettings');
+    try {
+      final response = await dio.get(
+        MyString.settings,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      debugPrint('findSettings: ${response.data}');
+      // return (response.data);
+      return SettingSlotList.fromJson(response.data);
+    } on DioError catch (e) {
+      debugPrint(e.message);
+      
+    }
+    return null;
+  }
+
+
+  Future<dynamic> updateSetting({required String remaintime,required int remaingame, required int minbet,
+  required int maxbet,required int run,required String lastupdate,required int gamenumber,required String roundtext,
+  required String gametext,required int buyin}) async {
+    debugPrint('updateSetting');
+    Map<String,dynamic> boyd = {
+        "remaintime":remaintime,
+        "remaingame": remaingame,
+        "minbet": minbet,
+        "maxbet": maxbet,
+        "run": run,
+        "lastupdate":lastupdate,
+        "gamenumber": gamenumber,
+        "roundtext": roundtext,
+        "gametext":gametext,
+        "buyin": buyin
+        // "remaintime": "00:03:26",
+        // "remaingame": 7,
+        // "minbet": 1,
+        // "maxbet": 50,
+        // "run": 1,
+        // "lastupdate": "2024-09-04T06:29:09.000Z",
+        // "gamenumber": 224867,
+        // "roundtext": "5",
+        // "gametext": "Vegas",
+        // "buyin": 0
+    };
+    try {
+      final response = await dio.put(
+        MyString.setting_update,
+        data: boyd,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      debugPrint('updateSetting Res: ${response.data}');
+      // return (response.data);
+      return (response.data);
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+    return null;
+  }
+
   Future<dynamic> deleteStation({machine, member}) async {
     Map<String, dynamic> body = {
       "machine": machine,
@@ -502,10 +570,10 @@ class ServiceAPIs {
           },
         ),
       );
-      print(response.data);
+      // print(response.data);
       return (response.data);
     } on DioError catch (e) {
-      print(e.message);
+      debugPrint(e.message);
     }
   }
 
@@ -515,7 +583,8 @@ class ServiceAPIs {
       debugPrint('_fetchRaking');
       final dio = Dio();
       final response = await dio.get(
-        MyString.list_ranking_data, // Use http instead of https if it's not secured
+        MyString
+            .list_ranking_data, // Use http instead of https if it's not secured
         queryParameters: {'start': '$startIndex', 'limit': '$postLimit'},
       );
       if (response.statusCode == 200) {
@@ -527,7 +596,7 @@ class ServiceAPIs {
             id: map['_id'] as String?,
             customerName: map['customer_name'] as String?,
             customerNumber: map['customer_number'] as String?,
-            point:  (map['point'] as num?)?.toDouble(),
+            point: (map['point'] as num?)?.toDouble(),
             createdAt: map['createdAt'] as String?,
             v: map['_v'] as int?,
           );
@@ -540,7 +609,6 @@ class ServiceAPIs {
       debugPrint('something went wrong $e');
       return [];
     }
-    
   }
 //end service APIs here
 
@@ -560,6 +628,7 @@ class ServiceAPIs {
     debugPrint('${response.data}');
     return (response.data);
   }
+
 //export data excel
   Future exportDataExcelRealTime() async {
     final response = await dio.get(
@@ -600,6 +669,7 @@ class ServiceAPIs {
     debugPrint('${response.data}');
     return (response.data);
   }
+
   //update display status
   Future<dynamic> updateDisplayTopRealRankingStatus(
       {required String id, String? name, required bool? enable}) async {
@@ -624,12 +694,6 @@ class ServiceAPIs {
     return (response.data);
   }
 
-
-
-
-
-
-
   //show list display status
   Future<dynamic> listDisplayTopRankingStatus() async {
     final response = await dio.get(
@@ -649,45 +713,36 @@ class ServiceAPIs {
 
 //List rounds realtime ranking
   Future<ListRoundRealTimeModel?> listRoundRealTime() async {
-     final response = await dio.get(
-        MyString.list_round_realtime,
-        options: Options(
-          contentType: Headers.jsonContentType,
-          receiveTimeout: receiveAndSendTimeout,
-          sendTimeout: receiveAndSendTimeout,
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        ),
-      );
-      // print(response.data);
-      return ListRoundRealTimeModel.fromJson(response.data);
+    final response = await dio.get(
+      MyString.list_round_realtime,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    // print(response.data);
+    return ListRoundRealTimeModel.fromJson(response.data);
   }
 
-  Future login({required String username,required password}) async {
-    Map<String,dynamic> body ={
-      'username':username,
-      "password":password
-    };
-     final response = await dio.post(
-        MyString.login,
-        data: body,
-        options: Options(
-          contentType: Headers.jsonContentType,
-          receiveTimeout: receiveAndSendTimeout,
-          sendTimeout: receiveAndSendTimeout,
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        ),
-      );
-      print('${response.data}');
-      return (response.data);
+  Future login({required String username, required password}) async {
+    Map<String, dynamic> body = {'username': username, "password": password};
+    final response = await dio.post(
+      MyString.login,
+      data: body,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    print('${response.data}');
+    return (response.data);
   }
-
-
-
-
-
-
 }

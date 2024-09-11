@@ -11,22 +11,18 @@ class BottomLoaderCustom extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: MyString.padding08,),
-          // const SizedBox(
-          //   height: 24,
-          //   width: 24,
-          //   child: CircularProgressIndicator(strokeWidth: 1.5),
-          // ),
-          TextButton(
+          const SizedBox(
+            height: MyString.padding08,
+          ),
+          TextButton.icon(
+              icon:const Icon(Icons.refresh) ,
               onPressed: () {
+                debugPrint('refresh button bottom reach');
                 function!();
               },
-              child: const Text('refresh'))
+              label: const Text('refresh'))
         ],
       ),
     );
   }
 }
-
-
-

@@ -13,7 +13,7 @@ class MyColor {
   // ignore: constant_identifier_names
   static const Color yellow_gradient1 = Color(0xFFFFFDE7);
   static const Color bedge = Color(0xFFDFCCBC);
-  static const Color bedgeLight = Color(0xFFF0E6DD);
+  static const Color bedgeLight = Color.fromARGB(255, 241, 234, 228);
   // ignore: constant_identifier_names
   static const Color yellow_gradient2 = Color(0xFFFFF8E1);
   // ignore: constant_identifier_names

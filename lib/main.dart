@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tournament_client/x_page/admin/admin_verify.dart';
-import 'package:tournament_client/x_page/container/containerpage.dart';
+import 'package:tournament_client/xpage/admin/admin_verify.dart';
+import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
@@ -46,6 +46,9 @@ class _MyAppState extends State<MyApp> {
           dividerColor: Colors.grey.shade200,
           indicatorColor: Colors.red,
           scaffoldBackgroundColor: Colors.white,
+          highlightColor: Colors.grey.shade200,
+          hintColor: Colors.grey,
+          disabledColor: Colors.grey,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
           useMaterial3: false,
           visualDensity: VisualDensity.adaptivePlatformDensity,
