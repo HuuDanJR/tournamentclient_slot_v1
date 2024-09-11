@@ -69,7 +69,7 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
 
   if (state.status == TimerStatus.initial) {
     return TextButton.icon(
-      icon: Icon(Icons.play_arrow, color: MyColor.green),
+      icon: const Icon(Icons.play_arrow, color: MyColor.green),
       onPressed: () {
         _showConfirmationDialog(context, "Start Game", () {
           // Convert the entered duration to seconds
@@ -95,7 +95,7 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
         ),
         const SizedBox(width: MyString.padding16),
         TextButton.icon(
-          icon: Icon(Icons.stop, color: MyColor.red),
+          icon: const Icon(Icons.stop, color: MyColor.red),
           onPressed: () {
             _showConfirmationDialog(context, "Stop Game", () {
               timerBloc.add( StopTimer());
@@ -110,7 +110,7 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton.icon(
-          icon: Icon(Icons.play_arrow_outlined, color: MyColor.green),
+          icon: const Icon(Icons.play_arrow_outlined, color: MyColor.green),
           onPressed: () {
             _showConfirmationDialog(context, "Resume Game", () {
               timerBloc.add( ResumeTimer());
@@ -120,7 +120,7 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
         ),
         const SizedBox(width: MyString.padding16),
         TextButton.icon(
-          icon: Icon(Icons.stop, color: MyColor.red),
+          icon: const Icon(Icons.stop, color: MyColor.red),
           onPressed: () {
             _showConfirmationDialog(context, "Stop Game", () {
               timerBloc.add( StopTimer());
@@ -132,7 +132,7 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
     );
   } else if (state.status == TimerStatus.finish) {
     return TextButton.icon(
-      icon: Icon(Icons.play_arrow, color: MyColor.green_accent),
+      icon: const Icon(Icons.play_arrow, color: MyColor.green_accent),
       onPressed: () {
         _showConfirmationDialog(context, "Restart Game", () {
           final int customDuration = int.tryParse(controller!.text) ?? 5;
@@ -167,7 +167,7 @@ Future<void> _showConfirmationDialog(
             child: const Text('NO'),
           ),
           TextButton.icon(
-            icon: Icon(Icons.add_sharp, color: MyColor.red_accent),
+            icon: const Icon(Icons.add_sharp, color: MyColor.red_accent),
             onPressed: () {
               Navigator.of(dialogContext).pop(true); // User pressed YES
             },

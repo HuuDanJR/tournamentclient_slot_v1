@@ -13,6 +13,7 @@ class SocketManager {
   late StreamController<List<Map<String, dynamic>>> _streamController;
   late StreamController<List<Map<String, dynamic>>> _streamController2;
   late StreamController<List<Map<String, dynamic>>> _streamControllerView;
+  late StreamController<List<Map<String, dynamic>>> _streamControllerSetting;
 
   IO.Socket? get socket => _socket;
 
@@ -21,6 +22,8 @@ class SocketManager {
       _streamController2.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamView =>
       _streamControllerView.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
+      _streamControllerSetting.stream;
 
   SocketManager._() {
     _streamController =
@@ -29,9 +32,12 @@ class SocketManager {
         StreamController<List<Map<String, dynamic>>>.broadcast();
     _streamControllerView =
         StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerSetting =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
   void initSocket() {
+    debugPrint('initSocket');
     _socket = IO.io(MyString.BASEURL, <String, dynamic>{
       'autoConnect': false,
       'transports': ['websocket'],
@@ -45,10 +51,18 @@ class SocketManager {
       // print('eventFromServerMongo log: $data');
       processData2(data);
     });
+
     //socket toggle view
     _socket?.on('eventFromServerToggle', (data) {
-      // print('eventFromServerToggle log: $data');
+      // debugPrint('eventFromServerToggle log: $data');
       processDataToggle(data);
+    });
+
+    //SETTING VIEW
+    _socket?.on('eventSetting', (data) {
+      debugPrint('eventSetting');
+      debugPrint('eventSetting log: $data');
+      processDataSetting(data);
     });
 
     _socket?.connect();
@@ -61,6 +75,31 @@ class SocketManager {
   void disposeSocket() {
     _socket?.disconnect();
     _socket = null;
+  }
+
+//process data setting
+  void processDataSetting(dynamic data) {
+    debugPrint('processDataSetting');
+    for (var jsonData in data) {
+      try {
+        // Create a Map to represent the display data
+        Map<String, dynamic> data = {
+          "remaintime": jsonData['remaintime'],
+          "remaingame": jsonData['remaingame'],
+          "minbet": jsonData['minbet'],
+          "maxbet": jsonData['maxbet'],
+          "run": jsonData['run'],
+          "lastupdate": jsonData['lastupdate'],
+          "gamenumber": jsonData['gamenumber'],
+          "roundtext": jsonData['roundtext'],
+          "gametext": jsonData['gametext'],
+          "buyin": jsonData['buyin']
+        };
+        _streamControllerSetting.add([data]);
+      } catch (e) {
+        debugPrint('Error parsing data setting: $e');
+      }
+    }
   }
 
   void processData(dynamic data) {
@@ -128,7 +167,7 @@ class SocketManager {
         };
         _streamControllerView.add([displayData]);
       } catch (e) {
-        print('Error parsing datetime: $e');
+        debugPrint('Error parsing datetime: $e');
       }
     }
   }
@@ -175,5 +214,13 @@ class SocketManager {
   //togge view to see only real ranking or both
   void emitToggleRealTopClient() {
     socket!.emit('emitToggleDisplayRealTop');
+  }
+
+
+
+
+    //togge view to see only real ranking or both
+  void emitSetting() {
+    socket!.emit('emitSetting');
   }
 }

@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tournament_client/service/service_api.dart';
 
 part 'timer_state.dart';
 part 'timer_event.dart';

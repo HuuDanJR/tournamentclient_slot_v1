@@ -86,7 +86,7 @@ class _SettingMachineBodyPageState extends State<SettingMachineBodyPage> {
             case ListMachineStatus.failure:
               return Center(
                 child: TextButton.icon(
-                icon:Icon(Icons.refresh),
+                icon:const Icon(Icons.refresh),
                 onPressed: () {
                   context.read<ListMachineBloc>().add(ListMachineFetched());
                   // ignore: invalid_use_of_visible_for_testing_member

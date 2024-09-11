@@ -24,7 +24,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
           child: const Text('NO'),
         ),
         TextButton.icon(
-          icon: Icon(Icons.add_sharp, color: MyColor.red_accent),
+          icon: const Icon(Icons.add_sharp, color: MyColor.red_accent),
           onPressed: () {
             Navigator.of(context).pop(true); // User pressed YES
           },

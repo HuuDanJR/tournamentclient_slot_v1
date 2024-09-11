@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tournament_client/xgame/bottom/game.setting.dart';
 import 'package:tournament_client/xpage/admin/admin_verify.dart';
 import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -63,6 +64,7 @@ class _MyAppState extends State<MyApp> {
           ),
         },
         home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
+        // home: GameSettingPage()
   }
 }
 

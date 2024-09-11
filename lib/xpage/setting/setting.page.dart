@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:tournament_client/service/format.date.factory.dart';
-import 'package:tournament_client/service/format.factory.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -66,8 +64,6 @@ class _SettingPageState extends State<SettingPage> {
     final serviceAPIs = ServiceAPIs();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    
-
 
     return Container(
       padding: const EdgeInsets.all(MyString.padding16),
@@ -92,9 +88,7 @@ class _SettingPageState extends State<SettingPage> {
                     if (state.posts.isEmpty) {
                       return const Center(child: Text('No settings found'));
                     }
-                    
                   
-            
                     return SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
@@ -239,7 +233,7 @@ class _SettingPageState extends State<SettingPage> {
                                     remaingame:  state.posts.first.remaingame!, minbet: int.parse(controllerMinBet.text),
                                     maxbet: int.parse(controllerMaxBet.text), 
                                     run: int.parse(controllerCurrentRound.text),
-                                    lastupdate: "${DateTime.now().toIso8601String()}",
+                                    lastupdate: DateTime.now().toIso8601String(),
                                     gamenumber: state.posts.first.gamenumber!, 
                                     roundtext: state.posts.first.roundtext!, 
                                     gametext: state.posts.first.gametext!,

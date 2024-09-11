@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/main.dart';
-import 'package:tournament_client/xpage/welcome/welcome.dart';
+import 'package:tournament_client/xgame/bottom/game.page.dart';
 import 'package:tournament_client/widget/text.dart';
-import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/utils/showsnackbar.dart';
@@ -140,23 +139,26 @@ class _AdminVerifyState extends State<AdminVerify> {
                     TextButton.icon(
                         icon: const Icon(Icons.group_add_outlined),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => ContainerPage(
-                                    url: MyString.BASEURL,
-                                    selectedIndex: MyString.DEFAULTNUMBER,
-                              )));
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (_) => const GamePage()));
+                          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          //     builder: (_) => ContainerPage(
+                          //           url: MyString.BASEURL,
+                          //           selectedIndex: MyString.DEFAULTNUMBER,
+                          //     )));
                         },
                         label: textcustom(text: "View", size: MyString.padding16)),
                     const SizedBox(
                       width: MyString.padding24,
                     ),
-                    TextButton.icon(
-                        icon: const Icon(Icons.person_2_outlined),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => const WelcomePage()));
-                        },
-                        label: textcustom(text: "View As Player", size: MyString.padding16)),
+                    // TextButton.icon(
+                    //     icon: const Icon(Icons.person_2_outlined),
+                    //     onPressed: () {
+                    //       // Navigator.of(context).push(MaterialPageRoute(
+                    //       //     builder: (_) => const WelcomePage()));
+                    //       debugPrint('view as player');
+                    //     },
+                    //     label: textcustom(text: "View As Player", size: MyString.padding16)),
                   ],
                 ),
               ],

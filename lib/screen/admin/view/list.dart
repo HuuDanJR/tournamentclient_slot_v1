@@ -48,7 +48,7 @@ class _ListRankingState extends State<ListRanking> {
           case ListStatus.failure:
             return Center(
               child: TextButton.icon(
-              icon:Icon(Icons.refresh),
+              icon:const Icon(Icons.refresh),
               onPressed: () {
                 context.read<ListBloc>().add(ListFetched());
                 // ignore: invalid_use_of_visible_for_testing_member
