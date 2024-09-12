@@ -14,16 +14,15 @@ class SocketManager {
   late StreamController<List<Map<String, dynamic>>> _streamController2;
   late StreamController<List<Map<String, dynamic>>> _streamControllerView;
   late StreamController<List<Map<String, dynamic>>> _streamControllerSetting;
+  late StreamController<List<Map<String, dynamic>>> _streamControllerTime;
 
   IO.Socket? get socket => _socket;
 
   Stream<List<Map<String, dynamic>>> get dataStream => _streamController.stream;
-  Stream<List<Map<String, dynamic>>> get dataStream2 =>
-      _streamController2.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamView =>
-      _streamControllerView.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
-      _streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStream2 => _streamController2.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamView => _streamControllerView.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>_streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamTime => _streamControllerTime.stream;
 
   SocketManager._() {
     _streamController =
@@ -33,6 +32,8 @@ class SocketManager {
     _streamControllerView =
         StreamController<List<Map<String, dynamic>>>.broadcast();
     _streamControllerSetting =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerTime =
         StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
@@ -61,8 +62,14 @@ class SocketManager {
     //SETTING VIEW
     _socket?.on('eventSetting', (data) {
       debugPrint('eventSetting');
-      debugPrint('eventSetting log: $data');
+      debugPrint('eventSetting SocketManager: $data');
       processDataSetting(data);
+    });
+    //TIME VIEW
+    _socket?.on('eventTime', (data) {
+      debugPrint('eventTime SocketManager');
+      debugPrint('eventTime SocketManager: $data');
+      processDataTime(data);
     });
 
     _socket?.connect();
@@ -96,6 +103,30 @@ class SocketManager {
           "buyin": jsonData['buyin']
         };
         _streamControllerSetting.add([data]);
+      } catch (e) {
+        debugPrint('Error parsing data setting: $e');
+      }
+    }
+  }
+
+//processDataTime
+  void processDataTime(dynamic data) {
+    debugPrint('processDataTime');
+    for (var jsonData in data) {
+      try {
+        // Create a Map to represent the display data
+        Map<String, dynamic> data = {
+          "_id":jsonData['_id'],
+          "id": jsonData['id'],
+          "minutes": jsonData['minutes'],
+          "seconds": jsonData['seconds'],
+          "status": jsonData['status'],
+          "active": jsonData['active'],
+          "createdAt": jsonData['createdAt'],
+          "updateAt": jsonData['updateAt'],
+          "__v": jsonData['__v'],
+        };
+        _streamControllerTime.add([data]);
       } catch (e) {
         debugPrint('Error parsing data setting: $e');
       }
@@ -216,11 +247,13 @@ class SocketManager {
     socket!.emit('emitToggleDisplayRealTop');
   }
 
-
-
-
-    //togge view to see only real ranking or both
+  //emit data setting
   void emitSetting() {
     socket!.emit('emitSetting');
+  }
+
+  //emit data time
+  void emitTime() {
+    socket!.emit('emitTime');
   }
 }

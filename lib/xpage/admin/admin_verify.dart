@@ -192,17 +192,17 @@ class _AdminVerifyState extends State<AdminVerify> {
                   context: context,
                   message: 'Password or username not correct, please try again');
             } else {}
+          }).catchError((e){
+            showSnackBar(context: context, message: 'Can not connect to server');
           }).whenComplete(() {
             debugPrint('complete login');
           });
         }
       } catch (e) {
-        print(e);
-        showSnackBar(context: context, message: '$e');
+        showSnackBar(context: context, message: 'Can not connect to server');
       }
     } else {
-      showSnackBar(
-          context: context, message: 'Please fill  password or username');
+      showSnackBar( context: context, message: 'Please fill  password or username');
     }
   }
 

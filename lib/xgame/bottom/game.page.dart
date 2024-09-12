@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/xgame/bottom/game.setting.dart';
+import 'package:tournament_client/xgame/bottom/game.time.dart';
 
-class GamePage extends StatelessWidget {
+class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
+
+  @override
+  State<GamePage> createState() => _GamePageState();
+}
+
+class _GamePageState extends State<GamePage> {
+  late final socketManager = SocketManager();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint('Game Setting Init');
+    socketManager.initSocket();
+    
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    socketManager.disposeSocket();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +46,17 @@ class GamePage extends StatelessWidget {
             alignment: Alignment.center,
             width: width,
             height: height / 2,
-            child: const GameSettingPage()
+            child:  GameSettingPage(
+              socketManager: socketManager,
+            )
           ),
           Container(
             alignment: Alignment.center,
             width: width,
             height: height / 2,
-            child: const Text('setting realtime'),
+            child:  GameTime(
+              socketManager: socketManager
+            ),
           ),
         ],
       ),
