@@ -7,6 +7,8 @@ import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/utils/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
+import 'package:tournament_client/xgame/top/machineview.page.dart';
+import 'package:tournament_client/xpage/container/containerpage.dart';
 // import "dart:html" as html;
 
 class AdminVerify extends StatefulWidget {
@@ -66,7 +68,7 @@ class _AdminVerifyState extends State<AdminVerify> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 textcustom(
-                    text: 'SLOT TNM',
+                    text: 'SLOT TNM V1',
                     size: MyString.padding18,
                     isBold: true),
                 const SizedBox(
@@ -140,7 +142,7 @@ class _AdminVerifyState extends State<AdminVerify> {
                         icon: const Icon(Icons.group_add_outlined),
                         onPressed: () {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (_) => const GamePage()));
+                              builder: (_) => const MachineViewPage()));
                           // Navigator.of(context).pushReplacement(MaterialPageRoute(
                           //     builder: (_) => ContainerPage(
                           //           url: MyString.BASEURL,
@@ -151,14 +153,14 @@ class _AdminVerifyState extends State<AdminVerify> {
                     const SizedBox(
                       width: MyString.padding24,
                     ),
-                    // TextButton.icon(
-                    //     icon: const Icon(Icons.person_2_outlined),
-                    //     onPressed: () {
-                    //       // Navigator.of(context).push(MaterialPageRoute(
-                    //       //     builder: (_) => const WelcomePage()));
-                    //       debugPrint('view as player');
-                    //     },
-                    //     label: textcustom(text: "View As Player", size: MyString.padding16)),
+                    TextButton.icon(
+                        icon: const Icon(Icons.person_2_outlined),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (_) => const GamePage()));
+                          debugPrint('Game');
+                        },
+                        label: textcustom(text: "Game", size: MyString.padding16)),
                   ],
                 ),
               ],

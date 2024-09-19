@@ -91,12 +91,9 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
                       children: [
                         BarChartRace(
                           selectedIndex: widget.selectedIndex,
-                          offset_text:
-                              detectResolutionOffsetX(input: numbers.length),
-                          offset_title:
-                              detectResolutionOffsetX(input: numbers.length),
-                          spaceBetweenTwoRectangles:
-                              detectResolutionSpacing(input: numbers.length),
+                          offset_text: detectResolutionOffsetX(input: numbers.length),
+                          offset_title: detectResolutionOffsetX(input: numbers.length),
+                          spaceBetweenTwoRectangles:detectResolutionSpacing(input: numbers.length),
                           rectangleHeight:
                               detectResolutionHeight(input: numbers.length),
                           // numberOfRactanglesToShow: 10,
@@ -107,12 +104,12 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
                           initialPlayState: true,
                           framesPerSecond: 145.0,
                           framesBetweenTwoStates: 145,
-                          title: "",
+                          title: "TOP PLAYERS",
                           columnsLabel: updatedNames,
                           statesLabel: listLabelGenerate(),
                           titleTextStyle: GoogleFonts.nunitoSans(
                             color: Colors.white,
-                            fontSize: kIsWeb ? 48 : 48.0,
+                            fontSize: kIsWeb ? 22.0 : 22.0,
                           ),
                         ),
                       ],

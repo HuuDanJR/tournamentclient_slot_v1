@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tournament_client/xpage/home/home.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -8,6 +9,7 @@ import 'package:tournament_client/utils/functions.dart';
 import 'package:tournament_client/lib/bar_chart_race.dart';
 import 'package:tournament_client/utils/detect_resolution.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class HomeRealTimePage extends StatefulWidget {
@@ -29,15 +31,18 @@ class HomeRealTimePage extends StatefulWidget {
 class _HomeRealTimePageState extends State<HomeRealTimePage> {
   late StreamController<List<Map<String, dynamic>>> streamController = StreamController<List<Map<String, dynamic>>>.broadcast();
   late final SocketManager mySocket = SocketManager();
+  late Stream<List<Map<String, dynamic>>> _creditStream;
+  late Stream<List<Map<String, dynamic>>> _throttledStream;
+
+  final int durationthrottled = 1000;
 
   @override
   void initState() {
     super.initState();
     mySocket.initSocket();
-    mySocket.dataStream.listen((List<Map<String, dynamic>> newData) {
-      
-    });
-
+    _creditStream = mySocket.dataStream;
+    // Assuming your socket stream is _creditStream
+   _throttledStream = _creditStream.throttleTime(Duration(milliseconds: durationthrottled)); // Update every 500ms
   }
 
   @override
@@ -54,7 +59,8 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
         padding: const EdgeInsets.only(top:kIsWeb? MyString.TOP_PADDING_TOPRAKINGREALTIME : 0.0),
         child: SafeArea(
           child: StreamBuilder<List<Map<String, dynamic>>>(
-            stream: mySocket.dataStream,
+            // stream: mySocket.dataStream,
+            stream: _throttledStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<Map<String, dynamic>>? dataList = snapshot.data;
@@ -80,27 +86,30 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
                       numberOfRactanglesToShow: processData.last.length, // <= 10
                       offset_text:detectResolutionOffsetX(input: processData.last.length),
                       offset_title:detectResolutionOffsetX(input: processData.last.length),
-                      title: "",
+                      title: "RANKING",
                       columnsLabel: member,
                       statesLabel: listLabelGenerate(),
-                      titleTextStyle: const TextStyle(),
+                      titleTextStyle: GoogleFonts.nunitoSans(
+                        color: Colors.white,
+                        fontSize: kIsWeb ? 22.0 : 22.0,
+                      ),
                     ),
-                    Positioned(
-                        bottom: 32,
-                        right: 28,
-                        child: widget.selectedIndex == MyString.DEFAULTNUMBER
-                            ? Container()
-                            : Text('YOU ARE PLAYER ${widget.selectedIndex}',
-                                style: const TextStyle(
-                                  color: MyColor.white,
-                                  fontSize: 18,
-                                ))),
+                    // Positioned(
+                    //     bottom: 32,
+                    //     right: 28,
+                    //     child: widget.selectedIndex == MyString.DEFAULTNUMBER
+                    //         ? Container()
+                    //         : Text('YOU ARE PLAYER ${widget.selectedIndex}',
+                    //             style: const TextStyle(
+                    //               color: MyColor.white,
+                    //               fontSize: 18,
+                    //             ))
+                    // ),
                   ],
                 );
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(
-                      strokeWidth: .5, color: MyColor.white),
+                  child: CircularProgressIndicator( strokeWidth: 1, color: MyColor.white),
                 );
               }
             },

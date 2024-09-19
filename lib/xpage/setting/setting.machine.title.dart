@@ -46,6 +46,10 @@ Widget SettingMachineTitle({required double width}) {
           itemListRT(
               width: width,
               child: textcustom(
+                  text: 'Connect', size: MyString.padding14, isBold: true)),
+          itemListRT(
+              width: width,
+              child: textcustom(
                   text: 'Status', size: MyString.padding14, isBold: true)),
           Expanded(
               child: itemListRT(

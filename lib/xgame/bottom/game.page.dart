@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
-import 'package:tournament_client/xgame/bottom/game.setting.dart';
-import 'package:tournament_client/xgame/bottom/game.time.dart';
+import 'package:tournament_client/xgame/bottom/game.control.dart';
+import 'package:tournament_client/xgame/bottom/game.screen.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -35,32 +35,50 @@ class _GamePageState extends State<GamePage> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body:Container(
-      alignment: Alignment.center,
       width: width,
       height: height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      decoration:  BoxDecoration(
+        image: DecorationImage(
+        image: Image.asset('asset/bg.jpg').image,
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.none,
+      ),),
+      child: Stack(
         children: [
-          Container(
-            alignment: Alignment.center,
-            width: width,
-            height: height / 2,
-            child:  GameSettingPage(
-              socketManager: socketManager,
-            )
-          ),
-          Container(
-            alignment: Alignment.center,
-            width: width,
-            height: height / 2,
-            child:  GameTime(
-              socketManager: socketManager
-            ),
-          ),
+          const GameScreenPage(),  
+          Positioned(
+            top: 0,
+            right: 0,
+            child: GameControlPage(
+              socketManager:socketManager
+            ))         
         ],
       ),
-    )
+      
+      
+      // child: Column(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   children: [
+      //     Container(
+      //       alignment: Alignment.center,
+      //       width: width,
+      //       height: height / 2,
+      //       child:  GameSettingPage(
+      //         socketManager: socketManager,
+      //       )
+      //     ),
+      //     Container(
+      //       alignment: Alignment.center,
+      //       width: width,
+      //       height: height / 2,
+      //       child:  GameTime(
+      //         socketManager: socketManager
+      //       ),
+      //     ),
+      //   ],
+      // ),
+          )
     );
   }
 }

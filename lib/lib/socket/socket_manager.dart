@@ -19,10 +19,14 @@ class SocketManager {
   IO.Socket? get socket => _socket;
 
   Stream<List<Map<String, dynamic>>> get dataStream => _streamController.stream;
-  Stream<List<Map<String, dynamic>>> get dataStream2 => _streamController2.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamView => _streamControllerView.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>_streamControllerSetting.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamTime => _streamControllerTime.stream;
+  Stream<List<Map<String, dynamic>>> get dataStream2 =>
+      _streamController2.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamView =>
+      _streamControllerView.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
+      _streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamTime =>
+      _streamControllerTime.stream;
 
   SocketManager._() {
     _streamController =
@@ -40,7 +44,12 @@ class SocketManager {
   void initSocket() {
     debugPrint('initSocket');
     _socket = IO.io(MyString.BASEURL, <String, dynamic>{
-      'autoConnect': false,
+      // 'autoConnect': false,
+      // 'transports': ['websocket'],
+      'autoConnect': true, // Auto reconnect
+      'reconnection': true, // Enable reconnections
+      'reconnectionAttempts': 5, // Number of reconnection attempts
+      'reconnectionDelay': 5000, // Delay between reconnections
       'transports': ['websocket'],
     });
 
@@ -67,8 +76,9 @@ class SocketManager {
     });
     //TIME VIEW
     _socket?.on('eventTime', (data) {
+      // debugPrint('eventTime SocketManager');
       debugPrint('eventTime SocketManager');
-      debugPrint('eventTime SocketManager: $data');
+      // debugPrint('eventTime SocketManager: $data');
       processDataTime(data);
     });
 
@@ -111,12 +121,12 @@ class SocketManager {
 
 //processDataTime
   void processDataTime(dynamic data) {
-    debugPrint('processDataTime');
+    // debugPrint('processDataTime');
     for (var jsonData in data) {
       try {
         // Create a Map to represent the display data
         Map<String, dynamic> data = {
-          "_id":jsonData['_id'],
+          "_id": jsonData['_id'],
           "id": jsonData['id'],
           "minutes": jsonData['minutes'],
           "seconds": jsonData['seconds'],
@@ -255,5 +265,10 @@ class SocketManager {
   //emit data time
   void emitTime() {
     socket!.emit('emitTime');
+  }
+
+  // Emit the 'updateTime' event with the updated time data
+  void emitUpdateTime(Map<String, dynamic> updateData) {
+    _socket?.emit('updateTime', updateData);
   }
 }

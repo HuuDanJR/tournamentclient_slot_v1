@@ -1,61 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/textfield.dart';
+import 'package:tournament_client/xpage/setting/bloc_machine/machine_bloc.dart';
 import 'package:tournament_client/xpage/setting/bloc_timer/timer_bloc.dart';
 
+// // ignore: must_be_immutable
+// class SettingOperator extends StatelessWidget {
+//   SocketManager? mySocket;
+//   SettingOperator({required this.mySocket, Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     //  return BlocProvider(
+//     //         create: (context) => TimerBloc(),
+//     //         child: SettingOperatorBody(mySocket: mySocket))
+//     // return MultiBlocProvider(
+//     //     providers: [
+//     //       BlocProvider(
+//     //           create: (context) => TimerBloc(),
+//     //           child: SettingOperatorBody(mySocket: mySocket)),
+//     //       BlocProvider(
+//     //           create: (context) => ListMachineBloc(httpClient: http.Client()))
+//     //     ],
+//     //     child: SettingOperatorBody(
+//     //       mySocket: mySocket,
+//     //     ));
+//     return SettingOperatorBody(mySocket: mySocket);
+//   }
+// }
+
 class SettingOperator extends StatelessWidget {
-  const SettingOperator({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TimerBloc(), child: const SettingOperatorBody());
-  }
-}
-
-class SettingOperatorBody extends StatelessWidget {
-  const SettingOperatorBody({Key? key}) : super(key: key);
+  SocketManager? mySocket;
+  SettingOperator({required this.mySocket, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final TextEditingController controllerTimer = TextEditingController();
+
     return BlocBuilder<TimerBloc, TimerState>(
       builder: (context, state) {
         final minutes = (state.duration / 60).floor();
         final seconds = (state.duration % 60).floor();
-        return Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: MyString.padding16, vertical: MyString.padding04),
-          width: width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              mytextFieldTitleSizeIcon(
-                            width: width/3,
-                            icon: const Icon(Icons.timer),
-                            label: "Timer Minutes",
-                            text: '5',
-                            controller: controllerTimer,enable: true,textinputType: TextInputType.number),  
-              const SizedBox(
-                width: MyString.padding16,
-              ),
-              _buildControlButtons(context, state,controllerTimer),
-              const SizedBox(
-                width: MyString.padding16,
-              ),
-              Text(
-                // Display the timer countdown in MM:SS format
-                '$minutes:${seconds.toString().padLeft(2, '0')}',
-                style: const TextStyle(
-                  fontSize: MyString.padding24,
-                  fontWeight: FontWeight.w500,
+        return BlocBuilder<ListMachineBloc, ListMachineState>(
+          builder: (contextMachine, stateMachine) => Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: MyString.padding16, vertical: MyString.padding04),
+            width: width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    mytextFieldTitleSizeIcon(
+                        width: width / 3,
+                        icon: const Icon(Icons.timer),
+                        label: "Timer Minutes",
+                        text: '5',
+                        controller: controllerTimer,
+                        enable: true,
+                        textinputType: TextInputType.number),
+                    const SizedBox(
+                      width: MyString.padding16,
+                    ),
+                    _buildControlButtons(context, state, stateMachine,
+                        controllerTimer, mySocket),
+                    const SizedBox(
+                      width: MyString.padding16,
+                    ),
+                    Text(
+                      // Display the timer countdown in MM:SS format
+                      '$minutes:${seconds.toString().padLeft(2, '0')}',
+                      style: const TextStyle(
+                        fontSize: MyString.padding24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                TextButton.icon(
+                    onPressed: () {
+                      mySocket!.emitTime();
+                    },
+                    label: const Icon(Icons.refresh)),
+              ],
+            ),
           ),
         );
       },
@@ -64,18 +101,39 @@ class SettingOperatorBody extends StatelessWidget {
 }
 
 // Method to display the control buttons
-Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingController? controller) {
+Widget _buildControlButtons(
+  BuildContext context,
+  TimerState state,
+  ListMachineState stateMachine,
+  TextEditingController? controller,
+  SocketManager? socket,
+) {
   final timerBloc = context.read<TimerBloc>();
+  final ServiceAPIs serviceAPIs = ServiceAPIs();
 
   if (state.status == TimerStatus.initial) {
     return TextButton.icon(
       icon: const Icon(Icons.play_arrow, color: MyColor.green),
       onPressed: () {
         _showConfirmationDialog(context, "Start Game", () {
-          // Convert the entered duration to seconds
-              final int customDuration = int.tryParse(controller!.text) ?? 5;
-              final durationInSeconds = customDuration * 60; // Convert minutes to seconds
-              timerBloc.add(StartTimer(durationInSeconds: durationInSeconds));
+          final int customDuration =
+              int.tryParse(controller!.text) ?? MyString.TIME_DEFAULT_MINUTES;
+          final durationInSeconds =
+              customDuration * 60; // Convert minutes to seconds
+          int minutes =
+              durationInSeconds ~/ 60; // Calculate how many full minutes
+          int seconds = durationInSeconds % 60; // Get the remaining seconds
+          timerBloc.add(StartTimer(durationInSeconds: durationInSeconds));
+          serviceAPIs
+              .updateTimeLatest(
+                  minutes: minutes,
+                  seconds: seconds,
+                  status: MyString.TIME_START)
+              .then((v) {
+            if (v['status'] == 1) {
+              socket!.emitTime();
+            }
+          });
         });
       },
       label: const Text('START'),
@@ -88,7 +146,19 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
           icon: const Icon(Icons.pause),
           onPressed: () {
             _showConfirmationDialog(context, "Pause Game", () {
-              timerBloc.add( PauseTimer());
+              timerBloc.add(PauseTimer());
+              serviceAPIs
+                  .updateTimeLatest(
+                      minutes: state.duration ~/ 60,
+                      seconds: state.duration % 60,
+                      status: MyString.TIME_PAUSE)
+                  .then((v) {
+                if (v['status'] == 1) {
+                  socket!.emitTime();
+                }
+              });
+
+              updateStatusAll(context);
             });
           },
           label: const Text('PAUSE'),
@@ -98,7 +168,19 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
           icon: const Icon(Icons.stop, color: MyColor.red),
           onPressed: () {
             _showConfirmationDialog(context, "Stop Game", () {
-              timerBloc.add( StopTimer());
+              timerBloc.add(StopTimer());
+              final int customDuration = int.tryParse(controller!.text) ??
+                  MyString.TIME_DEFAULT_MINUTES;
+              serviceAPIs
+                  .updateTimeLatest(
+                      minutes: customDuration,
+                      seconds: 0,
+                      status: MyString.TIME_STOP)
+                  .then((v) {
+                if (v['status'] == 1) {
+                  socket!.emitTime();
+                }
+              });
             });
           },
           label: const Text('STOP'),
@@ -113,7 +195,17 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
           icon: const Icon(Icons.play_arrow_outlined, color: MyColor.green),
           onPressed: () {
             _showConfirmationDialog(context, "Resume Game", () {
-              timerBloc.add( ResumeTimer());
+              timerBloc.add(ResumeTimer());
+              serviceAPIs
+                  .updateTimeLatest(
+                      minutes: state.duration ~/ 60,
+                      seconds: state.duration % 60,
+                      status: MyString.TIME_RESUME)
+                  .then((v) {
+                if (v['status'] == 1) {
+                  socket!.emitTime();
+                }
+              });
             });
           },
           label: const Text('RESUME'),
@@ -123,7 +215,19 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
           icon: const Icon(Icons.stop, color: MyColor.red),
           onPressed: () {
             _showConfirmationDialog(context, "Stop Game", () {
-              timerBloc.add( StopTimer());
+              timerBloc.add(StopTimer());
+              final int customDuration = int.tryParse(controller!.text) ??
+                  MyString.TIME_DEFAULT_MINUTES;
+              serviceAPIs
+                  .updateTimeLatest(
+                      minutes: customDuration,
+                      seconds: 0,
+                      status: MyString.TIME_STOP)
+                  .then((v) {
+                if (v['status'] == 1) {
+                  socket!.emitTime();
+                }
+              });
             });
           },
           label: const Text('STOP'),
@@ -136,8 +240,22 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
       onPressed: () {
         _showConfirmationDialog(context, "Restart Game", () {
           final int customDuration = int.tryParse(controller!.text) ?? 5;
-          final durationInSeconds = customDuration * 60; // Convert minutes to seconds
-          timerBloc.add( StartTimer(durationInSeconds: durationInSeconds));
+          final durationInSeconds =
+              customDuration * 60; // Convert minutes to seconds
+          int minutes =
+              durationInSeconds ~/ 60; // Calculate how many full minutes
+          int seconds = durationInSeconds % 60; // Get the remaining seconds
+          timerBloc.add(StartTimer(durationInSeconds: durationInSeconds));
+          serviceAPIs
+              .updateTimeLatest(
+                  minutes: minutes,
+                  seconds: seconds,
+                  status: MyString.TIME_START)
+              .then((v) {
+            if (v['status'] == 1) {
+              socket!.emitTime();
+            }
+          });
         });
       },
       label: const Text('RESTART'),
@@ -145,6 +263,20 @@ Widget _buildControlButtons(BuildContext context, TimerState state,TextEditingCo
   }
 
   return Container();
+}
+
+void updateStatusAll(context) {
+  //update status all APIs
+  service_api.updateStatusAll(status: 0).then((v) {
+    if (v['result']['affectedRows'] > 0) {
+      // _onRefreshMachineList(context);
+      // showSnackBar(context:context,message: "Pause/Stop & Disable all machine");
+    }
+  });
+}
+
+void _onRefreshMachineList(context) {
+  context.read<ListMachineBloc>().add(ListMachineFetched());
 }
 
 // Method to show a confirmation dialog

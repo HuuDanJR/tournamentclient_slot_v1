@@ -15,6 +15,11 @@ class Rectangle {
   String label;
   // the label to be shown for the current state
   String stateLabel;
+
+  final double borderRadius; // Add border radius property
+
+
+
   Rectangle({
     required this.position,
     required this.length,
@@ -23,5 +28,7 @@ class Rectangle {
     required this.maxValue,
     required this.label,
     required this.stateLabel,
+    this.borderRadius = 0.0, // Default to no border radius
+
   });
 }

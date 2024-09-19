@@ -195,12 +195,12 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                           itemListRT(
                             width: width,
                             child: textcustom(
-                                text: 'MACHINE', size: MyString.padding14, isBold: true),
+                              text: 'MACHINE', size: MyString.padding14, isBold: true),
                           ),
                           itemListRT(
                             width: width,
                             child: textcustom(
-                                text: 'IP', size: MyString.padding14, isBold: true),
+                              text: 'IP', size: MyString.padding14, isBold: true),
                           ),
                           itemListRT(
                             width: width,
@@ -211,6 +211,9 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                               width: width,
                               child: textcustom(
                                   text: 'AFT', size: MyString.padding14, isBold: true)),
+                          itemListRT(
+                              width: width,
+                              child: textcustom( text: 'CONNECT', size: MyString.padding14, isBold: true)),
                           itemListRT(
                               width: width,
                               child: textcustom( text: 'STATUS', size: MyString.padding14, isBold: true)),
@@ -289,6 +292,17 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                                                     ? 'connected'
                                                     : 'disconnected',
                                                 color: model.list[index].connect == 1
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              )),
+                                          itemListRT(
+                                              width: width,
+                                              child: textcustomColor(
+                                                size: MyString.padding14,
+                                                text: model.list[index].status == 1
+                                                    ? 'enable'
+                                                    : 'disable',
+                                                color: model.list[index].status == 1
                                                     ? Colors.green
                                                     : Colors.red,
                                               )),

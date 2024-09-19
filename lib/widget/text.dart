@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -20,3 +21,18 @@ Widget textcustomColor({text,size,isBold,color}) {
     color:  color,
     fontSize: size,fontWeight:isBold==true? FontWeight.w500:FontWeight.normal),);
 }
+Widget textcustomColorBold({text,size,color,lineHeight, }) {
+  return Text(text,
+  textHeightBehavior: const TextHeightBehavior(
+        applyHeightToFirstAscent: false, // Controls the height behavior
+        applyHeightToLastDescent: false,
+      ),
+  textAlign: TextAlign.center,
+  style: GoogleFonts.poppins(
+    color:  color,
+    height: lineHeight ?? 1,
+    fontSize: size,fontWeight:FontWeight.w700),);
+}
+
+
+

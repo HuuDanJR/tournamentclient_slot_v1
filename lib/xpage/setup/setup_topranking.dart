@@ -19,12 +19,9 @@ class SetupTopRankingPage extends StatefulWidget {
 
 class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
   final TextEditingController controllerName = TextEditingController(text: '');
-  final TextEditingController controllerNumber =
-      TextEditingController(text: '');
-  final TextEditingController controllerPoint =
-      TextEditingController(text: '0');
-  GlobalKey<RefreshIndicatorState> refreshKey =
-      GlobalKey<RefreshIndicatorState>();
+  final TextEditingController controllerNumber = TextEditingController(text: '');
+  final TextEditingController controllerPoint = TextEditingController(text: '0');
+  GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   Future<void> _refreshData() async {
     setState(() {});
   }
@@ -127,14 +124,12 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    icon:
-                        const Icon(Icons.important_devices, color: MyColor.pinkMain),
+                    icon: const Icon(Icons.important_devices, color: MyColor.pinkMain),
                     title: textcustom(text: "ADD ROUND",size: MyString.padding18),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        textcustom(
-                            text: "Add round from realtime data to top ranking will be take action if you click confirm\nthese action will be process:\n-create new data for top ranking\n-save history top ranking\n-save history realtime\n\nPlease make sure before click confirm button")
+                        textcustom( text: "Add round from realtime data to top ranking will be take action if you click confirm\nthese action will be process:\n-create new data for top ranking\n-save history top ranking\n-save history realtime\n\nPlease make sure before click confirm button")
                       ],
                     ),
                     actions: [
@@ -225,13 +220,12 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
               tooltip: 'Reset List Ranking To Default',
               backgroundColor: MyColor.red,
               onPressed: () {
-                print('reset all for the 1st round');
+                debugPrint('reset all for the 1st round');
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
                     title: textcustom(text: "Reset All Data Of Top Ranking"),
-                    content: textcustom(
-                        text:"Reset top ranking will be make top ranking as default  if you click confirm"),
+                    content: textcustom( text:"Reset top ranking will be make top ranking as default  if you click confirm"),
                     actions: [
                       TextButton(
                           onPressed: () {

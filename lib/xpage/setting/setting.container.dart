@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
+import 'package:tournament_client/xpage/setting/bloc_machine/machine_bloc.dart';
+import 'package:tournament_client/xpage/setting/bloc_timer/timer_bloc.dart';
 import 'package:tournament_client/xpage/setting/setting.machine.page.dart';
 import 'package:tournament_client/xpage/setting/setting.operator.dart';
 import 'package:tournament_client/xpage/setting/setting.page.dart';
+import 'package:http/http.dart' as http;
 
 
 class SettingContainer extends StatelessWidget {
-  const SettingContainer({Key? key}) : super(key: key);
+  SocketManager? mySocket;
+  SettingContainer({required this.mySocket, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +26,29 @@ class SettingContainer extends StatelessWidget {
         title: textcustom(text: 'Settings Real Time', size: MyString.padding16),
         actions: const [],
       ),
-      body: SizedBox(
-        width: width,
-        height:height,
-        child:   const Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SettingOperator(),
-            SettingPage(),
-            SettingMachinePage(),
-            
-            
-          ]
-        ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (context) => TimerBloc(),
+              child: SettingOperator(mySocket: mySocket)),
+          BlocProvider(
+              create: (context) => ListMachineBloc(httpClient: http.Client()))
+        ],
+        child: 
+          SizedBox(
+            width: width,
+            height:height,
+            child:  Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SettingOperator(mySocket:mySocket),
+                SettingPage(mySocket:mySocket),
+                const SettingMachinePage(),
+              ]
+            ),
+          ),
       )
     );
   }

@@ -47,8 +47,7 @@ class _NavigationPageState extends State<NavigationPage> {
     final width = MediaQuery.of(context).size.width;
     final List<Widget> mainContents = [
       // const SettingPage(), //setting realtime page
-      const SettingContainer(), //setting realtime page
-
+      SettingContainer(mySocket:mySocket), //setting realtime page
       SetupTopRankingPage(mySocket: mySocket),
       SetupRealtimePage(mySocket: mySocket),
       

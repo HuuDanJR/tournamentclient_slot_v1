@@ -47,6 +47,7 @@ class MyString {
   static const String create_station = '${BASE}create_station';
   static const String delete_station = '${BASE}delete_station';
   static const String update_station_status = '${BASE}update_station';
+  static const String update_status_all = '${BASE}update_status_all';
   static const String add_ranking_realtime = '${BASE}add_ranking_realtime';
   static const String settings = '${BASE}findsetting';
   static const String setting_update = '${BASE}update_setting';
@@ -66,32 +67,34 @@ class MyString {
   //DISPLAY
   static String list_display = '${BASE}list_display';
 
+  //TIME 
+  static const String get_latest_active_time = '${BASE}time/find_time_first';
+  static const String update_time_by_id = '${BASE}time/update_time';
+  static const String update_time_latest = '${BASE}time/update_time_latest';
+  static const int TIME_INIT = 0;
+  static const int TIME_START = 1;
+  static const int TIME_PAUSE = 2;
+  static const int TIME_RESUME = 3;
+  static const int TIME_STOP = 4;
+  static const int TIME_DEFAULT_MINUTES = 5;
+
   static String list_data_station = '${BASE}find_data';
   //LOGIN
   static String login = '${BASE}login';
 
   //default column in settting server
   static const String DEFAULT_COLUMN = '9';
-
-  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 50.5 : 36.5;
-  // static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 36.5 : 36.5;
+  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 25 : 36.5;
   static const double DEFAULT_ROW = 10;
-  static const double DEFAULT_SPACING_LING = kIsWeb ? 34.5 : 18.5;
-  // static const double DEFAULT_SPACING_LING = kIsWeb ? 34 : 18.5;
-  static const double DEFAULT_OFFSETX = 4.25;
-  static const double DEFAULT_OFFSETX_TEXT = 2.25;
-  static const double DEFAULT_OFFSETX_TITLE = 2.25;
+  static const double DEFAULT_SPACING_LING = kIsWeb ? 16 : 18.5;
+  static const double DEFAULT_OFFSETX = 2.25;
+  static const double DEFAULT_OFFSETX_TEXT = 0.25;
+  static const double DEFAULT_OFFSETX_TITLE = 0.25;
   static const double DEFAULT_TEXTSIZE = 24.0;
-  static const double DEFAULT_TEXTSIZE_WEB = 43.5;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE = 13.0;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 18.0;
+  static const double DEFAULT_TEXTSIZE_WEB = 22;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
 
-  // static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 48 : 48;
-  // static const double DEFAULT_ROW = 10;
-  // static const double DEFAULT_SPACING_LING = kIsWeb ? 34 : 34;
-  // static const double DEFAULT_OFFSETX = 5;
-  // static const double DEFAULT_OFFSETX_TEXT = 3.5;
-  // static const double DEFAULT_OFFSETX_TITLE = 3.5;
 
   static const double padding02 = 02.0;
   static const double padding04 = 04.0;
@@ -105,7 +108,12 @@ class MyString {
   static const double padding36 = 36.0;
   static const double padding42 = 42.0;
   static const double padding56 = 56.0;
+  static const double padding64 = 64.0;
+  static const double padding72 = 72.0;
+  static const double padding84 = 84.0;
+  static const double padding96 = 96.0;
   static const String fontFamily = 'Poppins';
+
   //22 line spacing
   //44
 }

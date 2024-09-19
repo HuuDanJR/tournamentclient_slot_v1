@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tournament_client/lib/models/timeModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/lib/models/roundModel.dart';
 import 'package:tournament_client/lib/models/stationmodel.dart';
@@ -34,10 +35,10 @@ class ServiceAPIs {
           },
         ),
       );
-      // print(response.data);
+      // debugPrint('${response.data}');
       return ListStationModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.message);
+      debugPrint(e.message);
     }
     return null;
   }
@@ -468,42 +469,82 @@ class ServiceAPIs {
           },
         ),
       );
-      debugPrint('findSettings: ${response.data}');
+      // debugPrint('findSettings: ${response.data}');
       // return (response.data);
       return SettingSlotList.fromJson(response.data);
     } on DioError catch (e) {
       debugPrint(e.message);
-      
     }
     return null;
   }
 
 
-  Future<dynamic> updateSetting({required String remaintime,required int remaingame, required int minbet,
-  required int maxbet,required int run,required String lastupdate,required int gamenumber,required String roundtext,
-  required String gametext,required int buyin}) async {
+
+
+  //Update status all station or disable all 
+  Future<dynamic> updateStatusAll({required int status}) async {
+    Map<String, dynamic> body = {
+      "status": status,
+    };
+    try {
+      final response = await dio.post(
+        MyString.update_status_all,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      return (response.data);
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+  }
+
+
+
+
+  Future<dynamic> updateSetting(
+      {required String remaintime,
+      required int remaingame,
+      required int minbet,
+      required int maxbet,
+      required int run,
+      required String lastupdate,
+      required int gamenumber,
+      required String roundtext,
+      required String gametext,
+      required int buyin}) async {
     debugPrint('updateSetting');
-    Map<String,dynamic> boyd = {
-        "remaintime":remaintime,
-        "remaingame": remaingame,
-        "minbet": minbet,
-        "maxbet": maxbet,
-        "run": run,
-        "lastupdate":lastupdate,
-        "gamenumber": gamenumber,
-        "roundtext": roundtext,
-        "gametext":gametext,
-        "buyin": buyin
-        // "remaintime": "00:03:26",
-        // "remaingame": 7,
-        // "minbet": 1,
-        // "maxbet": 50,
-        // "run": 1,
-        // "lastupdate": "2024-09-04T06:29:09.000Z",
-        // "gamenumber": 224867,
-        // "roundtext": "5",
-        // "gametext": "Vegas",
-        // "buyin": 0
+    Map<String, dynamic> boyd = {
+      "remaintime": remaintime,
+      "remaingame": remaingame,
+      "minbet": minbet,
+      "maxbet": maxbet,
+      "run": run,
+      "lastupdate": lastupdate,
+      "gamenumber": gamenumber,
+      "roundtext": roundtext,
+      "gametext": gametext,
+      "buyin": buyin
+      // "remaintime": "00:03:26",
+      // "remaingame": 7,
+      // "minbet": 1,
+      // "maxbet": 50,
+      // "run": 1,
+      // "lastupdate": "2024-09-04T06:29:09.000Z",
+      // "gamenumber": 224867,
+      // "roundtext": "5",
+      // "gametext": "Vegas",
+      // "buyin": 0
     };
     try {
       final response = await dio.put(
@@ -711,7 +752,7 @@ class ServiceAPIs {
     return response.data;
   }
 
-//List rounds realtime ranking
+  //List rounds realtime ranking
   Future<ListRoundRealTimeModel?> listRoundRealTime() async {
     final response = await dio.get(
       MyString.list_round_realtime,
@@ -743,6 +784,84 @@ class ServiceAPIs {
       ),
     );
     print('${response.data}');
+    return (response.data);
+  }
+
+  //TIME APIs
+  Future<TimeModelList?> getLatestActiveTime() async {
+    final response = await dio.get(
+      MyString.get_latest_active_time,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('getLatestActiveTime: ${response.data}');
+    return TimeModelList.fromJson(response.data);
+  }
+
+
+  Timer? _debounceRequestCall;
+
+
+  //UPDATE TIME APIs
+  Future<dynamic> updateTimeByID({required String id,required int minutes,required int seconds, required int status }) async {
+    Map<String, dynamic> body = {
+        "id":id,
+        "minutes":minutes,
+        "seconds":seconds,
+        "status": status 
+    };
+    if (_debounceRequestCall?.isActive ?? false) _debounceRequestCall?.cancel();
+     _debounceRequestCall = Timer(const Duration(seconds: 1), () async {
+      Map<String, dynamic> body = {
+        "id": id,
+        "minutes": minutes,
+        "seconds": seconds,
+        "status": status
+      };
+      final response = await dio.put(
+        MyString.update_time_by_id,
+        data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      debugPrint('updateTimeByID APIs: ${response.data['message']}');
+      return (response.data);
+    });
+    // Return some placeholder value if you need to return immediately
+    return Future.value(null);
+  }
+  //UPDATE TIME APIs
+  Future<dynamic> updateTimeLatest({ int? minutes, int? seconds, required int status }) async {
+    Map<String, dynamic> body = {
+        "minutes":minutes,
+        "seconds":seconds,
+        "status": status 
+    };
+    final response = await dio.put(
+      MyString.update_time_latest,
+      data: body,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('updateTimeByID: ${response.data}');
     return (response.data);
   }
 }

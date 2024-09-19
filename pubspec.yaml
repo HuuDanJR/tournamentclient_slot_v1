@@ -69,11 +69,14 @@ flutter:
   assets:
     - asset/bg_video.mp4
     - asset/no_image.png
+    - asset/bg.jpg
     - asset/image/logo_renew.png
     - asset/image/logo_new.png
     - asset/image/
     - asset/
     - asset/bg2.jpg
+    - asset/circle.png
+    - asset/round.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
