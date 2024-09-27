@@ -7,8 +7,7 @@ import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/utils/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
-import 'package:tournament_client/xgame/top/machineview.page.dart';
-import 'package:tournament_client/xpage/container/containerpage.dart';
+import 'package:tournament_client/xgame/top/machineview.container.dart';
 // import "dart:html" as html;
 
 class AdminVerify extends StatefulWidget {
@@ -142,7 +141,7 @@ class _AdminVerifyState extends State<AdminVerify> {
                         icon: const Icon(Icons.group_add_outlined),
                         onPressed: () {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (_) => const MachineViewPage()));
+                              builder: (_) => const MachineViewContainer()));
                           // Navigator.of(context).pushReplacement(MaterialPageRoute(
                           //     builder: (_) => ContainerPage(
                           //           url: MyString.BASEURL,

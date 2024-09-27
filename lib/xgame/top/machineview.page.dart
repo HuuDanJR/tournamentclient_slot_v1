@@ -1,89 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/xpage/home/home_realtime.dart';
-import 'package:tournament_client/xpage/home/home_topranking.dart';
+import 'package:tournament_client/widget/text.dart';
+import 'package:tournament_client/xgame/top/view.stream.dart';
 
 class MachineViewPage extends StatelessWidget {
-  const MachineViewPage({Key? key}) : super(key: key);
+  final double width;
+  final double height;
+  const MachineViewPage({Key? key, required this.width, required this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    final heightItem = height * .5;
-    final widthItem = width * .5;
-    final paddingHorizontal = MyString.padding16;
-    final paddingHorizontalDouble = MyString.padding16*2;
-    final paddingHorizontalHalf = MyString.padding12;
-    final paddingVertical = MyString.padding16;
-    // final width = width
-    return Scaffold(
-      body: Container(
-        width: width,
-        height: height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('asset/bg.jpg'),
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.none,
+    const padding = MyString.padding08;
+    final heightItem = height / 2;
+    final widthItem = width / 4 - padding * 2;
+
+    final List<String> urlList = [
+      "https://viewer.millicast.com?streamId=sLbkP2/OBS&play=false&volume=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true",
+      "https://viewer.millicast.com?streamId=sLbkP2/OBS2&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    ];
+
+    // Calculate number of rows (each row contains 4 items)
+    final int totalRows = (urlList.length / 4).ceil();
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: MyString.padding08),
+      width: width,
+      height: height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Generate rows based on totalRows
+          ...List.generate(
+            totalRows,
+            (rowIndex) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(4, (colIndex) {
+                final itemIndex = rowIndex * 4 + colIndex;
+                
+                // Check if we have a corresponding URL for this item
+                if (itemIndex < urlList.length) {
+                  return MachineViewItem(
+                    heightItem: heightItem,
+                    widthItem: widthItem,
+                    title: "PLAYER ${itemIndex + 1}",
+                    active: urlList[itemIndex].isNotEmpty, // Check if URL exists
+                    url: urlList[itemIndex], // Set the URL for the item
+                  );
+                } else {
+                  return SizedBox(
+                    width: widthItem,
+                    height: heightItem,
+                  ); // Empty space if there are fewer items than slots
+                }
+              }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget MachineViewItem(
+      {required double widthItem,
+      required double heightItem,
+      required bool active,
+      required String url,
+      required String title}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.bottomLeft,
+          width: widthItem,
+          height: heightItem * .1,
+          child: textcustomColor(
+            text: title,
+            color: MyColor.white,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: width, height: heightItem),
-            SizedBox(
-              width: width,
-              height: heightItem,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //top ranking
-                  Container(
-                    margin:  EdgeInsets.only(
-                      top: paddingVertical,
-                      bottom: paddingVertical,
-                      left: paddingHorizontal,
-                      right: paddingHorizontalHalf,
-                    ),
-                    decoration: BoxDecoration(
-                        color: MyColor.whiteOpacity,
-                        borderRadius:
-                            BorderRadius.circular(MyString.padding16)),
-                    width: widthItem - paddingHorizontalDouble,
-                    height: heightItem - paddingVertical,
-                    child: HomeTopRankingPage(
-                        title: MyString.APP_NAME,
-                        url: MyString.BASEURL,
-                        selectedIndex: MyString.DEFAULTNUMBER),
-                  ),
-                  //realtime ranking
-                  Container(
-                    decoration: BoxDecoration(
-                        color: MyColor.whiteOpacity,
-                        borderRadius:  BorderRadius.circular(MyString.padding16)),
-                    margin:  EdgeInsets.only(
-                      top: paddingVertical,
-                      bottom: paddingVertical,
-                      right: paddingHorizontal,
-                      left: paddingHorizontalHalf,),
-                    width: widthItem - paddingHorizontalDouble,
-                    height: heightItem - paddingVertical,
-                    child: HomeRealTimePage(
-                      url: MyString.BASEURL,
-                      selectedIndex: MyString.DEFAULTNUMBER,
-                      title: MyString.APP_NAME,
-                    ),
+        Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+              color: MyColor.yellowMain,
+              width: MyString.padding02,
+            )),
+            width: widthItem,
+            height: heightItem * .9,
+            child: active == true
+                ? IframeWidget(
+                    url: url,
                   )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+                : Container())
+      ],
     );
   }
 }

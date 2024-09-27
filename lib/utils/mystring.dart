@@ -71,6 +71,9 @@ class MyString {
   static const String get_latest_active_time = '${BASE}time/find_time_first';
   static const String update_time_by_id = '${BASE}time/update_time';
   static const String update_time_latest = '${BASE}time/update_time_latest';
+  //STREAM
+  static const String get_stream_all = '${BASE}stream/all_stream';
+
   static const int TIME_INIT = 0;
   static const int TIME_START = 1;
   static const int TIME_PAUSE = 2;
@@ -86,7 +89,7 @@ class MyString {
   static const String DEFAULT_COLUMN = '9';
   static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 25 : 36.5;
   static const double DEFAULT_ROW = 10;
-  static const double DEFAULT_SPACING_LING = kIsWeb ? 16 : 18.5;
+  static const double DEFAULT_SPACING_LING = kIsWeb ? 14 : 18.5;
   static const double DEFAULT_OFFSETX = 2.25;
   static const double DEFAULT_OFFSETX_TEXT = 0.25;
   static const double DEFAULT_OFFSETX_TITLE = 0.25;
@@ -95,9 +98,13 @@ class MyString {
   static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
   static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
 
+  //border radius default
+  static const double DEFAULT_BORDERRADIUS = 3.5;
+
 
   static const double padding02 = 02.0;
   static const double padding04 = 04.0;
+  static const double padding06 = 06.0;
   static const double padding08 = 08.0;
   static const double padding16 = 16.0;
   static const double padding12 = 12.0;

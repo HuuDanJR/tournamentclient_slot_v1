@@ -203,8 +203,7 @@ class _BarChartRaceState extends State<BarChartRace> {
         double posDiff = (after[i].position - before[i].position) / nbFrames;
         double lengthDiff = (after[i].length - before[i].length) / nbFrames;
         double valueDiff = (after[i].value - before[i].value) / nbFrames;
-        double maxValueDiff =
-            (after[i].maxValue - before[i].maxValue) / nbFrames;
+        double maxValueDiff =  (after[i].maxValue - before[i].maxValue) / nbFrames;
         // add the new differences
         currentData![i].length = before[i].length + lengthDiff * k;
         currentData![i].position = before[i].position + posDiff * k;

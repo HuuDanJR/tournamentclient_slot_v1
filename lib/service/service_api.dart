@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tournament_client/lib/models/streamModel.dart';
 import 'package:tournament_client/lib/models/timeModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/lib/models/roundModel.dart';
@@ -864,4 +865,29 @@ class ServiceAPIs {
     debugPrint('updateTimeByID: ${response.data}');
     return (response.data);
   }
+
+
+
+
+
+  //STREAM GET ALL 
+  //TIME APIs
+  Future<StreamModel?> getStreamAll() async {
+    final response = await dio.get(
+      MyString.get_stream_all,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('getStreamAll: ${response.data}');
+    return StreamModel.fromJson(response.data);
+  }
+
+
+
 }

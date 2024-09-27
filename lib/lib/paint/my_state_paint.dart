@@ -53,18 +53,10 @@ class MyStatePaint extends CustomPainter {
     linePaint.strokeWidth = .5;
     linePaint.strokeCap = StrokeCap.round;
     maxLength = kIsWeb ? totalWidth * 0.865 : totalWidth * 0.835;
-    // maxLength = kIsWeb ? totalWidth * 0.875 : totalWidth * 0.835;
   }
-  //TABLEt
-  // final double spaceBetweenTwoRectangles2 = kIsWeb? 34 : 22;
-  // final double spaceBetweenTwoRectangles = 22;
-  // final double spaceBetweenTwoRectangles = 36;
-  final double yShift = 55;
-  final double xShift = 80;
-  // define text painter to paint text (write text)
-
-
-
+    final double yShift = 55;
+    final double xShift = 80;
+    // define text painter to paint text (write text)
 
 
 
@@ -116,7 +108,8 @@ class MyStatePaint extends CustomPainter {
           Rectangle(
               position: currentState[i].position,
               length: currentState[i].length,
-              color: i == index ? MyColor.yellow : MyColor.white,
+              color: i == index ? MyColor.yellow : Colors.white,
+              // color: i == index ? MyColor.yellow : MyColor.white,
               value: currentState[i].value,
               maxValue: maxValue,
               label: currentState[i].label,
@@ -126,6 +119,8 @@ class MyStatePaint extends CustomPainter {
           offset_text,
           offset_title);
     }
+
+    
 
     // draw current state label
     String stateLabel = currentState[0].stateLabel;
@@ -186,93 +181,194 @@ class MyStatePaint extends CustomPainter {
     canvas.restore();
   }
 
+  // void _drawRectangle(
+  //     Rectangle rect,
+  //     Canvas canvas,
+  //     double spaceBetweenTwoRectangles,
+  //     double offsetxText,
+  //     double offsetxTitle) {
+  //   // draw rectangle
+  //   final gradient = LinearGradient(
+  //   colors: [rect.color, MyColor.yellowMain], // Adjust colors as needed
+  //   begin: Alignment.centerLeft,
+  //   end: Alignment.centerRight,
+  //   );
+
+  //   // draw rectangle
+  //   Path path = Path();
+  //   double maxHeight = numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) - spaceBetweenTwoRectangles;
+  //   // define postitons of the four corner to draw the rectangle
+  //   double x1 = 0, y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
+  //   // if the rectancles if outside, we don't draw it
+  //   if (y1 >= maxHeight) return;
+  //   // min is to draw a rectangle partially, (in case it's showning up or hiding)
+  //   double x2 = rect.length * maxLength!, y2 = min(y1 + rectHeight, maxHeight);
+
+  //   path.moveTo(x1, y1);
+  //   path.lineTo(x2, y1);
+  //   path.lineTo(x2, y2);
+  //   path.lineTo(x1, y2);
+  //   rectPaint.color = rect.color;
+  //   canvas.drawPath(path, rectPaint);
+
+
+  // //APPY GRADIENT AND BORDER RADIUS:
+  // double borderRadius = MyString.DEFAULT_BORDERRADIUS; // Customize as needed
+  // RRect rrect = RRect.fromRectAndRadius(
+  //   Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)),
+  //   Radius.circular(borderRadius),
+  // );
+  // rectPaint.shader = gradient.createShader(Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)));
+  //   // Draw the rounded rectangle
+  // canvas.drawRRect(rrect, rectPaint);
+  // //END HERE
+
+
+  //   // draw value (text)
+  //   String value = rect.value.round().toString();
+  //   if (value.length > 5) {
+  //     value = "${value.substring(0, 5)}..";
+  //   }
+  //   textPainter.text = TextSpan(
+  //     // text: '\$${(double.parse(value)).toStringAsFixed((double.parse(value)).truncateToDouble() == double.parse(value) ? 0 : 2)}',
+  //     text: (formatAsCurrency(double.parse(value))),
+  //     // text: '\$${(double.parse(value))}',
+  //     // text:formatAsCurrency(double.parse(value)),
+  //     style: textStyleLabel,
+  //   );
+  //   canvas.save();
+  //   textPainter.layout();
+  //   canvas.translate(x2, y1 + offset_text);
+  //   // canvas.translate(x2, y1 + MyString.DEFAULT_OFFSETX_TEXT);
+  //   // canvas.translate(x2, y1 + 9);
+  //   textPainter.paint(
+  //     canvas,
+  //     const Offset(
+  //       MyString.DEFAULT_OFFSETX,
+  //       0,
+  //     ),
+  //   );
+  //   canvas.restore();
+
+  //   // draw the title for each rectangle
+  //   String label = rect.label;
+  //   if (label.length > 11) {
+  //     label = "${label.substring(0, 9)}..";
+  //   }
+  //   textPainter.text = TextSpan(
+  //     text: label,
+  //     style: textStyle,
+  //   );
+  //   canvas.save();
+  //   textPainter.layout();
+  //   canvas.translate(0 - 9, y1 + offset_title);
+  //   // canvas.translate(0 - 9, y1 + MyString.DEFAULT_OFFSETX_TITLE);
+  //   // canvas.translate(0 - 9, y1 + 9);
+  //   textPainter.paint(
+  //     canvas,
+  //     Offset(
+  //       -textPainter.width - 2,
+  //       0,
+  //     ),
+  //   );
+  //   canvas.restore();
+  // }
+
+
+
   void _drawRectangle(
-      Rectangle rect,
-      Canvas canvas,
-      double spaceBetweenTwoRectangles,
-      double offsetxText,
-      double offsetxTitle) {
-    // draw rectangle
-    // Path path = Path();
-    // double maxHeight = numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) -
-    //         spaceBetweenTwoRectangles;
-    // // define postitons of the four corner to draw the rectangle
-    // double x1 = 0,y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
-    // // if the rectancles if outside, we don't draw it
-    // if (y1 >= maxHeight) return;
-    // // min is to draw a rectangle partially, (in case it's showning up or hiding)
-    // double x2 = rect.length * maxLength!;
-    // double y2 = min(y1 + rectHeight, maxHeight);
+    Rectangle rect,
+    Canvas canvas,
+    double spaceBetweenTwoRectangles,
+    double offsetxText,
+    double offsetxTitle) {
 
-    // draw rectangle
-    Path path = Path();
-    double maxHeight =
-        numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) -
-            spaceBetweenTwoRectangles;
-    // define postitons of the four corner to draw the rectangle
-    double x1 = 0,
-        y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
-    // if the rectancles if outside, we don't draw it
-    if (y1 >= maxHeight) return;
-    // min is to draw a rectangle partially, (in case it's showning up or hiding)
-    double x2 = rect.length * maxLength!, y2 = min(y1 + rectHeight, maxHeight);
+  // Define gradient to apply on the rectangle
+  final gradient = LinearGradient(
+    colors: [rect.color, MyColor.yellowMain], // Adjust colors as needed
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
 
-    path.moveTo(x1, y1);
-    path.lineTo(x2, y1);
-    path.lineTo(x2, y2);
-    path.lineTo(x1, y2);
-    rectPaint.color = rect.color;
-    canvas.drawPath(path, rectPaint);
+  // Calculate max height based on the number of rectangles
+  double maxHeight = numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) - spaceBetweenTwoRectangles;
 
-    // draw value (text)
-    String value = rect.value.round().toString();
-    if (value.length > 5) {
-      value = "${value.substring(0, 5)}..";
-    }
-    textPainter.text = TextSpan(
-      // text: '\$${(double.parse(value)).toStringAsFixed((double.parse(value)).truncateToDouble() == double.parse(value) ? 0 : 2)}',
-      text: (formatAsCurrency(double.parse(value))),
-      // text: '\$${(double.parse(value))}',
-      // text:formatAsCurrency(double.parse(value)),
-      style: textStyleLabel,
-    );
-    canvas.save();
-    textPainter.layout();
-    canvas.translate(x2, y1 + offset_text);
-    // canvas.translate(x2, y1 + MyString.DEFAULT_OFFSETX_TEXT);
-    // canvas.translate(x2, y1 + 9);
-    textPainter.paint(
-      canvas,
-      const Offset(
-        MyString.DEFAULT_OFFSETX,
-        0,
-      ),
-    );
-    canvas.restore();
+  // Define positions of the four corners to draw the rectangle
+  double x1 = 0, y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
+  
+  // If the rectangle is outside, don't draw it
+  if (y1 >= maxHeight) return;
+  
+  // Calculate the position to draw the rectangle partially (if it's showing up or hiding)
+  double x2 = rect.length * maxLength!, y2 = min(y1 + rectHeight, maxHeight);
 
-    // draw the title for each rectangle
-    String label = rect.label;
-    if (label.length > 11) {
-      label = "${label.substring(0, 9)}..";
-    }
-    textPainter.text = TextSpan(
-      text: label,
-      style: textStyle,
-    );
-    canvas.save();
-    textPainter.layout();
-    canvas.translate(0 - 9, y1 + offset_title);
-    // canvas.translate(0 - 9, y1 + MyString.DEFAULT_OFFSETX_TITLE);
-    // canvas.translate(0 - 9, y1 + 9);
-    textPainter.paint(
-      canvas,
-      Offset(
-        -textPainter.width - 2,
-        0,
-      ),
-    );
-    canvas.restore();
+  // Apply gradient and border radius
+  double borderRadius = MyString.DEFAULT_BORDERRADIUS; // Customize as needed
+  
+  // Use RRect for rounded corners
+  RRect rrect = RRect.fromRectAndRadius(
+    Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)),
+    Radius.circular(borderRadius),
+  );
+
+  // Apply the gradient as a shader
+  rectPaint.shader = gradient.createShader(Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)));
+  rectPaint.style = PaintingStyle.fill;  // Ensure the paint is filling the shape
+
+  // Draw the rounded rectangle with gradient
+  canvas.drawRRect(rrect, rectPaint);
+
+  // Add border around the rectangle
+  Paint borderPaint = Paint()
+    ..color = Colors.transparent // Set your preferred border color
+    ..strokeWidth = 0.0  // Set the border width
+    ..style = PaintingStyle.stroke;  // Set the style to stroke to create the border
+
+  // Draw the border around the rounded rectangle
+  canvas.drawRRect(rrect, borderPaint);
+
+  // Draw the value (text) inside the rectangle
+  String value = rect.value.round().toString();
+  if (value.length > 5) {
+    value = "${value.substring(0, 5)}.."; // Truncate the value if it's too long
   }
+  
+  textPainter.text = TextSpan(
+    text: (formatAsCurrency(double.parse(value))), // Format the value as currency
+    style: textStyleLabel,
+  );
+  canvas.save();
+  textPainter.layout();
+  
+  // Position the text inside the rectangle
+  canvas.translate(x2, y1 + offsetxText);
+  textPainter.paint(
+    canvas,
+    const Offset(MyString.DEFAULT_OFFSETX, 0),
+  );
+  canvas.restore();
+
+  // Draw the label/title for the rectangle
+  String label = rect.label;
+  if (label.length > 11) {
+    label = "${label.substring(0, 9)}.."; // Truncate the label if it's too long
+  }
+  
+  textPainter.text = TextSpan(
+    text: label,
+    style: textStyle,
+  );
+  canvas.save();
+  textPainter.layout();
+  
+  // Position the label/title
+  canvas.translate(0 - 9, y1 + offsetxTitle);
+  textPainter.paint(
+    canvas,
+    Offset(-textPainter.width - 2, 0),
+  );
+  canvas.restore();
+}
 
   // draw the lines with the respective value based on the current maximum value
   void _drawLines(Canvas canvas, double spaceBetweenTwoRectangles) {
