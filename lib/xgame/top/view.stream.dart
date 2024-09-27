@@ -4,12 +4,15 @@ import 'dart:html' as html; // This is needed for embedding HTML elements
 
 class IframeWidget extends StatelessWidget {
   final String url;
-  IframeWidget({Key? key,required this.url}) : super(key: key) {
-    // final String urlString =
-    //     "https://viewer.millicast.com?streamId=sLbkP2/OBS&play=false&volume=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true";
+  final int index; // Add an index to differentiate each iframe
 
+  IframeWidget({Key? key, required this.url, required this.index}) : super(key: key) {
+    // Generate a unique viewType based on the index
+    final viewType = 'iframe-html-$index'; 
+
+    // Register a unique factory for each iframe
     ui.platformViewRegistry.registerViewFactory(
-      'iframe-html',
+      viewType,
       (int viewId) => html.IFrameElement()
         ..width = '640'
         ..height = '480'
@@ -20,6 +23,7 @@ class IframeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HtmlElementView(viewType: 'iframe-html');
+    // Use the unique viewType
+    return HtmlElementView(viewType: 'iframe-html-$index');
   }
 }

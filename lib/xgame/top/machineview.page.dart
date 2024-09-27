@@ -50,6 +50,7 @@ class MachineViewPage extends StatelessWidget {
                 if (itemIndex < urlList.length) {
                   return MachineViewItem(
                     heightItem: heightItem,
+                    index: itemIndex, // Pass the index here
                     widthItem: widthItem,
                     title: "PLAYER ${itemIndex + 1}",
                     active: urlList[itemIndex].isNotEmpty, // Check if URL exists
@@ -73,6 +74,7 @@ class MachineViewPage extends StatelessWidget {
       {required double widthItem,
       required double heightItem,
       required bool active,
+      required int index,
       required String url,
       required String title}) {
     return Column(
@@ -100,6 +102,7 @@ class MachineViewPage extends StatelessWidget {
             child: active == true
                 ? IframeWidget(
                     url: url,
+                    index:index
                   )
                 : Container())
       ],
