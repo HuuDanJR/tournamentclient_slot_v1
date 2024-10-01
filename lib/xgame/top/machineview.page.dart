@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
+import 'package:tournament_client/widget/loading.indicator.dart';
 import 'package:tournament_client/widget/text.dart';
+import 'package:tournament_client/xgame/top/bloc/stream_bloc.dart';
 import 'package:tournament_client/xgame/top/view.stream.dart';
+import 'package:http/http.dart' as http;
 
 class MachineViewPage extends StatelessWidget {
   final double width;
   final double height;
-  const MachineViewPage({Key? key, required this.width, required this.height})
+
+  const MachineViewPage({Key? key, required this.height, required this.width})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      lazy: false,
+      create: (_) =>
+          StreamBloc(httpClient: http.Client())..add(StreamFeteched()),
+      child: MachineViewPageBody(
+        width: width,
+        height: height,
+      ),
+    );
+  }
+}
+
+class MachineViewPageBody extends StatelessWidget {
+  final double width;
+  final double height;
+  const MachineViewPageBody(
+      {Key? key, required this.width, required this.height})
       : super(key: key);
 
   @override
@@ -16,58 +42,72 @@ class MachineViewPage extends StatelessWidget {
     final heightItem = height / 2;
     final widthItem = width / 4 - padding * 2;
 
-    final List<String> urlList = [
-      "https://viewer.millicast.com?streamId=sLbkP2/OBS&play=false&volume=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true",
-      "https://viewer.millicast.com?streamId=sLbkP2/OBS2&play=false&volume=false&fullscreen=false&pip=false&cast=false&liveBadge=false&userCount=false&disableSettings=true",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-    ];
+  
+    return BlocBuilder<StreamBloc, StreamMState>(
+      
+      builder: (context, state) {
+      switch (state.status) {
+        case StreamStatus.initial:
+            return Center(child:loadingIndicator("Loading"));
+        case StreamStatus.failure:
+            return Center(
+              child: TextButton.icon(
+              icon:const Icon(Icons.refresh),
+              onPressed: () {
+                // ignore: invalid_use_of_visible_for_testing_member
+              },
+              label: const Text('No Streams Found '),
+            ));
+          case StreamStatus.success:
+            if (state.posts.isEmpty) {
+              return const Center(child: Text('No Stream'));
+            }
+      }
 
-    // Calculate number of rows (each row contains 4 items)
-    final int totalRows = (urlList.length / 4).ceil();
+      // Replace the old `urlList` with `state.posts`
+            final List<String> urlList = state.posts
+                .map((post) => post.url)
+                .toList();
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: MyString.padding08),
-      width: width,
-      height: height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Generate rows based on totalRows
-          ...List.generate(
-            totalRows,
-            (rowIndex) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(4, (colIndex) {
-                final itemIndex = rowIndex * 4 + colIndex;
-                
-                // Check if we have a corresponding URL for this item
-                if (itemIndex < urlList.length) {
-                  return MachineViewItem(
-                    heightItem: heightItem,
-                    index: itemIndex, // Pass the index here
-                    widthItem: widthItem,
-                    title: "PLAYER ${itemIndex + 1}",
-                    active: urlList[itemIndex].isNotEmpty, // Check if URL exists
-                    url: urlList[itemIndex], // Set the URL for the item
-                  );
-                } else {
-                  return SizedBox(
-                    width: widthItem,
-                    height: heightItem,
-                  ); // Empty space if there are fewer items than slots
-                }
-              }),
-            ),
-          )
-        ],
-      ),
-    );
+            // Calculate number of rows (each row contains 4 items)
+            final int totalRows = (urlList.length / 4).ceil();
+      return  Container(
+              margin: const EdgeInsets.symmetric(horizontal: MyString.padding08),
+              width: width,
+              height: height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Generate rows based on totalRows
+                  ...List.generate(
+                    totalRows,
+                    (rowIndex) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(4, (colIndex) {
+                        final itemIndex = rowIndex * 4 + colIndex;
+                        // Check if we have a corresponding URL for this item
+                        if (itemIndex < urlList.length) {
+                          return MachineViewItem(
+                            heightItem: heightItem,
+                            index: itemIndex, // Pass the index here
+                            widthItem: widthItem,
+                            title: "PLAYER ${itemIndex + 1}",
+                            active: urlList[itemIndex].isNotEmpty, // Check if URL exists
+                            url: urlList[itemIndex], // Set the URL for the item
+                          );
+                        } else {
+                          return SizedBox(
+                            width: widthItem,
+                            height: heightItem,
+                          ); // Empty space if there are fewer items than slots
+                        }
+                      }),
+                    ),
+                  )
+                ],
+              ),);
+    });
   }
 
   Widget MachineViewItem(
@@ -100,10 +140,7 @@ class MachineViewPage extends StatelessWidget {
             width: widthItem,
             height: heightItem * .9,
             child: active == true
-                ? IframeWidget(
-                    url: url,
-                    index:index
-                  )
+                ? IframeWidget(url: url, index: index)
                 : Container())
       ],
     );

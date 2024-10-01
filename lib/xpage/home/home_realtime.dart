@@ -42,7 +42,7 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
     mySocket.initSocket();
     _creditStream = mySocket.dataStream;
     // Assuming your socket stream is _creditStream
-   _throttledStream = _creditStream.throttleTime(Duration(milliseconds: durationthrottled)); // Update every 500ms
+  //  _throttledStream = _creditStream.throttleTime(Duration(milliseconds: durationthrottled)); // Update every 500ms
   }
 
   @override
@@ -59,8 +59,8 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
         padding: const EdgeInsets.only(top:kIsWeb? MyString.TOP_PADDING_TOPRAKINGREALTIME : 0.0),
         child: SafeArea(
           child: StreamBuilder<List<Map<String, dynamic>>>(
-            // stream: mySocket.dataStream,
-            stream: _throttledStream,
+            stream: mySocket.dataStream,
+            // stream: _throttledStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<Map<String, dynamic>>? dataList = snapshot.data;
@@ -94,17 +94,6 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
                         fontSize: kIsWeb ? 22.0 : 22.0,
                       ),
                     ),
-                    // Positioned(
-                    //     bottom: 32,
-                    //     right: 28,
-                    //     child: widget.selectedIndex == MyString.DEFAULTNUMBER
-                    //         ? Container()
-                    //         : Text('YOU ARE PLAYER ${widget.selectedIndex}',
-                    //             style: const TextStyle(
-                    //               color: MyColor.white,
-                    //               fontSize: 18,
-                    //             ))
-                    // ),
                   ],
                 );
               } else {

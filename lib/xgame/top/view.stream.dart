@@ -10,7 +10,7 @@ class IframeWidget extends StatelessWidget {
     // Generate a unique viewType based on the index
     final viewType = 'iframe-html-$index'; 
 
-    // Register a unique factory for each iframe
+    // ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(
       viewType,
       (int viewId) => html.IFrameElement()

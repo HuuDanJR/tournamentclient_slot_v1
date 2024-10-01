@@ -6,30 +6,26 @@ enum StreamStatus { initial, success, failure }
 class StreamMState extends Equatable{
   const StreamMState({
     this.status = StreamStatus.initial,
-    this.posts = const <Ranking>[],
-    this.hasReachedMax = false,
+    this.posts = const <StreamDataModel>[],
   });
   final StreamStatus status;
-  final List<Ranking> posts;
-  final bool hasReachedMax;
+  final List<StreamDataModel> posts;
 
   StreamMState copyWith({
     StreamStatus? status,
-    List<Ranking>? posts,
-    bool? hasReachedMax,
+    List<StreamDataModel>? posts,
   }) {
     return StreamMState(
       status: status ?? this.status,
       posts: posts ?? this.posts,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
   @override
   String toString() {
-    return 'StreamMState { status: $status, hasReachedMax: $hasReachedMax, posts: ${posts.length} }';
+    return 'StreamMState { status: $status, posts: ${posts.length} }';
   }
 
   @override
-  List<Object> get props => [status, posts, hasReachedMax];
+  List<Object> get props => [status, posts];
 }
 

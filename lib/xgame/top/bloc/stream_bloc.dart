@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
+import 'package:tournament_client/lib/models/streamModel.dart';
 import 'package:tournament_client/screen/admin/model/rankingList.dart';
 import '../../../service/service_api.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -29,15 +30,13 @@ class StreamBloc extends Bloc<StreamMEvent, StreamMState> {
   }
 
   Future<void> _onListFetched(StreamFeteched event,Emitter<StreamMState> emit) async {
-    if (state.hasReachedMax) return;
     try {
       if (state.status == StreamStatus.initial) {
-        final posts = await service_api.fetchRanking();
+        final posts = await service_api.getStreamAll();
         return emit(
           state.copyWith(
             status: StreamStatus.success,
-            posts: posts,
-            hasReachedMax: false,
+            posts: posts!.data,
           ),
         );
       }
