@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           '/containerPage': (context) => ContainerPage(
                 url: MyString.BASEURL,
                 selectedIndex: MyString.DEFAULTNUMBER,
-           ),
+          ),
         },
         home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
         // home: MachineViewContainer());

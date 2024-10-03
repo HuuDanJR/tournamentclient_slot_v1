@@ -9,7 +9,6 @@ import 'package:tournament_client/utils/functions.dart';
 import 'package:tournament_client/lib/bar_chart_race.dart';
 import 'package:tournament_client/utils/detect_resolution.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
-import 'package:rxdart/rxdart.dart';
 
 
 class HomeRealTimePage extends StatefulWidget {
@@ -91,7 +90,7 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
                       statesLabel: listLabelGenerate(),
                       titleTextStyle: GoogleFonts.nunitoSans(
                         color: Colors.white,
-                        fontSize: kIsWeb ? 22.0 : 22.0,
+                        fontSize: kIsWeb ? 24.0 : 24.0,
                       ),
                     ),
                   ],

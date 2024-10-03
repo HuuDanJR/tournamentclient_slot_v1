@@ -35,7 +35,7 @@ class _ContainerPageState extends State<ContainerPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint('ContainerPage:did change dependency');
+    debugPrint('ContainerPage: did change dependency');
   }
 
   @override
@@ -90,7 +90,7 @@ class _ContainerPageState extends State<ContainerPage> {
                           title: MyString.APP_NAME,
                           url: widget.url,
                           selectedIndex: MyString.DEFAULTNUMBER),
-                        )
+                  )
                   
                 ),
                 SizedBox(

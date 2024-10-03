@@ -48,7 +48,7 @@ class MyColor {
   static const Color black_text = Color(0xFF2D2D2D);
   static const Color black_absolute = Color(0xFF000000);
   // ignore: constant_identifier_names
-  static  Color black_text_opa = const Color(0xFF2D2D2D).withOpacity(.75);
+  static  Color black_text_opa = const Color(0xFF2D2D2D).withOpacity(1);
   // ignore: constant_identifier_names
   static const Color grey_text = Color(0xFF8F8F8F);
   // ignore: constant_identifier_names
@@ -56,6 +56,8 @@ class MyColor {
   static const Color yellow = Color(0xFFFAD932);
   // ignore: constant_identifier_names
   static const Color yellow_bg = Color(0xFFFFF9C4);
+  static  Color yellow_bg3  = Color(0xFFAC9879).withOpacity(.1);
+
   static const Color yellow2 = Color(0xffFAD02C);
   static const Color yellow_bg2 = Color(0xffFFF59D);
   static const Color yellow3 = Color(0xffFFC107);

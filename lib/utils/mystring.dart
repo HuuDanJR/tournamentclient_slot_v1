@@ -10,8 +10,8 @@ class MyString {
   static const String ADRESS_SERVER = "localhost";
   // static const String ADRESS_SERVER = "10.20.10.36";
   // static const String ADRESS_SERVER = "192.168.101.58";
-  static const String BASE = 'http://$ADRESS_SERVER:8096/api/';
-  static const String BASEURL = 'http://$ADRESS_SERVER:8096/';
+  static const String BASE = 'http://$ADRESS_SERVER:8086/api/';
+  static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
   static const String API_KEY = '';
 
   static const String list_ranking = '${BASE}list_ranking';
@@ -87,19 +87,21 @@ class MyString {
 
   //default column in settting server
   static const String DEFAULT_COLUMN = '9';
-  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 25 : 36.5;
+  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 24.5 : 36.5;
   static const double DEFAULT_ROW = 10;
-  static const double DEFAULT_SPACING_LING = kIsWeb ? 14 : 18.5;
+  static const double DEFAULT_SPACING_LING = kIsWeb ? 12 : 18.5;
   static const double DEFAULT_OFFSETX = 2.25;
   static const double DEFAULT_OFFSETX_TEXT = 0.25;
   static const double DEFAULT_OFFSETX_TITLE = 0.25;
   static const double DEFAULT_TEXTSIZE = 24.0;
   static const double DEFAULT_TEXTSIZE_WEB = 22;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE = 10.0;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 10.0;
+  // static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
+  // static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
 
   //border radius default
-  static const double DEFAULT_BORDERRADIUS = 3.5;
+  static const double DEFAULT_BORDERRADIUS = 2.5;
 
 
   static const double padding02 = 02.0;
@@ -111,7 +113,9 @@ class MyString {
   static const double padding14 = 14.0;
   static const double padding20 = 20.0;
   static const double padding24 = 24.0;
+  static const double padding28 = 28.0;
   static const double padding18 = 18.0;
+  static const double padding32 = 32.0;
   static const double padding36 = 36.0;
   static const double padding42 = 42.0;
   static const double padding56 = 56.0;

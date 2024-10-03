@@ -140,13 +140,8 @@ class _AdminVerifyState extends State<AdminVerify> {
                     TextButton.icon(
                         icon: const Icon(Icons.group_add_outlined),
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (_) => const MachineViewContainer()));
-                          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          //     builder: (_) => ContainerPage(
-                          //           url: MyString.BASEURL,
-                          //           selectedIndex: MyString.DEFAULTNUMBER,
-                          //     )));
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => const MachineViewContainer()));
                         },
                         label: textcustom(text: "View", size: MyString.padding16)),
                     const SizedBox(

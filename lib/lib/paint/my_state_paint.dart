@@ -162,6 +162,7 @@ class MyStatePaint extends CustomPainter {
       text: title,
       style: titleTextStyle ?? textStyleBold,
     );
+    
     double x = totalWidth / 2;
     double y = -40;
     // double y = -50;
@@ -171,10 +172,11 @@ class MyStatePaint extends CustomPainter {
     canvas.translate(x, y);
     // canvas.translate(x, y + 2.5);
     // canvas.translate(x, y + 9);
+    double x_painter = (totalWidth - textPainter.width) / 2;
     textPainter.paint(
       canvas,
       Offset(
-        -textPainter.width / 2,
+        -textPainter.width / 1 ,
         -textPainter.height / 2,
       ),
     );

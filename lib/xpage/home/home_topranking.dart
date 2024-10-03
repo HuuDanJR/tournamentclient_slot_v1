@@ -108,7 +108,7 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
                           columnsLabel: updatedNames,
                           statesLabel: listLabelGenerate(),
                           titleTextStyle: GoogleFonts.nunitoSans(
-                            color: Colors.white,
+                            color: MyColor.yellowMain,
                             fontSize: kIsWeb ? 22.0 : 22.0,
                           ),
                         ),

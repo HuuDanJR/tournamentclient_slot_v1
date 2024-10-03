@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:get/get.dart';
+import 'package:tournament_client/utils/mystring.dart';
 import 'models/rectangle.dart';
 import 'paint/my_state_paint.dart';
 import "package:flutter/material.dart";
@@ -147,16 +148,16 @@ class _BarChartRaceState extends State<BarChartRace> {
     // const double paddingVer = kIsWeb ? 60.0 : 16.0;
     //vegas plaza setting
     const double paddingVer = kIsWeb ? 0.0 : 16.0;
-    const double paddingHoz = kIsWeb ? 8.0 : 12.0;
+    const double paddingHoz = kIsWeb ? 0.0 : 12.0;
 
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
           height: height,
           width: width,
-          decoration: const BoxDecoration(
-              
-          ),
+          decoration:  BoxDecoration(
+          // border: Border.all(color: Colors.transparent), // Optional: set a transparent border or any other color
+        ),
           padding: const EdgeInsets.symmetric(
             horizontal: paddingHoz,
             vertical: paddingVer,
@@ -173,7 +174,7 @@ class _BarChartRaceState extends State<BarChartRace> {
                 spaceBetweenTwoRectangles: widget.spaceBetweenTwoRectangles!,
                 maxValue: currentData![0].maxValue,
                 totalWidth: kIsWeb
-                    ? constraints.maxWidth * .945
+                    ? constraints.maxWidth * .975
                     : constraints.maxWidth * .835,
                 title: widget.title,
                 titleTextStyle: widget.titleTextStyle,

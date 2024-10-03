@@ -3,17 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/loading.indicator.dart';
-import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/xgame/top/bloc/stream_bloc.dart';
 import 'package:tournament_client/xgame/top/view.stream.dart';
 import 'package:http/http.dart' as http;
 
 class MachineViewPage extends StatelessWidget {
-  final double width;
-  final double height;
-
-  const MachineViewPage({Key? key, required this.height, required this.width})
-      : super(key: key);
+  const MachineViewPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,92 +18,126 @@ class MachineViewPage extends StatelessWidget {
       lazy: false,
       create: (_) =>
           StreamBloc(httpClient: http.Client())..add(StreamFeteched()),
-      child: MachineViewPageBody(
-        width: width,
-        height: height,
-      ),
+      child: const MachineViewPageBody(),
     );
   }
 }
 
 class MachineViewPageBody extends StatelessWidget {
-  final double width;
-  final double height;
-  const MachineViewPageBody(
-      {Key? key, required this.width, required this.height})
-      : super(key: key);
+  const MachineViewPageBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const padding = MyString.padding08;
-    final heightItem = height / 2;
-    final widthItem = width / 4 - padding * 2;
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    // const padding = MyString.padding08;
+    final double heightItem = height / 3;
+    final double widthItem = width / 3;
 
-  
-    return BlocBuilder<StreamBloc, StreamMState>(
-      
-      builder: (context, state) {
+    return BlocBuilder<StreamBloc, StreamMState>(builder: (context, state) {
       switch (state.status) {
         case StreamStatus.initial:
-            return Center(child:loadingIndicator("Loading"));
+          return Center(child: loadingIndicator("Loading"));
         case StreamStatus.failure:
-            return Center(
+          return Center(
               child: TextButton.icon(
-              icon:const Icon(Icons.refresh),
-              onPressed: () {
-                // ignore: invalid_use_of_visible_for_testing_member
-              },
-              label: const Text('No Streams Found '),
-            ));
-          case StreamStatus.success:
-            if (state.posts.isEmpty) {
-              return const Center(child: Text('No Stream'));
-            }
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              // ignore: invalid_use_of_visible_for_testing_member
+            },
+            label: const Text('No Streams Found '),
+          ));
+        case StreamStatus.success:
+          if (state.posts.isEmpty) {
+            return const Center(child: Text('No Stream'));
+          }
       }
 
       // Replace the old `urlList` with `state.posts`
-            final List<String> urlList = state.posts
-                .map((post) => post.url)
-                .toList();
-
-            // Calculate number of rows (each row contains 4 items)
-            final int totalRows = (urlList.length / 4).ceil();
-      return  Container(
-              margin: const EdgeInsets.symmetric(horizontal: MyString.padding08),
-              width: width,
-              height: height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+      final List<String> urlList = state.posts.map((post) => post.url).toList();
+      return Container(
+        
+        width: width,
+        height: height,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //1st Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(3, (index) {
+                  if (index < urlList.length) {
+                    return MachineViewItem(
+                      index: index,
+                      heightItem: heightItem,
+                      widthItem: widthItem,
+                      title: "MC ${index + 1}",
+                      active: urlList[index].isNotEmpty,
+                      url: urlList[index],
+                    );
+                  } else {
+                    return SizedBox(width: widthItem, height: heightItem);
+                  }
+                }),
+              ),
+              //2nd Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Generate rows based on totalRows
-                  ...List.generate(
-                    totalRows,
-                    (rowIndex) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(4, (colIndex) {
-                        final itemIndex = rowIndex * 4 + colIndex;
-                        // Check if we have a corresponding URL for this item
-                        if (itemIndex < urlList.length) {
-                          return MachineViewItem(
-                            heightItem: heightItem,
-                            index: itemIndex, // Pass the index here
-                            widthItem: widthItem,
-                            title: "PLAYER ${itemIndex + 1}",
-                            active: urlList[itemIndex].isNotEmpty, // Check if URL exists
-                            url: urlList[itemIndex], // Set the URL for the item
-                          );
-                        } else {
-                          return SizedBox(
-                            width: widthItem,
-                            height: heightItem,
-                          ); // Empty space if there are fewer items than slots
-                        }
-                      }),
+                  if (3 < urlList.length)
+                    MachineViewItem(
+                      index: 3,
+                      heightItem: heightItem,
+                      widthItem: widthItem,
+                      title: "MC 4",
+                      active: urlList[3].isNotEmpty,
+                      url: urlList[3],
                     ),
-                  )
+                  // Center custom UI instead of the 5th item
+                  SizedBox(
+                    width: widthItem,
+                    height: heightItem,
+                    child: Container(
+                     
+                    ), // Replace this with your custom widget
+                  ),
+                  if (5 < urlList.length)
+                    MachineViewItem(
+                      index: 5,
+                      heightItem: heightItem,
+                      widthItem: widthItem,
+                      title: "MC 5",
+                      active: urlList[5].isNotEmpty,
+                      url: urlList[5],
+                    ),
                 ],
-              ),);
+              ),
+              //3rd Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(3, (index) {
+                  final itemIndex = 5 + index; // Starting from the 7th item
+                  if (itemIndex < urlList.length) {
+                    return MachineViewItem(
+                      heightItem: heightItem,
+                      widthItem: widthItem,
+                      index: itemIndex,
+                      title: "MC ${itemIndex+1}",
+                      active: urlList[itemIndex].isNotEmpty,
+                      url: urlList[itemIndex],
+                    );
+                  } else {
+                    return SizedBox(width: widthItem, height: heightItem);
+                  }
+                }),
+              ),
+              
+            ],
+          ),
+        ),
+      );
     });
   }
 
@@ -117,32 +148,52 @@ class MachineViewPageBody extends StatelessWidget {
       required int index,
       required String url,
       required String title}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          alignment: Alignment.bottomLeft,
-          width: widthItem,
-          height: heightItem * .1,
-          child: textcustomColor(
-            text: title,
-            color: MyColor.white,
-          ),
-        ),
-        Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-              color: MyColor.yellowMain,
-              width: MyString.padding02,
-            )),
-            width: widthItem,
-            height: heightItem * .9,
-            child: active == true
-                ? IframeWidget(url: url, index: index)
-                : Container())
-      ],
-    );
+    return 
+    Container(
+        margin: EdgeInsets.all(MyString.padding28,),
+        decoration: BoxDecoration(
+            border: Border.all(
+            color: MyColor.yellowMain,
+            width: MyString.padding06
+            ),
+            // borderRadius: BorderRadius.circular(MyString.padding08)
+            ),
+        width: widthItem-(MyString.padding28*2),
+        height: heightItem-(MyString.padding28*2),
+        
+        child: active == true
+            ? IframeWidget(
+                url: url,
+                index: index,
+                width: widthItem,
+                height: heightItem,
+              )
+            : Container());
+    // Column(
+    //   mainAxisSize: MainAxisSize.max,
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     Container(
+    //       alignment: Alignment.bottomLeft,
+    //       width: widthItem,
+    //       height: heightItem * .1,
+    //       child: textcustomColor(
+    //         text: title,
+    //         color: MyColor.white,
+    //       ),
+    //     ),
+    //     Container(
+    //         decoration: BoxDecoration(
+    //           border: Border.all(
+    //           color: MyColor.grey_tab,
+    //         )),
+    //         width: widthItem,
+    //         height: heightItem * .9,
+    //         child: active == true
+    //             ? IframeWidget(url: url, index: index, width: widthItem,height:heightItem,)
+    //             : Container())
+    //   ],
+    // );
   }
 }
