@@ -53,17 +53,17 @@ class MyColor {
   static const Color grey_text = Color(0xFF8F8F8F);
   // ignore: constant_identifier_names
   static const Color red_text = Color(0xFFFD4A4E);
-  static const Color yellow = Color(0xFFFAD932);
-  // ignore: constant_identifier_names
-  static const Color yellow_bg = Color(0xFFFFF9C4);
-  static  Color yellow_bg3  = Color(0xFFAC9879).withOpacity(.1);
 
+
+  static const Color yellow = Color(0xFFFAD932);
+  static const Color yellow_bg = Color(0xFFFFF9C4);
   static const Color yellow2 = Color(0xffFAD02C);
   static const Color yellow_bg2 = Color(0xffFFF59D);
   static const Color yellow3 = Color(0xffFFC107);
-  // ignore: constant_identifier_names
   static const Color yellow_accent = Color(0xFFB2A76B);
   static const Color yellowMain = Color(0xFFFFC340);
+  static const Color yellowMain2 = Color(0xFFFFEA00);
+
   static const Color orange_text = Color(0xFFFF6C22);
   static const Color red_text2 = Color(0xFFFA7070);
   static const Color orange = Color(0xFFC62828);

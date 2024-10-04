@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/utils/mycolors.dart';
+import 'package:tournament_client/utils/mystring.dart';
+import 'package:tournament_client/xgame/bottom/size.config.dart';
 
 class GameScreenPage extends StatefulWidget {
   const GameScreenPage({Key? key}) : super(key: key);
@@ -22,8 +24,8 @@ class _GameScreenPageState extends State<GameScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height*.825;
-    final width = MediaQuery.of(context).size.width*.825;
+    final height = MediaQuery.of(context).size.height*SizeConfig.screenVerMain;
+    final width = MediaQuery.of(context).size.width*SizeConfig.screenVerMain;
     return Container(
       alignment: Alignment.topCenter,
       width: width,
@@ -31,8 +33,8 @@ class _GameScreenPageState extends State<GameScreenPage> {
       decoration: const BoxDecoration(
         color:MyColor.black_absolute,
         border: Border(
-        right: BorderSide(width: 2.0, color: MyColor.yellow_bg2),
-        bottom: BorderSide(width: 2.0, color: MyColor.yellow_bg2),
+        right: BorderSide(width: MyString.padding02, color: MyColor.yellow_bg2),
+        bottom: BorderSide(width: MyString.padding02, color: MyColor.yellow_bg2),
         ),
         // borderRadius: BorderRadius.circular(MyString.padding16)
       ),

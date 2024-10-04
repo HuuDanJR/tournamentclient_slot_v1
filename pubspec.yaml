@@ -49,6 +49,7 @@ flutter:
     - asset/bg2.jpg
     - asset/circle.png
     - asset/round.png
+    - asset/eclip.png
 
   fonts:
     - family: Poppins

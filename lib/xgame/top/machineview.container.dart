@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/top/machine.top.page.dart';
 import 'package:tournament_client/xgame/top/machineview.page.dart';

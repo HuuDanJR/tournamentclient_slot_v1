@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/loading.indicator.dart';
+import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/xgame/top/bloc/stream_bloc.dart';
 import 'package:tournament_client/xgame/top/view.stream.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +38,7 @@ class MachineViewPageBody extends StatelessWidget {
     return BlocBuilder<StreamBloc, StreamMState>(builder: (context, state) {
       switch (state.status) {
         case StreamStatus.initial:
-          return Center(child: loadingIndicator("Loading"));
+          return Center(child: loadingNoIndicator());
         case StreamStatus.failure:
           return Center(
               child: TextButton.icon(
@@ -45,17 +46,17 @@ class MachineViewPageBody extends StatelessWidget {
             onPressed: () {
               // ignore: invalid_use_of_visible_for_testing_member
             },
-            label: const Text('No Streams Found '),
+            label:  textcustom(text:'No Streams Found',size: MyString.padding08),
           ));
         case StreamStatus.success:
           if (state.posts.isEmpty) {
-            return const Center(child: Text('No Stream'));
+            return  Center(child: textcustom(text:'No Streams Found',size: MyString.padding08),);
           }
       }
 
       // Replace the old `urlList` with `state.posts`
       final List<String> urlList = state.posts.map((post) => post.url).toList();
-      return Container(
+      return SizedBox(
         
         width: width,
         height: height,
@@ -150,7 +151,7 @@ class MachineViewPageBody extends StatelessWidget {
       required String title}) {
     return 
     Container(
-        margin: EdgeInsets.all(MyString.padding28,),
+        margin: const EdgeInsets.all(MyString.padding28,),
         decoration: BoxDecoration(
             border: Border.all(
             color: MyColor.yellowMain,

@@ -61,159 +61,167 @@ class _NavigationPageState extends State<NavigationPage> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          NavigationRail(
-            useIndicator: true,
-            indicatorColor: MyColor.grey_tab,
-            extended: false,
-            minWidth: width / 12.5,
-            // minExtendedWidth: width / 10,
-            selectedLabelTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600,color:MyColor.black_text),
-            unselectedLabelTextStyle: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w600,
-                color: MyColor.grey),
-            backgroundColor: MyColor.white,
-            leading: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: 75.0,
-                  height: 35.0,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                      image: AssetImage('asset/image/logo_new.png'),
-                      fit: BoxFit.contain)),
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+              child: IntrinsicHeight(
+                child: NavigationRail(
+                  useIndicator: true,
+                  indicatorColor: MyColor.grey_tab,
+                  extended: false,
+                  minWidth: width / 12.5,
+                  // minExtendedWidth: width / 10,
+                  selectedLabelTextStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500,color:MyColor.black_text),
+                  unselectedLabelTextStyle: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: MyColor.grey),
+                  backgroundColor: MyColor.white,
+                  leading: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        width: 75.0,
+                        height: 35.0,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                            image: AssetImage('asset/image/logo_new.png'),
+                            fit: BoxFit.contain)),
+                      ),
+                      const SizedBox(
+                        height: MyString.padding16,
+                      ),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        height: MyString.padding08,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text("Confirm Logout"),
+                                      content: textcustom(text: "Are you sure you want to log out? Click 'OK' to proceed."),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: textcustom(text: "CANCEL")),
+                                        TextButton(
+                                            onPressed: () {
+                                              debugPrint('confirm');
+                                              // Navigator.of(context).pushNamed('/authentication');
+                                              UserLoginManager.setLoggedIn(false);
+                                              SocketManager().disposeSocket();
+                                              Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (_) => const MyApp()));
+                                            },
+                                            child: textcustom(text: "OK")),
+                                      ],
+                                    ));
+                          },
+                          icon: const Icon(
+                            Icons.logout_rounded,
+                            color: MyColor.black_text,
+                            size: MyString.padding24,
+                          ))
+                    ],
+                  ),
+                  groupAlignment: groupAligment,
+                  
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  labelType: labelType,
+                  destinations: const <NavigationRailDestination>[
+                     NavigationRailDestination(
+                      icon: Icon(
+                        Icons.settings,
+                        size: MyString.padding16,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.settings_outlined,
+                        size: MyString.padding16,
+                      ),
+                      label: Text('Settings',textAlign: TextAlign.center,),
+                    ),
+                
+                
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.list,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.view_carousel,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('Top'),
+                    ),
+                
+                    NavigationRailDestination(
+                      indicatorColor: MyColor.orange,
+                      icon: Icon(
+                        Icons.grid_3x3,
+                        size: MyString.padding24,
+                      ),
+                      selectedIcon: Icon(
+                        Icons.grid_4x4_sharp,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('Realtime'),
+                    ),
+                   
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.data_array,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.data_object,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('History\nTop',textAlign: TextAlign.center),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.data_array_outlined,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.data_object_outlined,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('History\nRealtime',textAlign: TextAlign.center,),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.display_settings,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.display_settings_rounded,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('Display'),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: MyString.padding16,
-                ),
-              ],
+              ),
             ),
-            trailing: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: MyString.padding16,
-                ),
-                IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: const Text("Confirm Logout"),
-                                content: textcustom(text: "Are you sure you want to log out? Click 'OK' to proceed."),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: textcustom(text: "CANCEL")),
-                                  TextButton(
-                                      onPressed: () {
-                                        debugPrint('confirm');
-                                        // Navigator.of(context).pushNamed('/authentication');
-                                        UserLoginManager.setLoggedIn(false);
-                                        SocketManager().disposeSocket();
-                                        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (_) => const MyApp()));
-                                      },
-                                      child: textcustom(text: "OK")),
-                                ],
-                              ));
-                    },
-                    icon: const Icon(
-                      Icons.logout_rounded,
-                      color: MyColor.black_text,
-                      size: MyString.padding24,
-                    ))
-              ],
-            ),
-            groupAlignment: groupAligment,
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            labelType: labelType,
-            destinations: const <NavigationRailDestination>[
-               NavigationRailDestination(
-                icon: Icon(
-                  Icons.settings,
-                  size: MyString.padding24,
-                ),
-                indicatorColor: MyColor.orange,
-                selectedIcon: Icon(
-                  Icons.settings_outlined,
-                  size: MyString.padding24,
-                ),
-                label: Text('Settings',textAlign: TextAlign.center),
-              ),
-
-
-              NavigationRailDestination(
-                icon: Icon(
-                  Icons.list,
-                  size: MyString.padding24,
-                ),
-                indicatorColor: MyColor.orange,
-                selectedIcon: Icon(
-                  Icons.view_carousel,
-                  size: MyString.padding24,
-                ),
-                label: Text('Top'),
-              ),
-          
-              NavigationRailDestination(
-                indicatorColor: MyColor.orange,
-                icon: Icon(
-                  Icons.grid_3x3,
-                  size: MyString.padding24,
-                ),
-                selectedIcon: Icon(
-                  Icons.grid_4x4_sharp,
-                  size: MyString.padding24,
-                ),
-                label: Text('Realtime'),
-              ),
-             
-              NavigationRailDestination(
-                icon: Icon(
-                  Icons.data_array,
-                  size: MyString.padding24,
-                ),
-                indicatorColor: MyColor.orange,
-                selectedIcon: Icon(
-                  Icons.data_object,
-                  size: MyString.padding24,
-                ),
-                label: Text('History\nTop',textAlign: TextAlign.center),
-              ),
-              NavigationRailDestination(
-                icon: Icon(
-                  Icons.data_array_outlined,
-                  size: MyString.padding24,
-                ),
-                indicatorColor: MyColor.orange,
-                selectedIcon: Icon(
-                  Icons.data_object_outlined,
-                  size: MyString.padding24,
-                ),
-                label: Text('History\nRealtime',textAlign: TextAlign.center,),
-              ),
-              NavigationRailDestination(
-                icon: Icon(
-                  Icons.display_settings,
-                  size: MyString.padding24,
-                ),
-                indicatorColor: MyColor.orange,
-                selectedIcon: Icon(
-                  Icons.display_settings_rounded,
-                  size: MyString.padding24,
-                ),
-                label: Text('Display'),
-              ),
-            ],
           ),
           const VerticalDivider(thickness: 1, width: 1, color: MyColor.grey_tab),
           Expanded(child: mainContents[_selectedIndex]),

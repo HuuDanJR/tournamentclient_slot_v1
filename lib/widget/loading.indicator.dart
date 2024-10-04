@@ -16,3 +16,13 @@ Widget loadingIndicator(text) {
     ),
   );
 }
+
+
+Widget loadingNoIndicator() {
+  return const Center(
+    child: CircularProgressIndicator(
+      strokeWidth: .5,
+      color: MyColor.white,
+    ),
+  );
+}

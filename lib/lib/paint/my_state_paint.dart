@@ -172,7 +172,7 @@ class MyStatePaint extends CustomPainter {
     canvas.translate(x, y);
     // canvas.translate(x, y + 2.5);
     // canvas.translate(x, y + 9);
-    double x_painter = (totalWidth - textPainter.width) / 2;
+    double xPainter = (totalWidth - textPainter.width) / 2;
     textPainter.paint(
       canvas,
       Offset(

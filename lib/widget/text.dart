@@ -31,7 +31,7 @@ Widget textcustomColorBold({text,size,color,lineHeight, }) {
   style: GoogleFonts.poppins(
     color:  color,
     height: lineHeight ?? 1,
-    fontSize: size,fontWeight:FontWeight.w700),);
+    fontSize: size,fontWeight:FontWeight.w800),);
 }
 
 

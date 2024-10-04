@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/xgame/bottom/game.control.dart';
+import 'package:tournament_client/xgame/bottom/game.jackpot.dart';
 import 'package:tournament_client/xgame/bottom/game.screen.dart';
 
 class GamePage extends StatefulWidget {
@@ -46,12 +47,20 @@ class _GamePageState extends State<GamePage> {
       child: Stack(
         children: [
           const GameScreenPage(),  
+          //GAME CONTROL
           Positioned(
             top: 0,
             right: 0,
             child: GameControlPage(
               socketManager:socketManager
-            ))         
+            )),
+          //JACKPOT
+          Positioned(
+            bottom: 0,
+            left:0,
+            child: GameJackpot(
+            ),
+          )
         ],
       ),
       

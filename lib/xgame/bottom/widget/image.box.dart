@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/utils/mycolors.dart';
+import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 
 Widget ImageBox({
@@ -19,29 +20,30 @@ Widget ImageBox({
           image: AssetImage(asset),
           fit: BoxFit.contain,
         )),
-    child: hasChild ==false ?  textcustomColorBold(
-        text: text,
-        color: MyColor.yellowMain,
-        size: textSize,
-        ) 
+        child: hasChild ==false ?  
+          textcustomColorBold(
+            text: text,
+            color: MyColor.yellowMain,
+            size: textSize,
+          ) 
         : 
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-      "$title", // First text
-      style: TextStyle(
-        color: MyColor.white,
-        fontSize: sizeTitle,
-        fontWeight: FontWeight.normal, // Non-bold for first text
-      ),
-      textAlign: TextAlign.center, // Center align if needed
-      textHeightBehavior: const TextHeightBehavior(
-        applyHeightToFirstAscent: false, // Controls the height behavior
-        applyHeightToLastDescent: false,
-      ),
+          Text(
+          "$title", // First text
+          style: TextStyle(
+            color: MyColor.white,
+            fontSize: sizeTitle,
+            fontWeight: FontWeight.w600, // Non-bold for first text
+          ),
+          textAlign: TextAlign.center, // Center align if needed
+          textHeightBehavior: const TextHeightBehavior(
+            applyHeightToFirstAscent: false, // Controls the height behavior
+            applyHeightToLastDescent: false,
+          ),
     ),
     Text(
       text, // Second text
@@ -56,7 +58,7 @@ Widget ImageBox({
         applyHeightToLastDescent: false,
       ),
     ),
-          ],),
+    ],),
   );
 }
 
@@ -71,7 +73,7 @@ Widget ImageBoxChild({
   return Stack(
     children: [
       Container(
-        // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
+        margin: const EdgeInsets.all(MyString.padding08),
         alignment: Alignment.center,
         width: width,
         height: height,

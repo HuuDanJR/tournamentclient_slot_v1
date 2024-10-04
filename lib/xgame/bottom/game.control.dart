@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/xgame/bottom/game.setting.dart';
 import 'package:tournament_client/xgame/bottom/game.time.dart';
+import 'package:tournament_client/xgame/bottom/size.config.dart';
 
 class GameControlPage extends StatelessWidget {
   final SocketManager socketManager;
@@ -11,9 +12,9 @@ class GameControlPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final heightItem = height  *.725;
-    final heightItem2 = height  *.275;
-    final width = MediaQuery.of(context).size.width*.175;
+    final heightItem = height *SizeConfig.controlItemMain;
+    final heightItem2 = height *SizeConfig.controlItemSub;
+    final width = MediaQuery.of(context).size.width*SizeConfig.controlVerSub;
     return Container(
       alignment: Alignment.centerLeft,
       // padding: EdgeInsets.symmetric(vertical: MyString.padding16),

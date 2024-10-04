@@ -85,7 +85,7 @@ class GameTime extends StatelessWidget {
                   asset: "asset/circle.png",
                   subChild: textcustomColorBold(
                         lineHeight: 1,
-                        text: ':',
+                        text: ' :',
                         color: MyColor.yellowMain,
                         size: MyString.padding42,
                       ),
@@ -98,7 +98,7 @@ class GameTime extends StatelessWidget {
                         lineHeight: 1,
                         text: '$formattedMinutes\n$formattedSeconds',
                         color: MyColor.yellowMain,
-                        size: MyString.padding64,
+                        size: MyString.padding72,
                       ),
 
                     ],

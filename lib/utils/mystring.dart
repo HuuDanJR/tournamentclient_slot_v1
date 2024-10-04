@@ -7,9 +7,9 @@ class MyString {
 
   static const String APP_NAME = "TNM SLOT V1";
 
-  static const String ADRESS_SERVER = "localhost";
+  // static const String ADRESS_SERVER = "localhost";
   // static const String ADRESS_SERVER = "10.20.10.36";
-  // static const String ADRESS_SERVER = "192.168.101.58";
+  static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8086/api/';
   static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
   static const String API_KEY = '';
@@ -95,8 +95,8 @@ class MyString {
   static const double DEFAULT_OFFSETX_TITLE = 0.25;
   static const double DEFAULT_TEXTSIZE = 24.0;
   static const double DEFAULT_TEXTSIZE_WEB = 22;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE = 10.0;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 10.0;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE = 11.5;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 11.5;
   // static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
   // static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
 
@@ -113,6 +113,7 @@ class MyString {
   static const double padding14 = 14.0;
   static const double padding20 = 20.0;
   static const double padding24 = 24.0;
+  static const double padding26 = 26.0;
   static const double padding28 = 28.0;
   static const double padding18 = 18.0;
   static const double padding32 = 32.0;
@@ -123,6 +124,7 @@ class MyString {
   static const double padding72 = 72.0;
   static const double padding84 = 84.0;
   static const double padding96 = 96.0;
+  static const double padding116 = 116.0;
   static const String fontFamily = 'Poppins';
 
   //22 line spacing

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/models/settingModel.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
 
 class GameSettingPage extends StatelessWidget {
@@ -42,31 +42,35 @@ class GameSettingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              ImageBox(
-                hasChild: false,
-                textSize: MyString.padding96,
-                width: width,
-                height: height * .4,
-                asset: "asset/circle.png",
-                text: "${settingModelList.list.first.remaingame}",
+              Container(
+                margin: const EdgeInsets.all(MyString.padding08),
+                child: ImageBox(
+                  hasChild: false,
+                  textSize: MyString.padding116,
+                  width: width,
+                  height: height * SizeConfig.controlItemHeightRatioBig,
+                  asset: "asset/circle.png",
+                  text: "${settingModelList.list.first.remaingame}",
+                ),
               ),
+              const SizedBox(height: MyString.padding08,),
                 // padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
               ImageBox(
                   hasChild: true,
-                  textSize: MyString.padding24,
-                  width: width,
-                  height: height * .15,
-                  asset: "asset/roundfix.png",
+                  textSize: MyString.padding28,
+                  width: width* SizeConfig.controlItemWidthRatioSmall,
+                  height: height * SizeConfig.controlItemHeightRatioSmall,
+                  asset: "asset/eclip.png",
                   title: "MIN BET",
                   sizeTitle: MyString.padding14,
                   text: "${settingModelList.list.first.minbet}",
               ),
               ImageBox(
                   hasChild: true,
-                  textSize: MyString.padding24,
-                  width: width,
-                  height: height * .15,
-                  asset: "asset/roundfix.png",
+                  textSize: MyString.padding28,
+                  width: width* SizeConfig.controlItemWidthRatioSmall,
+                  height: height * SizeConfig.controlItemHeightRatioSmall,
+                  asset: "asset/eclip.png",
                   title: "MAX BET",
                   sizeTitle: MyString.padding14,
                   text: "${settingModelList.list.first.maxbet}",
@@ -81,20 +85,23 @@ class GameSettingPage extends StatelessWidget {
                     children: [
                       ImageBox(
                         hasChild: true,
-                        textSize: MyString.padding24,
-                        width: width,
-                        height: height * .15,
-                        asset: "asset/roundfix.png",
+                        textSize: MyString.padding28,
+                        width: width * SizeConfig.controlItemWidthRatioSmall,
+                        height: height * SizeConfig.controlItemHeightRatioSmall,
+                        asset: "asset/eclip.png",
                         title: "BUY-IN AT",
                         sizeTitle: MyString.padding14,
                         text: settingModelList.list.first.roundtext,
                       ),
                       
-                      textcustomColor(
-                        color:MyColor.white,
-                        text: settingModelList.list.first.gametext,
-                        size: MyString.padding14
-                      )
+                      // textcustomColor(
+                      //   color:MyColor.white,
+                      //   text: settingModelList.list.first.gametext,
+                      //   size: MyString.padding14
+                      // ),
+                      const SizedBox(
+                        height: MyString.padding24,
+                      ),
                     ],
                   ),
                 ),
