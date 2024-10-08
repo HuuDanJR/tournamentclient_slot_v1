@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:tournament_client/lib/models/jackModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -15,6 +16,7 @@ class SocketManager {
   late StreamController<List<Map<String, dynamic>>> _streamControllerView;
   late StreamController<List<Map<String, dynamic>>> _streamControllerSetting;
   late StreamController<List<Map<String, dynamic>>> _streamControllerTime;
+  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpot;
 
   IO.Socket? get socket => _socket;
 
@@ -27,6 +29,8 @@ class SocketManager {
       _streamControllerSetting.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamTime =>
       _streamControllerTime.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>
+      _streamControllerJackpot.stream;
 
   SocketManager._() {
     _streamController =
@@ -39,6 +43,8 @@ class SocketManager {
         StreamController<List<Map<String, dynamic>>>.broadcast();
     _streamControllerTime =
         StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpot =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
   void initSocket() {
@@ -48,7 +54,7 @@ class SocketManager {
       // 'transports': ['websocket'],
       'autoConnect': true, // Auto reconnect
       'reconnection': true, // Enable reconnections
-      'reconnectionAttempts': 5, // Number of reconnection attempts
+      'reconnectionAttempts': 10, // Number of reconnection attempts
       'reconnectionDelay': 5000, // Delay between reconnections
       'transports': ['websocket'],
     });
@@ -76,10 +82,15 @@ class SocketManager {
     });
     //TIME VIEW
     _socket?.on('eventTime', (data) {
-      // debugPrint('eventTime SocketManager');
       debugPrint('eventTime SocketManager');
       // debugPrint('eventTime SocketManager: $data');
       processDataTime(data);
+    });
+
+    //JACKPOT
+    _socket?.on('eventJackpot', (data) {
+      debugPrint('eventJackpot log: $data');
+      processJackpot(data);
     });
 
     _socket?.connect();
@@ -169,6 +180,39 @@ class SocketManager {
       }
     }
   }
+ 
+void processJackpot(dynamic data) {
+  debugPrint('access processJackpot');
+  List<Map<String, dynamic>> jackpotList = [];
+
+  for (var jsonData in data) {
+    try {
+      // Parse each jackpot item into a Map<String, dynamic> following your JackpotModelData structure
+      Map<String, dynamic> jackpotMap = {
+        "_id": jsonData['_id'],
+        "id": jsonData['id'],
+        "typeJackpot": jsonData['typeJackpot'],
+        "name": jsonData['name'],
+        "initValue": jsonData['initValue'],
+        "startValue": jsonData['startValue'],
+        "endValue": jsonData['endValue'],
+        "createdAt": jsonData['createdAt'],  // This can remain a String or DateTime based on your requirement
+        "hitDateTime": jsonData['hitDateTime'],
+        "hitValue": jsonData['hitValue'],
+        "machineId": jsonData['machineId'],
+        "__v": jsonData['__v'],
+      };
+
+      jackpotList.add(jackpotMap);
+    } catch (e) {
+      debugPrint('Error parsing data jackpot: $e');
+    }
+  }
+
+  // Add the List<Map<String, dynamic>> to the stream controller
+  _streamControllerJackpot.add(jackpotList);
+}
+
 
   void processData2(dynamic data) {
     final Map<String, dynamic>? jsonData = data as Map<String, dynamic>?;
@@ -265,6 +309,10 @@ class SocketManager {
   //emit data time
   void emitTime() {
     socket!.emit('emitTime');
+  }
+
+  void emitJackpot() {
+    socket!.emit('emitJackpot');
   }
 
   // Emit the 'updateTime' event with the updated time data

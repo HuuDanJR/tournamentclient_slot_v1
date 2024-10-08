@@ -4,7 +4,7 @@ import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/loading.indicator.dart';
 import 'package:tournament_client/widget/text.dart';
-import 'package:tournament_client/xgame/top/bloc/stream_bloc.dart';
+import 'package:tournament_client/xgame/top/bloc/stream_bloc/stream_bloc.dart';
 import 'package:tournament_client/xgame/top/view.stream.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +17,7 @@ class MachineViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       lazy: false,
-      create: (_) =>
-          StreamBloc(httpClient: http.Client())..add(StreamFeteched()),
+      create: (_) => StreamBloc(httpClient: http.Client())..add(StreamFeteched()),
       child: const MachineViewPageBody(),
     );
   }

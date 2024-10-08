@@ -7,9 +7,9 @@ class MyString {
 
   static const String APP_NAME = "TNM SLOT V1";
 
-  // static const String ADRESS_SERVER = "localhost";
+  static const String ADRESS_SERVER = "localhost";
   // static const String ADRESS_SERVER = "10.20.10.36";
-  static const String ADRESS_SERVER = "192.168.101.58";
+  // static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8086/api/';
   static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
   static const String API_KEY = '';
@@ -73,6 +73,8 @@ class MyString {
   static const String update_time_latest = '${BASE}time/update_time_latest';
   //STREAM
   static const String get_stream_all = '${BASE}stream/all_stream';
+  //JACKPOT
+  static const String get_jackpot_all = '${BASE}jackpot/all_jackpot';
 
   static const int TIME_INIT = 0;
   static const int TIME_START = 1;

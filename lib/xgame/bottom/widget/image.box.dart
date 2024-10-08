@@ -66,6 +66,112 @@ Widget ImageBox({
 
 
 
+
+Widget ImageBoxTitle({
+  required double textSize,
+  required bool hasChild,
+  String? title,
+  double? sizeTitle,
+  required double width,required double height, required String asset, required String text}) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+              "$title", // First text
+              style: TextStyle(
+                color: MyColor.white,
+                fontSize: sizeTitle,
+                fontWeight: FontWeight.w600, // Non-bold for first text
+              ),
+              textAlign: TextAlign.center, // Center align if needed
+              textHeightBehavior: const TextHeightBehavior(
+                applyHeightToFirstAscent: false, // Controls the height behavior
+                applyHeightToLastDescent: false,
+              ),
+        ),
+      Container(
+        // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
+        alignment: Alignment.center,
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            // color: MyColor.whiteOpacity,
+            image: DecorationImage(
+              image: AssetImage(asset),
+              fit: BoxFit.contain,
+            )),
+            child: hasChild ==false ?  
+              textcustomColorBold(
+                text: text,
+                color: MyColor.yellowMain,
+                size: textSize,
+              ) 
+            : 
+            Text(
+              text, // Second text
+              style: TextStyle(
+                color: MyColor.yellow_bg,
+                fontSize: textSize,
+                fontWeight: FontWeight.bold, // Bold for second text
+              ),
+              textAlign: TextAlign.center,
+              textHeightBehavior: const TextHeightBehavior(
+                applyHeightToFirstAscent: false,
+                applyHeightToLastDescent: false,
+              ),
+            ),
+      ),
+    ],
+  );
+}
+
+
+
+Widget ImageBoxTitleWidget({
+  required double textSize,
+  String? title,
+  double? sizeTitle,
+  required widget,
+  required double width,required double height, required String asset, }) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+              "$title", // First text
+              style: TextStyle(
+                color: MyColor.white,
+                fontSize: sizeTitle,
+                fontWeight: FontWeight.w600, // Non-bold for first text
+              ),
+              textAlign: TextAlign.center, // Center align if needed
+              textHeightBehavior: const TextHeightBehavior(
+                applyHeightToFirstAscent: false, // Controls the height behavior
+                applyHeightToLastDescent: false,
+              ),
+        ),
+      Container(
+        // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
+        alignment: Alignment.center,
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            // color: MyColor.whiteOpacity,
+            image: DecorationImage(
+              image: AssetImage(asset),
+              fit: BoxFit.contain,
+            )),
+            child:  widget
+      ),
+    ],
+  );
+}
+
+
+
 Widget ImageBoxChild({
   required Widget child,
   required Widget subChild,

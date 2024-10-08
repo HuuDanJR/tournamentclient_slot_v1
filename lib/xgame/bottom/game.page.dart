@@ -17,7 +17,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    debugPrint('Game Setting Init');
+    debugPrint('lib/xgame/bottom/game.page.dart');
     socketManager.initSocket();
     
   }
@@ -58,36 +58,14 @@ class _GamePageState extends State<GamePage> {
           Positioned(
             bottom: 0,
             left:0,
-            child: GameJackpot(
+            child: 
+            GameJackpot(
+              socketManager: socketManager,
             ),
           )
         ],
       ),
-      
-      
-      // child: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   children: [
-      //     Container(
-      //       alignment: Alignment.center,
-      //       width: width,
-      //       height: height / 2,
-      //       child:  GameSettingPage(
-      //         socketManager: socketManager,
-      //       )
-      //     ),
-      //     Container(
-      //       alignment: Alignment.center,
-      //       width: width,
-      //       height: height / 2,
-      //       child:  GameTime(
-      //         socketManager: socketManager
-      //       ),
-      //     ),
-      //   ],
-      // ),
-          )
+      )
     );
   }
 }

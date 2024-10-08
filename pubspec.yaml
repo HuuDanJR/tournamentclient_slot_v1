@@ -27,6 +27,7 @@ dependencies:
   http: any
   intl: ^0.18.1
   lottie: ^2.6.0
+  odometer: ^3.0.0
   shared_preferences: ^2.2.2
   socket_io_client: ^2.0.3
   url_launcher: ^6.2.5

@@ -14,7 +14,7 @@ class _GameScreenPageState extends State<GameScreenPage> {
   @override
   void initState() {
     super.initState();
-    debugPrint('Game Screen Init');
+    debugPrint('lib/xgame/bottom/game.screen.dart');
   }
 
   @override
@@ -39,7 +39,7 @@ class _GameScreenPageState extends State<GameScreenPage> {
         // borderRadius: BorderRadius.circular(MyString.padding16)
       ),
       child: const Center(
-        child: Text('screen', style: TextStyle(color: MyColor.white)),
+        // child: Text('screen', style: TextStyle(color: MyColor.white)),
       ),
     );
   }

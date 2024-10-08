@@ -17,5 +17,5 @@ class SizeConfig {
 
   //jacktpot
   static const double jackpotWithItem = 300;
-  static const double jackpotHeightRation = 0.535;
+  static const double jackpotHeightRation = 0.5;
 }
