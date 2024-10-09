@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tournament_client/lib/models/jackModel.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
-import 'package:http/http.dart' as http;
 import 'package:tournament_client/utils/mycolors.dart';
-import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/xgame/bottom/game.odometer.child.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
-import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
-import 'package:tournament_client/xgame/top/bloc/jackpot_bloc/jackpot_bloc.dart';
 
 // class GameJackpot extends StatelessWidget {
 //   final SocketManager socketManager;
@@ -41,20 +35,22 @@ class _GameJackpotState extends State<GameJackpot> {
   @override
   void initState() {
     debugPrint("INIT GAME JACKPOT");
-    widget.socketManager.emitJackpot();
+    widget.socketManager.emitJackpotNumber();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
-    final double height =  MediaQuery.of(context).size.height * SizeConfig.controlVerSub;
+    final double width =
+        MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
+    final double height =
+        MediaQuery.of(context).size.height * SizeConfig.controlVerSub;
 
     return SizedBox(
       width: width,
       height: height,
       child: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: SocketManager().dataStreamJackpot,
+        stream: SocketManager().dataStreamJackpotNumber,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -63,61 +59,32 @@ class _GameJackpotState extends State<GameJackpot> {
               strokeWidth: .5,
             ));
           } else if (snapshot.hasError) {
-            return textcustom(text: '${snapshot.error}');
+            return textcustom(text: 'error ${snapshot.error}');
           }
           if (snapshot.data!.isEmpty ||
               snapshot.data == null ||
               snapshot.data == []) {
             return const Center(child: Icon(Icons.do_not_disturb_alt_sharp));
           }
-          final data = snapshot.data as List<Map<String, dynamic>>;
-          late final vegasPrice = data.first; // Access the first jackpot entry (if available)
-          late final luckyPrice = data.last; // Access the first jackpot entry (if available)
-          return GameOdometerChild(
-            width:width,height:height,
-            startValue1: vegasPrice['startValue'], endValue1: vegasPrice['endValue'], 
-            startValue2: luckyPrice['startValue'], endValue2: luckyPrice['endValue'], 
-            title1: "${vegasPrice['name']}", title2: "${luckyPrice['name']}");
-
-          // SizedBox(
-          //     height: height,
-          //     width: width,
-          //     child: Text('${vegasPrice['name']}'));
-
-          //   return Container(
-          //   width: width,
-          //   height: height,
-          //   // color:MyColor.whiteOpacity,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: [
-          //       ImageBoxTitle(
-          //         hasChild: true,
-          //         textSize: MyString.padding28,
-          //         width: SizeConfig.jackpotWithItem,
-          //         height: height * SizeConfig.jackpotHeightRation,
-          //         asset: "asset/eclip.png",
-          //         title: "${vegasPrice['name']}",
-          //         sizeTitle: MyString.padding14,
-          //         text: '\$150',
-          //       ),
-          //       const SizedBox(
-          //         width: MyString.padding16,
-          //       ),
-          //       ImageBoxTitle(
-          //         hasChild: true,
-          //         textSize: MyString.padding28,
-          //         width: SizeConfig.jackpotWithItem,
-          //         height: height * SizeConfig.jackpotHeightRation,
-          //         asset: "asset/eclip.png",
-          //         title: "${luckyPrice['name']}",
-          //         sizeTitle: MyString.padding14,
-          //         text: '\$50',
-          //       ),
-          //     ],
-          //   ),
-          // );
+          late final  data = snapshot.data as List<Map<String, dynamic>>;
+          late final int jackpotValue = data[0]['returnValue'].round();
+          late final int jackpotValueOld = data[0]['oldValue'].round();
+          late final bool drop = data[0]['drop'];
+          return SizedBox(
+              height: height,
+              width: width,
+              child:
+              //  Text(
+              //   '${jackpotValue} --- ${jackpotValueOld}',
+              //   style: TextStyle(color: MyColor.white, ),
+              // )
+               GameOdometerChild(height: height,width: width,
+                startValue1: jackpotValueOld,
+                endValue1: jackpotValue,
+                title1: "Vegas",
+                droppedJP: drop,
+               )
+              );
         },
       ),
     );

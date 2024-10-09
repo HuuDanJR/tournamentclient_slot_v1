@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:tournament_client/lib/models/jackModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -17,6 +16,7 @@ class SocketManager {
   late StreamController<List<Map<String, dynamic>>> _streamControllerSetting;
   late StreamController<List<Map<String, dynamic>>> _streamControllerTime;
   late StreamController<List<Map<String, dynamic>>> _streamControllerJackpot;
+  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpotNumber;
 
   IO.Socket? get socket => _socket;
 
@@ -29,8 +29,8 @@ class SocketManager {
       _streamControllerSetting.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamTime =>
       _streamControllerTime.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>
-      _streamControllerJackpot.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>_streamControllerJackpot.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpotNumber => _streamControllerJackpotNumber.stream;
 
   SocketManager._() {
     _streamController =
@@ -41,10 +41,9 @@ class SocketManager {
         StreamController<List<Map<String, dynamic>>>.broadcast();
     _streamControllerSetting =
         StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerTime =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpot =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerTime = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpot = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpotNumber =StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
   void initSocket() {
@@ -87,11 +86,19 @@ class SocketManager {
       processDataTime(data);
     });
 
-    //JACKPOT
+    //JACKPOT FROM MONGODB
     _socket?.on('eventJackpot', (data) {
       debugPrint('eventJackpot log: $data');
       processJackpot(data);
     });
+
+    //JACKPOT FROM MYSQL
+    _socket?.on('eventJackpotNumber', (data) {
+      debugPrint('eventJackpotNumber log: $data');
+      processJackpotNumber(data);
+    });
+
+
 
     _socket?.connect();
   }
@@ -180,39 +187,68 @@ class SocketManager {
       }
     }
   }
- 
-void processJackpot(dynamic data) {
-  debugPrint('access processJackpot');
-  List<Map<String, dynamic>> jackpotList = [];
 
-  for (var jsonData in data) {
-    try {
-      // Parse each jackpot item into a Map<String, dynamic> following your JackpotModelData structure
-      Map<String, dynamic> jackpotMap = {
-        "_id": jsonData['_id'],
-        "id": jsonData['id'],
-        "typeJackpot": jsonData['typeJackpot'],
-        "name": jsonData['name'],
-        "initValue": jsonData['initValue'],
-        "startValue": jsonData['startValue'],
-        "endValue": jsonData['endValue'],
-        "createdAt": jsonData['createdAt'],  // This can remain a String or DateTime based on your requirement
-        "hitDateTime": jsonData['hitDateTime'],
-        "hitValue": jsonData['hitValue'],
-        "machineId": jsonData['machineId'],
-        "__v": jsonData['__v'],
-      };
+  void processJackpot(dynamic data) {
+    debugPrint('access processJackpot');
+    List<Map<String, dynamic>> jackpotList = [];
 
-      jackpotList.add(jackpotMap);
-    } catch (e) {
-      debugPrint('Error parsing data jackpot: $e');
+    for (var jsonData in data) {
+      try {
+        // Parse each jackpot item into a Map<String, dynamic> following your JackpotModelData structure
+        Map<String, dynamic> jackpotMap = {
+          "_id": jsonData['_id'],
+          "id": jsonData['id'],
+          "typeJackpot": jsonData['typeJackpot'],
+          "name": jsonData['name'],
+          "initValue": jsonData['initValue'],
+          "startValue": jsonData['startValue'],
+          "endValue": jsonData['endValue'],
+          "createdAt": jsonData[
+              'createdAt'], // This can remain a String or DateTime based on your requirement
+          "hitDateTime": jsonData['hitDateTime'],
+          "hitValue": jsonData['hitValue'],
+          "machineId": jsonData['machineId'],
+          "__v": jsonData['__v'],
+        };
+
+        jackpotList.add(jackpotMap);
+      } catch (e) {
+        debugPrint('Error parsing data jackpot: $e');
+      }
     }
+
+    // Add the List<Map<String, dynamic>> to the stream controller
+    _streamControllerJackpot.add(jackpotList);
   }
 
-  // Add the List<Map<String, dynamic>> to the stream controller
-  _streamControllerJackpot.add(jackpotList);
+  
+  void processJackpotNumber(dynamic data) {
+  debugPrint('access processJackpotNumber $data');
+  
+  // Check if data is a map and contains the necessary fields
+  if (data is Map<String, dynamic>) {
+    try {
+      Map<String, dynamic> jackpotMap = {
+        "averageCredit": data['averageCredit'],
+        "status": data['status'],
+        "timeCount": data['timeCount'],
+        "diff": data['diff'],
+        "returnValue": data['returnValue'],
+        "oldValue": data['oldValue'],
+        "drop": data['drop'],
+      };
+
+      // Add the map directly to the stream (without a list)
+      _streamControllerJackpotNumber.add([jackpotMap]);
+    } catch (e) {
+      debugPrint('Error parsing data jackpot number: $e');
+    }
+  } else {
+    debugPrint('Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
+  }
 }
 
+  
 
   void processData2(dynamic data) {
     final Map<String, dynamic>? jsonData = data as Map<String, dynamic>?;
@@ -313,6 +349,10 @@ void processJackpot(dynamic data) {
 
   void emitJackpot() {
     socket!.emit('emitJackpot');
+  }
+
+  void emitJackpotNumber() {
+    socket!.emit('emitJackpotNumber');
   }
 
   // Emit the 'updateTime' event with the updated time data

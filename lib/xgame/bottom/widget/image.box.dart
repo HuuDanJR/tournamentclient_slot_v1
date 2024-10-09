@@ -131,7 +131,8 @@ Widget ImageBoxTitle({
 
 Widget ImageBoxTitleWidget({
   required double textSize,
-  String? title,
+  required String? title,
+  required bool? drop,
   double? sizeTitle,
   required widget,
   required double width,required double height, required String asset, }) {
@@ -166,6 +167,19 @@ Widget ImageBoxTitleWidget({
             )),
             child:  widget
       ),
+       drop==false ? Container():  Text(
+              "JP Dropped", // First text
+              style: TextStyle(
+                color: MyColor.white,
+                fontSize: sizeTitle,
+                fontWeight: FontWeight.w600, // Non-bold for first text
+              ),
+              textAlign: TextAlign.center, // Center align if needed
+              textHeightBehavior: const TextHeightBehavior(
+                applyHeightToFirstAscent: false, // Controls the height behavior
+                applyHeightToLastDescent: false,
+              ),
+        ),
     ],
   );
 }

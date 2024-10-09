@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:odometer/odometer.dart';
 import 'package:tournament_client/utils/mycolors.dart';
@@ -8,23 +7,20 @@ import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
 
 class GameOdometerChild extends StatefulWidget {
   final int startValue1;
-  final int startValue2;
-  final int endValue2;
   final int endValue1;
   final String title1;
-  final String title2;
   final double width;
+  final bool droppedJP;
   final double height;
+
   const GameOdometerChild({
     Key? key,
     required this.startValue1,
     required this.endValue1,
-    required this.startValue2,
-    required this.endValue2,
     required this.title1,
-    required this.title2,
     required this.width,
     required this.height,
+    required this.droppedJP,
   }) : super(key: key);
 
   @override
@@ -32,75 +28,63 @@ class GameOdometerChild extends StatefulWidget {
 }
 
 class _GameOdometerChildState extends State<GameOdometerChild>
-    with SingleTickerProviderStateMixin {
-  final double _startValue = 100.00;
-  double _targetValue = 100.00; // New target value for odometer
-  AnimationController? animationController;
+    with TickerProviderStateMixin {
+  late AnimationController animationController;
   late Animation<OdometerNumber> animation;
-  late double randomValue; // Random value between 100 and 150
 
-  // Define base duration default
-  final int baseDurationDefault = 60; // in seconds
+  // Set the base duration default to 10 seconds
+  final int baseDurationDefault = 10;
 
-  // Function to calculate animation duration based on randomValue
-  Duration _calculateDuration(double value) {
-    const int baseValue = 100;
-    return Duration(
-        seconds: (value - baseValue) *
-            baseDurationDefault ~/
-            baseValue); // Use baseDurationDefault
-  }
-
-  void _generateRandomTarget() {
-    setState(() {
-      randomValue =
-          Random().nextInt(51) + 100; // Random value between 100 and 150
-      _targetValue = randomValue;
-
-      // Reset the controller and animation
-      animationController?.reset(); // Instead of dispose, just reset it
-      final duration = _calculateDuration(randomValue); // Calculate the duration
-      animationController?.duration = duration; // Adjust duration
-
-      animation = OdometerTween(
-        begin: OdometerNumber(_startValue), // Start from the current value
-        end: OdometerNumber(_targetValue), // Go to the new random target
-      ).animate(
-        CurvedAnimation(
-          parent: animationController!,
-          curve: Easing.linear,
-        ),
-      );
-      animationController?.forward(); // Start the animation
-      // Print the second value for the current random number
-      debugPrint("Duration for random value $randomValue: ${duration.inSeconds} seconds");
-    });
+  // Function to calculate animation duration based on the difference between start and end values
+  Duration _calculateDuration(int startValue, int endValue) {
+    // const int baseValue = 100;
+    // final int difference = (endValue - startValue).abs(); // Absolute difference
+    // return Duration(
+    //   seconds: (difference * baseDurationDefault) ~/ baseValue,
+    // ); // Adjust duration
+    return Duration(seconds: baseDurationDefault);
   }
 
   @override
   void initState() {
     super.initState();
-    // Initial setup with default start value and animation
+    _initializeAnimation();
+    animationController.forward();
+  }
+
+  void _initializeAnimation() {
+    final duration = _calculateDuration(widget.startValue1, widget.endValue1);
     animationController = AnimationController(
-      duration:
-          Duration(seconds: baseDurationDefault), // Use baseDurationDefault
+      duration: duration,
       vsync: this,
     );
 
-    // Call _generateRandomTarget to set the initial target value
-    _generateRandomTarget();
-
     animation = OdometerTween(
-      begin: OdometerNumber(_startValue),
-      end: OdometerNumber(_targetValue),
+      begin: OdometerNumber(widget.startValue1),
+      end: OdometerNumber(widget.endValue1),
     ).animate(
-      CurvedAnimation(parent: animationController!, curve: Easing.linear),
+      CurvedAnimation(
+        parent: animationController,
+        curve: Easing.standard,
+      ),
     );
   }
 
   @override
+  void didUpdateWidget(covariant GameOdometerChild oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if either the start or end values have changed
+    if (widget.startValue1 != oldWidget.startValue1 ||
+        widget.endValue1 != oldWidget.endValue1) {
+      animationController.dispose(); // Dispose of the old controller
+      _initializeAnimation(); // Reinitialize with new values
+      animationController.forward(from: 0.0); // Restart the animation
+    }
+  }
+
+  @override
   void dispose() {
-    animationController?.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -118,43 +102,20 @@ class _GameOdometerChildState extends State<GameOdometerChild>
             width: SizeConfig.jackpotWithItem,
             height: widget.height * SizeConfig.jackpotHeightRation,
             asset: "asset/eclip.png",
-            title: "${widget.title1}",
+            title: widget.title1,
+            drop: widget.droppedJP,
             sizeTitle: MyString.padding14,
-            widget: GestureDetector(
-              onTap: _generateRandomTarget,
-              child: SlideOdometerTransition(
-                verticalOffset: MyString.padding32,
-                letterWidth: MyString.padding24,
-                odometerAnimation: animation,
-                numberTextStyle: const TextStyle(
-                    fontSize: MyString.padding32,
-                    color: MyColor.yellowMain,
-                    fontWeight: FontWeight.w700),
+            widget: SlideOdometerTransition(
+              verticalOffset: MyString.padding32,
+              letterWidth: MyString.padding24,
+              odometerAnimation: animation,
+              numberTextStyle: const TextStyle(
+                fontSize: MyString.padding32,
+                color: MyColor.yellowMain,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
-          const SizedBox(
-            width: MyString.padding16,
-          ),
-          // ImageBoxTitleWidget(
-          //     textSize: MyString.padding28,
-          //     width: SizeConfig.jackpotWithItem,
-          //     height: widget.height * SizeConfig.jackpotHeightRation,
-          //     asset: "asset/eclip.png",
-          //     title: "${widget.title2}",
-          //     sizeTitle: MyString.padding14,
-          //     widget: 
-          //     AnimatedSlideOdometerNumber(
-          // letterWidth: 20,
-          // odometerNumber: OdometerNumber(_targetValue),
-          // duration: const Duration(seconds: 1),
-          // groupSeparator: const Icon(Icons.merge_rounded),
-          // verticalOffset: 50,
-          // numberTextStyle: const TextStyle(
-          //           fontSize: MyString.padding32,
-          //           color: MyColor.yellowMain,
-          //           fontWeight: FontWeight.w700),
-        // ),),
         ],
       ),
     );
