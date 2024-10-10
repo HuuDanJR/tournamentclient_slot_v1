@@ -4,6 +4,7 @@ import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
+import 'package:tournament_client/xgame/bottom/widget/jackpot.item.dart';
 
 class GameOdometerChild extends StatefulWidget {
   final int startValue1;
@@ -32,6 +33,9 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   late AnimationController animationController;
   late Animation<OdometerNumber> animation;
 
+    bool showDroppedText = false; // To show the delayed "JP Dropped" text
+
+
   // Set the base duration default to 10 seconds
   final int baseDurationDefault = 10;
 
@@ -49,7 +53,22 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   void initState() {
     super.initState();
     _initializeAnimation();
+    _handleDropLogic(); // Handle the "JP Dropped" logic
+
     animationController.forward();
+  }
+
+  // Handle the "JP Dropped" logic based on the `droppedJP` flag
+  void _handleDropLogic() {
+    if (widget.droppedJP) {
+      Future.delayed(const Duration(seconds: 10), () {
+        if (mounted) {
+          setState(() {
+            showDroppedText = true;
+          });
+        }
+      });
+    }
   }
 
   void _initializeAnimation() {
@@ -80,6 +99,9 @@ class _GameOdometerChildState extends State<GameOdometerChild>
       _initializeAnimation(); // Reinitialize with new values
       animationController.forward(from: 0.0); // Restart the animation
     }
+    if (widget.droppedJP != oldWidget.droppedJP) {
+      _handleDropLogic(); // Re-handle the drop logic if it changes
+    }
   }
 
   @override
@@ -97,13 +119,27 @@ class _GameOdometerChildState extends State<GameOdometerChild>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ImageBoxTitleWidget(
+          imageBoxTitleWidget(
             textSize: MyString.padding28,
             width: SizeConfig.jackpotWithItem,
             height: widget.height * SizeConfig.jackpotHeightRation,
             asset: "asset/eclip.png",
             title: widget.title1,
             drop: widget.droppedJP,
+            widgetDrop: 
+              showDroppedText?  Text(
+                "JP Dropped", // First text
+                style: TextStyle(
+                  color: MyColor.white,
+                  fontSize: MyString.padding16,
+                  fontWeight: FontWeight.w600, // Non-bold for first text
+                ),
+                textAlign: TextAlign.center, // Center align if needed
+                textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToFirstAscent: false, // Controls the height behavior
+                  applyHeightToLastDescent: false,
+                ),
+            ):Container(),
             sizeTitle: MyString.padding14,
             widget: SlideOdometerTransition(
               verticalOffset: MyString.padding32,

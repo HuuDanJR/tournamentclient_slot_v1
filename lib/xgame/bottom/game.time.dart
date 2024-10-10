@@ -79,7 +79,7 @@ class GameTime extends StatelessWidget {
                   //   ),
                   // ),
 
-                ImageBoxChild(
+                imageBoxChild(
                   width: width,
                   height: height,
                   asset: "asset/circle.png",

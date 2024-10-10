@@ -94,7 +94,8 @@ class SocketManager {
 
     //JACKPOT FROM MYSQL
     _socket?.on('eventJackpotNumber', (data) {
-      debugPrint('eventJackpotNumber log: $data');
+      // debugPrint('eventJackpotNumber log: $data');
+      debugPrint('eventJackpotNumber log:');
       processJackpotNumber(data);
     });
 
