@@ -98,6 +98,19 @@ class _SettingPageState extends State<SettingPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              const Text("Setting JP"),
+                              TextButton.icon(
+                                  onPressed: () {
+                                    widget.mySocket!.emitJackpotNumberInit();
+                                  },
+                                  label: const Icon(Icons.refresh)),
+                            ],
+                          ),
+                          const Divider(color: MyColor.grey),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
                               const Text("Setting Game"),
                               TextButton.icon(
                                   onPressed: () {

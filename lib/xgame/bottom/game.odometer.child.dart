@@ -4,7 +4,6 @@ import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
-import 'package:tournament_client/xgame/bottom/widget/jackpot.item.dart';
 
 class GameOdometerChild extends StatefulWidget {
   final int startValue1;
@@ -112,43 +111,41 @@ class _GameOdometerChildState extends State<GameOdometerChild>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: MyString.padding16),
       width: widget.width,
       height: widget.height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           imageBoxTitleWidget(
-            textSize: MyString.padding28,
             width: SizeConfig.jackpotWithItem,
             height: widget.height * SizeConfig.jackpotHeightRation,
             asset: "asset/eclip.png",
             title: widget.title1,
             drop: widget.droppedJP,
             widgetDrop: 
-              showDroppedText?  Text(
+              showDroppedText?  const Text(
                 "JP Dropped", // First text
                 style: TextStyle(
                   color: MyColor.white,
-                  fontSize: MyString.padding16,
+                  fontSize: MyString.padding12,
                   fontWeight: FontWeight.w600, // Non-bold for first text
                 ),
                 textAlign: TextAlign.center, // Center align if needed
-                textHeightBehavior: const TextHeightBehavior(
-                  applyHeightToFirstAscent: false, // Controls the height behavior
-                  applyHeightToLastDescent: false,
-                ),
+                
             ):Container(),
-            sizeTitle: MyString.padding14,
+            sizeTitle: MyString.padding28,
             widget: SlideOdometerTransition(
-              verticalOffset: MyString.padding32,
-              letterWidth: MyString.padding24,
+              verticalOffset: -MyString.padding56,
+              letterWidth: MyString.padding46,
               odometerAnimation: animation,
               numberTextStyle: const TextStyle(
-                fontSize: MyString.padding32,
-                color: MyColor.yellowMain,
-                fontWeight: FontWeight.w700,
+                fontSize: MyString.padding56,
+                color: MyColor.yellow_bg,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),

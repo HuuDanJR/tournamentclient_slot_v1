@@ -224,7 +224,7 @@ class SocketManager {
 
   
   void processJackpotNumber(dynamic data) {
-  debugPrint('access processJackpotNumber $data');
+  // debugPrint('access processJackpotNumber $data');
   
   // Check if data is a map and contains the necessary fields
   if (data is Map<String, dynamic>) {
@@ -354,6 +354,9 @@ class SocketManager {
 
   void emitJackpotNumber() {
     socket!.emit('emitJackpotNumber');
+  }
+  void emitJackpotNumberInit() {
+    socket!.emit('emitJackpotNumberInitial');
   }
 
   // Emit the 'updateTime' event with the updated time data

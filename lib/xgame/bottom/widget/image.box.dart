@@ -64,6 +64,36 @@ Widget ImageBox({
 
 
 
+Widget ImageBoxNoText({
+  required double textSize,
+  required double width,required double height, required String asset, required String text}) {
+  return Container(
+    alignment: Alignment.center,
+    width: width,
+    height: height,
+    decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(asset),
+          fit: BoxFit.contain,
+        )),
+        child: 
+        Text(
+          text, // Second text
+          style: TextStyle(
+            color: MyColor.yellowMain,
+            fontSize: textSize,
+            fontWeight: FontWeight.bold, // Bold for second text
+          ),
+          textAlign: TextAlign.center,
+        ),
+  );
+}
+
+
+
+
+
+
 
 
 
@@ -130,60 +160,64 @@ Widget ImageBoxTitle({
 
 
 Widget imageBoxTitleWidget({
-  required double textSize,
+  // required double textSize,
   required String? title,
   required bool? drop,
   required Widget? widgetDrop,
   double? sizeTitle,
   required widget,
-  required double width,required double height, required String asset, }) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Text(
-              "$title", // First text
-              style: TextStyle(
-                color: MyColor.white,
-                fontSize: sizeTitle,
-                fontWeight: FontWeight.w600, // Non-bold for first text
-              ),
-              textAlign: TextAlign.center, // Center align if needed
-              textHeightBehavior: const TextHeightBehavior(
-                applyHeightToFirstAscent: false, // Controls the height behavior
-                applyHeightToLastDescent: false,
-              ),
-        ),
-      Container(
-        // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
-        alignment: Alignment.center,
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-            // color: MyColor.whiteOpacity,
-            image: DecorationImage(
-              image: AssetImage(asset),
-              fit: BoxFit.contain,
-            )),
-            child:  widget
-      ),
-       drop==false ? Container(): widgetDrop!
-        // Text(
-        //       "JP Dropped", // First text
-        //       style: TextStyle(
-        //         color: MyColor.white,
-        //         fontSize: sizeTitle,
-        //         fontWeight: FontWeight.w600, // Non-bold for first text
-        //       ),
-        //       textAlign: TextAlign.center, // Center align if needed
-        //       textHeightBehavior: const TextHeightBehavior(
-        //         applyHeightToFirstAscent: false, // Controls the height behavior
-        //         applyHeightToLastDescent: false,
-        //       ),
-        // ),
+  required double width,
+  required double height, required String asset, }) {
+  return Center(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+                "$title", // First text
+                style: TextStyle(
+                  color: MyColor.white,
+                  fontSize: sizeTitle,
+                  fontWeight: FontWeight.w700, // Non-bold for first text
+                ),
+                textAlign: TextAlign.center, // Center align if needed
+                textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToFirstAscent: false, // Controls the height behavior
+                  applyHeightToLastDescent: false,
+                ),
+          ),
         
-    ],
+        Container(
+          // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
+          alignment: Alignment.center,
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              // color: MyColor.whiteOpacity,
+              image: DecorationImage(
+                image: AssetImage(asset),
+                fit: BoxFit.contain,
+              )),
+              child:  widget
+        ),
+        drop==false ? Container(height: 0,): widgetDrop!
+          // Text(
+          //       "JP Dropped", // First text
+          //       style: TextStyle(
+          //         color: MyColor.white,
+          //         fontSize: sizeTitle,
+          //         fontWeight: FontWeight.w600, // Non-bold for first text
+          //       ),
+          //       textAlign: TextAlign.center, // Center align if needed
+          //       textHeightBehavior: const TextHeightBehavior(
+          //         applyHeightToFirstAscent: false, // Controls the height behavior
+          //         applyHeightToLastDescent: false,
+          //       ),
+          // ),
+          
+      ],
+    ),
   );
 }
 

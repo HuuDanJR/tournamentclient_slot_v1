@@ -173,7 +173,7 @@ class _BarChartRaceState extends State<BarChartRace> {
                 spaceBetweenTwoRectangles: widget.spaceBetweenTwoRectangles!,
                 maxValue: currentData![0].maxValue,
                 totalWidth: kIsWeb
-                    ? constraints.maxWidth * .935
+                    ? constraints.maxWidth * .875
                     : constraints.maxWidth * .835,
                 title: widget.title,
                 titleTextStyle: widget.titleTextStyle,

@@ -99,9 +99,7 @@ class MachineViewPageBody extends StatelessWidget {
                   SizedBox(
                     width: widthItem,
                     height: heightItem,
-                    child: Container(
-                     
-                    ), // Replace this with your custom widget
+                    child: Container( ), // Replace this with your custom widget
                   ),
                   if (5 < urlList.length)
                     MachineViewItem(
@@ -150,7 +148,7 @@ class MachineViewPageBody extends StatelessWidget {
       required String title}) {
     return 
     Container(
-        margin: const EdgeInsets.all(MyString.padding28,),
+        margin: const EdgeInsets.symmetric(horizontal:MyString.padding28,vertical:MyString.padding12),
         decoration: BoxDecoration(
             border: Border.all(
             color: MyColor.yellowMain,
@@ -159,8 +157,7 @@ class MachineViewPageBody extends StatelessWidget {
             // borderRadius: BorderRadius.circular(MyString.padding08)
             ),
         width: widthItem-(MyString.padding28*2),
-        height: heightItem-(MyString.padding28*2),
-        
+        height: heightItem-(MyString.padding12*2),
         child: active == true
             ? IframeWidget(
                 url: url,

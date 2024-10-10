@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/models/settingModel.dart';
+import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
@@ -25,7 +26,7 @@ class GameSettingPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container();
         } else if (snapshot.hasError) {
-          return textcustom(text: 'error ${snapshot.error}');
+          return textcustom(text: '${snapshot.error}');
         }
         if (snapshot.data!.isEmpty ||
             snapshot.data == null ||
@@ -33,8 +34,8 @@ class GameSettingPage extends StatelessWidget {
           return const  Center(child: Icon(Icons.do_not_disturb_alt_sharp));
         }
         SettingModelList settingModelList = SettingModelList.fromJson(snapshot.data!);
-        return Container(
-          padding:const  EdgeInsets.symmetric(horizontal:MyString.padding08),
+        return SizedBox(
+          // padding:const  EdgeInsets.symmetric(horizontal:MyString.padding08),
           width: width,
           height: height,
           child: Column(
@@ -42,70 +43,76 @@ class GameSettingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                margin: const EdgeInsets.all(MyString.padding08),
-                child: ImageBox(
-                  hasChild: false,
-                  textSize: MyString.padding116,
-                  width: width,
-                  height: height * SizeConfig.controlItemHeightRatioBig,
-                  asset: "asset/circle.png",
-                  text: "${settingModelList.list.first.remaingame}",
-                ),
+              ImageBoxNoText(
+                textSize: MyString.padding96,
+                width: width,
+                height: height * SizeConfig.controlItemHeightRatioBig,
+                asset: "asset/circle.png",
+                text: "${settingModelList.list.first.remaingame}",
               ),
-              const SizedBox(height: MyString.padding08,),
                 // padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
-              ImageBox(
+              ImageBoxTitle(
                   hasChild: true,
-                  textSize: MyString.padding28,
+                  textSize: MyString.padding36,
                   width: width* SizeConfig.controlItemWidthRatioSmall,
                   height: height * SizeConfig.controlItemHeightRatioSmall,
-                  asset: "asset/eclip.png",
+                  asset: "asset/round.png",
                   title: "MIN BET",
-                  sizeTitle: MyString.padding14,
+                  sizeTitle: MyString.padding18,
                   text: "${settingModelList.list.first.minbet}",
               ),
-              ImageBox(
+              const SizedBox(height: MyString.padding32,),
+              ImageBoxTitle(
                   hasChild: true,
-                  textSize: MyString.padding28,
+                  textSize: MyString.padding36,
                   width: width* SizeConfig.controlItemWidthRatioSmall,
                   height: height * SizeConfig.controlItemHeightRatioSmall,
-                  asset: "asset/eclip.png",
+                  asset: "asset/round.png",
                   title: "MAX BET",
-                  sizeTitle: MyString.padding14,
+                  sizeTitle: MyString.padding18,
                   text: "${settingModelList.list.first.maxbet}",
               ),
-              const SizedBox(height: MyString.padding18,),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ImageBox(
+              const SizedBox(height: MyString.padding32,),
+              ImageBoxTitle(
                         hasChild: true,
-                        textSize: MyString.padding28,
+                        textSize: MyString.padding36,
                         width: width * SizeConfig.controlItemWidthRatioSmall,
                         height: height * SizeConfig.controlItemHeightRatioSmall,
-                        asset: "asset/eclip.png",
+                        asset: "asset/round.png",
                         title: "BUY-IN AT",
-                        sizeTitle: MyString.padding14,
+                        sizeTitle: MyString.padding18,
                         text: settingModelList.list.first.roundtext,
-                      ),
-                      
-                      // textcustomColor(
-                      //   color:MyColor.white,
-                      //   text: settingModelList.list.first.gametext,
-                      //   size: MyString.padding14
-                      // ),
-                      const SizedBox(
-                        height: MyString.padding24,
-                      ),
-                    ],
-                  ),
-                ),
               ),
+              // Expanded(
+              //   child: Container(
+              //     alignment: Alignment.bottomCenter,
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.end,
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         ImageBox(
+              //           hasChild: true,
+              //           textSize: MyString.padding24,
+              //           width: width * SizeConfig.controlItemWidthRatioSmall,
+              //           height: height * SizeConfig.controlItemHeightRatioSmall,
+              //           asset: "asset/eclip.png",
+              //           title: "BUY-IN AT",
+              //           sizeTitle: MyString.padding14,
+              //           text: settingModelList.list.first.roundtext,
+              //         ),
+                      
+              //         // textcustomColor(
+              //         //   color:MyColor.white,
+              //         //   text: settingModelList.list.first.gametext,
+              //         //   size: MyString.padding16
+              //         // ),
+              //         const SizedBox(
+              //           height: MyString.padding36,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
               //   child: ImageBox(

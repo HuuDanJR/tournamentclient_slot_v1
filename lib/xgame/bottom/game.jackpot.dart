@@ -41,10 +41,8 @@ class _GameJackpotState extends State<GameJackpot> {
 
   @override
   Widget build(BuildContext context) {
-    final double width =
-        MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
-    final double height =
-        MediaQuery.of(context).size.height * SizeConfig.controlVerSub;
+    final double width =  MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
+    final double height =  MediaQuery.of(context).size.height * SizeConfig.controlVerMain;
 
     return SizedBox(
       width: width,
@@ -70,8 +68,10 @@ class _GameJackpotState extends State<GameJackpot> {
           late final int jackpotValue = data[0]['returnValue'].round();
           late final int jackpotValueOld = data[0]['oldValue'].round();
           late final bool drop = data[0]['drop'];
-          return SizedBox(
+          return Container(
               height: height,
+              alignment: Alignment.centerLeft,
+              // color:MyColor.whiteOpacity,
               width: width,
               child:
               //  Text(
@@ -81,7 +81,7 @@ class _GameJackpotState extends State<GameJackpot> {
                GameOdometerChild(height: height,width: width,
                 startValue1: jackpotValueOld,
                 endValue1: jackpotValue,
-                title1: "Vegas",
+                title1: "VEGAS",
                 droppedJP: drop,
                )
               );
