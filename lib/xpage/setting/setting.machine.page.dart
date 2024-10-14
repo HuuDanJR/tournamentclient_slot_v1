@@ -7,7 +7,7 @@ import 'package:tournament_client/screen/admin/view/hover.cubit.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/utils/showsnackbar.dart';
+import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/widget/loader.bottom.custom.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/xpage/setting/bloc_machine/machine_bloc.dart';

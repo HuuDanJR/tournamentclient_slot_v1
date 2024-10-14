@@ -4,10 +4,10 @@ import 'package:tournament_client/xgame/bottom/game.page.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/utils/showsnackbar.dart';
+import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
-import 'package:tournament_client/xgame/top/machineview.container.dart';
+import 'package:tournament_client/xgame/top/container.machine.dart';
 // import "dart:html" as html;
 
 class AdminVerify extends StatefulWidget {

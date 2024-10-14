@@ -28,7 +28,7 @@ class GameControlPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [ 
             Container(
-              // color:MyColor.bedge,
+              // color:MyColor.bedge.withOpacity(.5),
               width: width,
               height: heightItem,
               child: GameSettingPage(socketManager: socketManager,width:width,height:heightItem),

@@ -5,7 +5,7 @@ import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/textfield.dart';
-import 'package:tournament_client/utils/showsnackbar.dart';
+import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/lib/models/stationmodel.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';

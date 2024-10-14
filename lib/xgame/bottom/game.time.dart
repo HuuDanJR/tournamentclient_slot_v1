@@ -121,7 +121,6 @@ class GameTime extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.all(MyString.padding16),
         decoration: BoxDecoration(
-            // color: MyColor.whiteOpacity,
             borderRadius: BorderRadius.circular(MyString.padding16)),
         child: const Center(
           child: Icon(

@@ -147,7 +147,7 @@ class _BarChartRaceState extends State<BarChartRace> {
     // const double paddingVer = kIsWeb ? 60.0 : 16.0;
     //vegas plaza setting
     const double paddingVer = kIsWeb ? 0.0 : 16.0;
-    const double paddingHoz = kIsWeb ? 0.0 : 12.0;
+    const double paddingHoz = kIsWeb ? 16.0 : 12.0;
 
     return Scaffold(
         backgroundColor: Colors.transparent,
@@ -173,7 +173,7 @@ class _BarChartRaceState extends State<BarChartRace> {
                 spaceBetweenTwoRectangles: widget.spaceBetweenTwoRectangles!,
                 maxValue: currentData![0].maxValue,
                 totalWidth: kIsWeb
-                    ? constraints.maxWidth * .875
+                    ? constraints.maxWidth * .885
                     : constraints.maxWidth * .835,
                 title: widget.title,
                 titleTextStyle: widget.titleTextStyle,

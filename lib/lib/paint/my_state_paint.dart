@@ -288,6 +288,7 @@ class MyStatePaint extends CustomPainter {
   // Define gradient to apply on the rectangle
   final gradient = LinearGradient(
     colors: [rect.color, MyColor.yellowMain], // Adjust colors as needed
+    // colors: [MyColor.greenLight, MyColor.greenDart], // Adjust colors as needed
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );

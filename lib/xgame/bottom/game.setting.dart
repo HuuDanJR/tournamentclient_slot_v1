@@ -31,9 +31,9 @@ class GameSettingPage extends StatelessWidget {
         if (snapshot.data!.isEmpty ||
             snapshot.data == null ||
             snapshot.data == []) {
-          return const  Center(child: Icon(Icons.do_not_disturb_alt_sharp));
+          return const Center(child: Icon(Icons.do_not_disturb_alt_sharp));
         }
-        SettingModelList settingModelList = SettingModelList.fromJson(snapshot.data!);
+        SettingModelList settingModelList =  SettingModelList.fromJson(snapshot.data!);
         return SizedBox(
           // padding:const  EdgeInsets.symmetric(horizontal:MyString.padding08),
           width: width,
@@ -44,45 +44,68 @@ class GameSettingPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ImageBoxNoText(
-                textSize: MyString.padding96,
+                textSize: MyString.padding84,
                 width: width,
                 height: height * SizeConfig.controlItemHeightRatioBig,
                 asset: "asset/circle.png",
                 text: "${settingModelList.list.first.remaingame}",
               ),
-                // padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
+              // Text(
+              //   "ROUND", // First text
+              //   style: TextStyle(
+              //     color: MyColor.white,
+              //     fontSize: MyString.padding18,
+              //     fontWeight: FontWeight.w500, // Non-bold for first text
+              //   ),
+              //   textAlign: TextAlign.center, // Center align if needed
+              // ),
+              // padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
+              Expanded(child: 
+              SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
               ImageBoxTitle(
-                  hasChild: true,
-                  textSize: MyString.padding36,
-                  width: width* SizeConfig.controlItemWidthRatioSmall,
-                  height: height * SizeConfig.controlItemHeightRatioSmall,
-                  asset: "asset/round.png",
-                  title: "MIN BET",
-                  sizeTitle: MyString.padding18,
-                  text: "${settingModelList.list.first.minbet}",
+                hasChild: true,
+                textSize: MyString.padding42,
+                width: width * SizeConfig.controlItemWidthRatioSmall,
+                height: height * SizeConfig.controlItemHeightRatioSmall,
+                asset: "asset/round.png",
+                title: "MIN BET",
+                sizeTitle: MyString.padding18,
+                text: "${settingModelList.list.first.minbet}",
               ),
-              const SizedBox(height: MyString.padding32,),
+              const SizedBox(
+                height: MyString.padding32,
+              ),
               ImageBoxTitle(
-                  hasChild: true,
-                  textSize: MyString.padding36,
-                  width: width* SizeConfig.controlItemWidthRatioSmall,
-                  height: height * SizeConfig.controlItemHeightRatioSmall,
-                  asset: "asset/round.png",
-                  title: "MAX BET",
-                  sizeTitle: MyString.padding18,
-                  text: "${settingModelList.list.first.maxbet}",
+                hasChild: true,
+                textSize: MyString.padding42,
+                width: width * SizeConfig.controlItemWidthRatioSmall,
+                height: height * SizeConfig.controlItemHeightRatioSmall,
+                asset: "asset/round.png",
+                title: "MAX BET",
+                sizeTitle: MyString.padding18,
+                text: "${settingModelList.list.first.maxbet}",
               ),
-              const SizedBox(height: MyString.padding32,),
+              const SizedBox(
+                height: MyString.padding32,
+              ),
               ImageBoxTitle(
-                        hasChild: true,
-                        textSize: MyString.padding36,
-                        width: width * SizeConfig.controlItemWidthRatioSmall,
-                        height: height * SizeConfig.controlItemHeightRatioSmall,
-                        asset: "asset/round.png",
-                        title: "BUY-IN AT",
-                        sizeTitle: MyString.padding18,
-                        text: settingModelList.list.first.roundtext,
+                hasChild: true,
+                textSize: MyString.padding42,
+                width: width * SizeConfig.controlItemWidthRatioSmall,
+                height: height * SizeConfig.controlItemHeightRatioSmall,
+                asset: "asset/round.png",
+                title: "BUY-IN AT",
+                sizeTitle: MyString.padding18,
+                text: settingModelList.list.first.roundtext,
               ),
+                ],
+              ),
+              )
+              )
               // Expanded(
               //   child: Container(
               //     alignment: Alignment.bottomCenter,
@@ -100,7 +123,7 @@ class GameSettingPage extends StatelessWidget {
               //           sizeTitle: MyString.padding14,
               //           text: settingModelList.list.first.roundtext,
               //         ),
-                      
+
               //         // textcustomColor(
               //         //   color:MyColor.white,
               //         //   text: settingModelList.list.first.gametext,

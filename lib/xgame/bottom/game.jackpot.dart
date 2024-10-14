@@ -67,6 +67,7 @@ class _GameJackpotState extends State<GameJackpot> {
           late final  data = snapshot.data as List<Map<String, dynamic>>;
           late final int jackpotValue = data[0]['returnValue'].round();
           late final int jackpotValueOld = data[0]['oldValue'].round();
+          late final int selectedIp = data[0]['selectedIp'] ?? 0 ;
           late final bool drop = data[0]['drop'];
           return Container(
               height: height,
@@ -81,7 +82,9 @@ class _GameJackpotState extends State<GameJackpot> {
                GameOdometerChild(height: height,width: width,
                 startValue1: jackpotValueOld,
                 endValue1: jackpotValue,
-                title1: "VEGAS",
+                dropValue: jackpotValue,
+                title1: "VEGAS\nJP",
+                machineNumber: selectedIp,
                 droppedJP: drop,
                )
               );

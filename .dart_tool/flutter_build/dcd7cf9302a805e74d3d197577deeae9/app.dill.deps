@@ -750,10 +750,10 @@ file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/utils/detect_resoluti
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/utils/functions.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/utils/mycolors.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/utils/mystring.dart
-file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/utils/showsnackbar.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/loader.bottom.custom.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/loader.dialog.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/loading.indicator.dart
+file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/showsnackbar.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/snackbar.custom.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/text.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/widget/textfield.dart
@@ -772,9 +772,9 @@ file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/bottom/widget/i
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/bloc/stream_bloc/stream_bloc.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/bloc/stream_bloc/stream_event.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/bloc/stream_bloc/stream_state.dart
-file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/machine.top.page.dart
-file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/machineview.container.dart
-file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/machineview.page.dart
+file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/container.machine.dart
+file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/page.machine.child.dart
+file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/page.machine.parent.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xgame/top/view.stream.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xpage/admin/admin_verify.dart
 file:///Users/thomas.dan/Projects/Working/tnm_app_slot/lib/xpage/container/containerpage.dart

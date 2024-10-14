@@ -7,20 +7,24 @@ import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
 
 class GameOdometerChild extends StatefulWidget {
   final int startValue1;
+  final int dropValue;
   final int endValue1;
   final String title1;
   final double width;
   final bool droppedJP;
   final double height;
+  final int machineNumber;
 
   const GameOdometerChild({
     Key? key,
     required this.startValue1,
     required this.endValue1,
+    required this.dropValue,
     required this.title1,
     required this.width,
     required this.height,
     required this.droppedJP,
+    required this.machineNumber,
   }) : super(key: key);
 
   @override
@@ -32,8 +36,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   late AnimationController animationController;
   late Animation<OdometerNumber> animation;
 
-    bool showDroppedText = false; // To show the delayed "JP Dropped" text
-
+  bool showDroppedText = false; // To show the delayed "JP Dropped" text
 
   // Set the base duration default to 10 seconds
   final int baseDurationDefault = 10;
@@ -55,6 +58,14 @@ class _GameOdometerChildState extends State<GameOdometerChild>
     _handleDropLogic(); // Handle the "JP Dropped" logic
 
     animationController.forward();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      showDroppedText = false;
+    });
   }
 
   // Handle the "JP Dropped" logic based on the `droppedJP` flag
@@ -112,7 +123,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: MyString.padding16),
+      margin: const EdgeInsets.symmetric(horizontal: MyString.padding64),
       width: widget.width,
       height: widget.height,
       child: Row(
@@ -120,35 +131,53 @@ class _GameOdometerChildState extends State<GameOdometerChild>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          imageBoxTitleWidget(
-            width: SizeConfig.jackpotWithItem,
-            height: widget.height * SizeConfig.jackpotHeightRation,
-            asset: "asset/eclip.png",
-            title: widget.title1,
-            drop: widget.droppedJP,
-            widgetDrop: 
-              showDroppedText?  const Text(
-                "JP Dropped", // First text
-                style: TextStyle(
-                  color: MyColor.white,
-                  fontSize: MyString.padding12,
-                  fontWeight: FontWeight.w600, // Non-bold for first text
-                ),
-                textAlign: TextAlign.center, // Center align if needed
-                
-            ):Container(),
-            sizeTitle: MyString.padding28,
-            widget: SlideOdometerTransition(
-              verticalOffset: -MyString.padding56,
-              letterWidth: MyString.padding46,
-              odometerAnimation: animation,
-              numberTextStyle: const TextStyle(
-                fontSize: MyString.padding56,
-                color: MyColor.yellow_bg,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          showDroppedText == true
+              ? jpDropedBox(
+                  jpName: "VEGAS JP",
+                  width: SizeConfig.jackpotWithItem,
+                  height: widget.height * SizeConfig.jackpotHeightRation,
+                  asset: "asset/eclip.png",
+                  title: "CONGRATULATIONS\nYOU WIN",
+                  textSize: MyString.padding42,
+                  dropValue: widget.dropValue.toString(),
+                  machineNumber: widget.machineNumber,
+                )
+              : imageBoxTitleWidget(
+                  width: SizeConfig.jackpotWithItem,
+                  height: widget.height * SizeConfig.jackpotHeightRation,
+                  asset: "asset/eclip.png",
+                  title: widget.title1,
+                  drop: widget.droppedJP,
+                  sizeTitle: MyString.padding24,
+                  widget: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "\$", // Add the "$" symbol as a separate Text widget
+                        style: TextStyle(
+                          fontSize: MyString.padding42,
+                          color: MyColor.yellow_bg,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: MyString.padding08,
+                      ),
+                      SlideOdometerTransition(
+                        verticalOffset: -MyString.padding16,
+                        letterWidth: MyString.padding32,
+                        odometerAnimation: animation,
+                        numberTextStyle: const TextStyle(
+                          fontSize: MyString.padding42,
+                          color: MyColor.yellow_bg,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
         ],
       ),
     );

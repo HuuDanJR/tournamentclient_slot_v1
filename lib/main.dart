@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tournament_client/authentication/viewpage.dart';
+import 'package:tournament_client/xgame/top/container.machine.dart';
 import 'package:tournament_client/xpage/admin/admin_verify.dart';
 import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -63,8 +65,8 @@ class _MyAppState extends State<MyApp> {
                 selectedIndex: MyString.DEFAULTNUMBER,
           ),
         },
-        home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
-        // home: const GameOdometer(title: 'TITLE',));
+        // home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
+        home:  MachineViewContainer());
   }
 }
 

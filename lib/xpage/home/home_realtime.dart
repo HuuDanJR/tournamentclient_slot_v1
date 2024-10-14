@@ -89,8 +89,8 @@ class _HomeRealTimePageState extends State<HomeRealTimePage> {
                       columnsLabel: member,
                       statesLabel: listLabelGenerate(),
                       titleTextStyle: GoogleFonts.nunitoSans(
-                        color: Colors.white,
-                        fontSize: kIsWeb ? 24.0 : 24.0,
+                        color: MyColor.white,
+                        fontSize: kIsWeb ? MyString.padding32 : 24.0,
                       ),
                     ),
                   ],

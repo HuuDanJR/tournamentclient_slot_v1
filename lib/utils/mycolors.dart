@@ -39,16 +39,22 @@ class MyColor {
   // ignore: constant_identifier_names
   static const Color grey_line = Color(0xFFF5F5F5);
   static const Color green = Color(0xFF1ECB5D);
+  static const Color greenLight = Color(0xFFCCFF90);
+  static const Color greenDart = Color(0xFF64DD17);
+  static const Color greenDart2 = Color(0xFF00C853);
   // ignore: constant_identifier_names
   static const Color green_accent = Color(0xFF598066);
   static const Color green2 = Color(0xFF1ECB59);
   // ignore: constant_identifier_names
   static const Color white_text = Color(0xFFFFFFFF);
+  static const Color whiteSemiTransparent = Color(0xFF948266);
+
   // ignore: constant_identifier_names
   static const Color black_text = Color(0xFF2D2D2D);
   static const Color black_absolute = Color(0xFF000000);
   // ignore: constant_identifier_names
   static  Color black_text_opa = const Color(0xFF2D2D2D).withOpacity(1);
+  static  Color black_text_opa2 = const Color(0xFF2D2D2D).withOpacity(.65);
   // ignore: constant_identifier_names
   static const Color grey_text = Color(0xFF8F8F8F);
   // ignore: constant_identifier_names

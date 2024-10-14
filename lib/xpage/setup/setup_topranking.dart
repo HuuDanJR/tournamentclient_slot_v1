@@ -3,7 +3,7 @@ import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/xpage/history/historypagetop.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/utils/showsnackbar.dart';
+import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/widget/loader.dialog.dart';
 import 'package:tournament_client/screen/admin/view/page.dart';

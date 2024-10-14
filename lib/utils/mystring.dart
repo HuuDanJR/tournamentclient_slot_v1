@@ -35,7 +35,7 @@ class MyString {
   static const String delete_ranking = '${BASE}delete_ranking';
   static String delete_ranking_byid(id) {
     final url = '${BASE}delete_ranking_id/$id';
-    debugPrint('delete_ranking_byid url : $url');
+    debugPrint('delete_ranking_by id url : $url');
     return url;
   }
 
@@ -88,16 +88,16 @@ class MyString {
 
   //default column in settting server
   static const String DEFAULT_COLUMN = '9';
-  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 23 : 36.5;
+  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 34.5 : 36.5;
   static const double DEFAULT_ROW = 10;
-  static const double DEFAULT_SPACING_LING = kIsWeb ? 10 : 18.5;
+  static const double DEFAULT_SPACING_LING = kIsWeb ? 18.5 : 18.5;
   static const double DEFAULT_OFFSETX = 2;
-  static const double DEFAULT_OFFSETX_TEXT = 1.5;
-  static const double DEFAULT_OFFSETX_TITLE = 1.5;
+  static const double DEFAULT_OFFSETX_TEXT = 0.5;
+  static const double DEFAULT_OFFSETX_TITLE = 0.5;
   static const double DEFAULT_TEXTSIZE = 24.0;
-  static const double DEFAULT_TEXTSIZE_WEB = 18;
+  static const double DEFAULT_TEXTSIZE_WEB = 32;
   static const double DEFAULT_TEXTSIZE_DRAWLINE = 11;
-  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 11;
+  static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 13;
   // static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
   // static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
 

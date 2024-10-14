@@ -60,7 +60,7 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
         backgroundColor: Colors.transparent,
         body: Padding(
           padding: const EdgeInsets.only(
-              top: kIsWeb ? MyString.TOP_PADDING_TOPRAKINGREALTIME : 0.0),
+          top: kIsWeb ? MyString.TOP_PADDING_TOPRAKINGREALTIME : 0.0),
           child: SafeArea(
             key: widget.key,
             child: StreamBuilder<List<Map<String, dynamic>>>(
@@ -94,8 +94,7 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
                           offset_text: detectResolutionOffsetX(input: numbers.length),
                           offset_title: detectResolutionOffsetX(input: numbers.length),
                           spaceBetweenTwoRectangles:detectResolutionSpacing(input: numbers.length),
-                          rectangleHeight:
-                              detectResolutionHeight(input: numbers.length),
+                          rectangleHeight: detectResolutionHeight(input: numbers.length),
                           // numberOfRactanglesToShow: 10,
                           numberOfRactanglesToShow: numbers.length,
                           index: detectInt(numbers, times,
@@ -108,8 +107,8 @@ class _HomeTopRankingPageState extends State<HomeTopRankingPage> {
                           columnsLabel: updatedNames,
                           statesLabel: listLabelGenerate(),
                           titleTextStyle: GoogleFonts.nunitoSans(
-                            color: MyColor.yellowMain,
-                            fontSize: kIsWeb ? 22.0 : 22.0,
+                            color: MyColor.white,
+                            fontSize: kIsWeb ? MyString.padding32 : 22.0,
                           ),
                         ),
                       ],
