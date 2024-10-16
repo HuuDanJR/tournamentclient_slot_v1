@@ -35,18 +35,21 @@ class SettingContainer extends StatelessWidget {
               create: (context) => ListMachineBloc(httpClient: http.Client()))
         ],
         child: 
-          SizedBox(
-            width: width,
-            height:height,
-            child:  Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SettingOperator(mySocket:mySocket),
-                SettingPage(mySocket:mySocket),
-                const SettingMachinePage(),
-              ]
+          SingleChildScrollView(
+            physics:const  AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              width: width,
+              height:height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SettingOperator(mySocket:mySocket),
+                  SettingPage(mySocket:mySocket),
+                  const SettingMachinePage(),
+                ]
+              ),
             ),
           ),
       )

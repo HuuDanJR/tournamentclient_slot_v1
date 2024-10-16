@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
@@ -95,7 +94,7 @@ Widget ImageBoxNoText(
           textAlign: TextAlign.center,
         ),
       ),
-      Positioned(
+      const Positioned(
         bottom: 0,
         child: Text(
           "ROUND", // First text
@@ -175,8 +174,8 @@ Widget jpDropedBox({
   required String jpName,
   required double width,required double height, required String asset,required String title,required double textSize}) {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: MyString.padding12),
-    padding: EdgeInsets.symmetric(horizontal: MyString.padding12),
+    margin: const EdgeInsets.symmetric(horizontal: MyString.padding12),
+    padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
     decoration: BoxDecoration(
       color:MyColor.black_text_opa2,
       borderRadius: BorderRadius.circular(MyString.padding16)
@@ -186,8 +185,8 @@ Widget jpDropedBox({
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "$title", // First text
-          style: TextStyle(
+          title, // First text
+          style: const TextStyle(
             color: MyColor.white,
             fontSize: MyString.padding16,
             fontWeight: FontWeight.w600, // Non-bold for first text
@@ -218,8 +217,8 @@ Widget jpDropedBox({
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "$jpName", // First text
-              style: TextStyle(
+              jpName, // First text
+              style: const TextStyle(
                 color: MyColor.white,
                 fontSize: MyString.padding16,
                 fontWeight: FontWeight.w600, // Non-bold for first text

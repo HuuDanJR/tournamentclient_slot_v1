@@ -13,7 +13,7 @@ import 'package:tournament_client/xpage/setting/dialog.confirm.dart';
 
 class SettingPage extends StatefulWidget {
   SocketManager? mySocket;
-   SettingPage({required this.mySocket, Key? key}) : super(key: key);
+  SettingPage({required this.mySocket, Key? key}) : super(key: key);
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -28,6 +28,13 @@ class _SettingPageState extends State<SettingPage> {
   final TextEditingController controllerBuyIn = TextEditingController();
   final TextEditingController controllerBuyInText = TextEditingController();
   final formatNumber = DateFormatter();
+
+  //Setting JP
+  final TextEditingController controllerJPMin = TextEditingController(text: '${MyString.JPPriceMin}');
+  final TextEditingController controllerJPMax = TextEditingController(text: "${MyString.JPPriceMax}");
+  final TextEditingController controllerJPPercent = TextEditingController(text: "${MyString.JPPricePercent}");
+  final TextEditingController controllerJPThreshold = TextEditingController(text: "${MyString.JPPriceThresHold}");
+
   @override
   void dispose() {
     // Dispose of controllers when the widget is disposed
@@ -36,7 +43,7 @@ class _SettingPageState extends State<SettingPage> {
     controllerTotalRoud.dispose();
     controllerCurrentRound.dispose();
     controllerLastUpdate.dispose();
-  
+
     controllerBuyIn.dispose();
     controllerBuyInText.dispose();
     super.dispose();
@@ -48,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
     controllerTotalRoud.text = '${state.posts.first.remaingame}';
     controllerCurrentRound.text = '${state.posts.first.run}';
     controllerBuyIn.text = '${state.posts.first.buyin}';
-    controllerLastUpdate.text = formatNumber.formatDateAndTime(state.posts.first.lastupdate);
+    controllerLastUpdate.text =  formatNumber.formatDateAndTime(state.posts.first.lastupdate);
     controllerBuyInText.text = '${state.posts.first.roundtext}';
   }
 
@@ -68,7 +75,8 @@ class _SettingPageState extends State<SettingPage> {
       padding: const EdgeInsets.all(MyString.padding16),
       child: BlocProvider(
           // lazy: false,
-          create: (_) =>  SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
+          create: (_) =>
+              SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
           child: BlocListener<SetttingBloc, SettingState>(
             listener: (context, state) {
               if (state.status == SettingStatus.success &&
@@ -82,7 +90,8 @@ class _SettingPageState extends State<SettingPage> {
                   case SettingStatus.initial:
                     return const Center(child: CircularProgressIndicator());
                   case SettingStatus.failure:
-                    return const Center(child: Text('An error orcur when fetch settings'));
+                    return const Center(
+                        child: Text('An error orcur when fetch settings'));
                   case SettingStatus.success:
                     if (state.posts.isEmpty) {
                       return const Center(child: Text('No settings found'));
@@ -106,6 +115,81 @@ class _SettingPageState extends State<SettingPage> {
                                   label: const Icon(Icons.refresh)),
                             ],
                           ),
+                          SizedBox(
+                            width: width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon:const Icon(Icons.attach_money_outlined),
+                                    label: "Min JP",
+                                    text: controllerJPMin.text,
+                                    controller: controllerJPMin,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding08,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon: const Icon(Icons.attach_money_outlined),
+                                    label: "Max JP",
+                                    text: controllerJPMax.text,
+                                    controller: controllerJPMax,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding08,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon: const Icon(Icons.attach_money_outlined),
+                                    label: "Threshold JP",
+                                    text: controllerJPThreshold.text,
+                                    controller: controllerJPThreshold,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding08,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon: const Icon(Icons.percent),
+                                    label: "Percent JP",
+                                    text: controllerJPPercent.text,
+                                    controller: controllerJPPercent,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                              ],
+                            ),
+                          ),
+                          //JP button
+                          TextButton.icon(
+                            onPressed: () {
+                              showConfirmationDialog(context, "Update Setting JP", () {
+                                debugPrint("showConfirmationDialog JP");
+                                debugPrint("Percent value: ${controllerJPPercent.text}");
+                                debugPrint("Min value: ${controllerJPMin.text}");
+                                debugPrint("Max value: ${controllerJPMax.text}");
+                                debugPrint("defaultThreshold value: ${controllerJPThreshold.text}");
+                                
+                                Map<String, dynamic> newSettings = {
+                                  "oldValue": double.parse(controllerJPMin.text),
+                                  "returnValue":  double.parse(controllerJPMin.text),  // Example of updating just one or more fields
+                                  "limit":  double.parse(controllerJPMax.text),
+                                  "defaultThreshold":  double.parse(controllerJPThreshold.text),
+                                  
+                                  "percent": double.parse(controllerJPPercent.text)
+                                };
+                              widget.mySocket!.updateJackpotSettings(newSettings);
+                              });
+                            },
+                            label: const Text("Update Setting"),
+                            icon: const Icon(Icons.settings),
+                          ),
+
                           const Divider(color: MyColor.grey),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +203,6 @@ class _SettingPageState extends State<SettingPage> {
                                   label: const Icon(Icons.refresh)),
                             ],
                           ),
-                          const Divider(color: MyColor.grey),
                           SizedBox(
                             width: width,
                             child: Row(
@@ -128,7 +211,8 @@ class _SettingPageState extends State<SettingPage> {
                               children: [
                                 mytextFieldTitleSizeIcon(
                                     width: width / 3,
-                                    icon:const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Min Bet",
                                     text: controllerMinBet.text,
                                     controller: controllerMinBet,
@@ -139,7 +223,8 @@ class _SettingPageState extends State<SettingPage> {
                                 ),
                                 mytextFieldTitleSizeIcon(
                                     width: width / 3,
-                                    icon: const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Max Bet",
                                     text: controllerMaxBet.text,
                                     controller: controllerMaxBet,
@@ -225,19 +310,27 @@ class _SettingPageState extends State<SettingPage> {
                                     // debugPrint("buy in: ${controllerBuyIn.text}");
                                     // debugPrint("buy in note: ${controllerBuyInNote.text}");
 
-                                    serviceAPIs.updateSetting(
-                                            remaintime:'${state.posts.first.remaintime}',
-                                            remaingame: int.parse(controllerTotalRoud.text),
-                                            minbet: int.parse( controllerMinBet.text),
+                                    serviceAPIs
+                                        .updateSetting(
+                                            remaintime:
+                                                '${state.posts.first.remaintime}',
+                                            remaingame: int.parse(
+                                                controllerTotalRoud.text),
+                                            minbet: int.parse(
+                                                controllerMinBet.text),
                                             maxbet: int.parse(
                                                 controllerMaxBet.text),
-                                            run: int.parse( controllerCurrentRound.text),
+                                            run: int.parse(
+                                                controllerCurrentRound.text),
                                             lastupdate: DateTime.now()
                                                 .toIso8601String(),
-                                            gamenumber:state.posts.first.gamenumber!,
-                                            roundtext:controllerBuyInText.text,
-                                            gametext:state.posts.first.gametext!,
-                                            buyin:int.parse(controllerBuyIn.text))
+                                            gamenumber:
+                                                state.posts.first.gamenumber!,
+                                            roundtext: controllerBuyInText.text,
+                                            gametext:
+                                                state.posts.first.gametext!,
+                                            buyin:
+                                                int.parse(controllerBuyIn.text))
                                         .then((v) {
                                       if (v['status'] == 1) {
                                         showSnackBar(

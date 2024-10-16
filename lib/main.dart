@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tournament_client/authentication/viewpage.dart';
+import 'package:tournament_client/navigation/navigation_page.dart';
 import 'package:tournament_client/xgame/top/container.machine.dart';
 import 'package:tournament_client/xpage/admin/admin_verify.dart';
 import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tournament_client/navigation/navigation_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,8 +64,8 @@ class _MyAppState extends State<MyApp> {
                 selectedIndex: MyString.DEFAULTNUMBER,
           ),
         },
-        // home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
-        home:  MachineViewContainer());
+        home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
+        // home:  const MachineViewContainer());
   }
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/authentication/viewpage.child.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xpage/home/home_realtime.dart';
 import 'package:tournament_client/xpage/home/home_topranking.dart';
@@ -14,11 +13,6 @@ class MachineTopPage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return SizedBox(
-        // padding: EdgeInsets.all(MyString.padding08),
-        // decoration: BoxDecoration(
-        //   // color: MyColor.whiteOpacity,
-        //   // borderRadius: BorderRadius.circular(MyString.padding08),
-        // ),
         width:width,
         height:height,
         child: ViewPageChild(

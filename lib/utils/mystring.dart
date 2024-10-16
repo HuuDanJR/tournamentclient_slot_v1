@@ -7,9 +7,9 @@ class MyString {
 
   static const String APP_NAME = "TNM SLOT V1";
 
-  // static const String ADRESS_SERVER = "localhost";
+  static const String ADRESS_SERVER = "localhost";
   // static const String ADRESS_SERVER = "10.20.10.36";
-  static const String ADRESS_SERVER = "192.168.101.58";
+  // static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8086/api/';
   static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
   static const String API_KEY = '';
@@ -25,7 +25,8 @@ class MyString {
   }
 
   static const String list_round = '${BASE}list_round';
-  static const String list_round_realtime ='${BASE}list_ranking_realtime_group';
+  static const String list_round_realtime =
+      '${BASE}list_ranking_realtime_group';
   static const String create_round = '${BASE}create_round';
   static const String create_round_realtime = '${BASE}save_list_station';
   static const String create_round_input = '${BASE}create_round_input';
@@ -39,7 +40,8 @@ class MyString {
     return url;
   }
 
-  static const String delete_ranking_all_and_add = '${BASE}delete_ranking_all_create_default';
+  static const String delete_ranking_all_and_add =
+      '${BASE}delete_ranking_all_create_default';
 
   static const String list_station = '${BASE}list_station';
   static const String update_member_station = '${BASE}update_member';
@@ -66,7 +68,7 @@ class MyString {
   //DISPLAY
   static String list_display = '${BASE}list_display';
 
-  //TIME 
+  //TIME
   static const String get_latest_active_time = '${BASE}time/find_time_first';
   static const String update_time_by_id = '${BASE}time/update_time';
   static const String update_time_latest = '${BASE}time/update_time_latest';
@@ -104,7 +106,6 @@ class MyString {
   //border radius default
   static const double DEFAULT_BORDERRADIUS = 2.5;
 
-
   static const double padding02 = 02.0;
   static const double padding04 = 04.0;
   static const double padding06 = 06.0;
@@ -129,6 +130,10 @@ class MyString {
   static const double padding116 = 116.0;
   static const String fontFamily = 'Poppins';
 
-  //22 line spacing
-  //44
+  //JP Min Max Value
+  static const double JPPriceMin = 100;
+  static const double JPPriceMax = 150;
+  static const double JPPricePercent = 0.01;
+  static const double JPPriceThresHold = 130;
+  static const int JPThrotDuration = 7; //5 seconds
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/loading.indicator.dart';
 import 'package:tournament_client/widget/text.dart';
@@ -80,7 +79,7 @@ class MachineViewPageBody extends StatelessWidget {
     return 
     Container(
         // margin: const EdgeInsets.symmetric(horizontal:MyString.padding28,vertical:MyString.padding12),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             // border: Border.all(
             // color: MyColor.yellowMain,
             // width: MyString.padding06

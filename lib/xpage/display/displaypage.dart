@@ -63,7 +63,7 @@ class _DisplayPageState extends State<DisplayPage> {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: textcustom(text: "SHOW VIEW"),
+                          title: textcustom(text: "SHOW TOP RANKING"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -107,7 +107,7 @@ class _DisplayPageState extends State<DisplayPage> {
                   ),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.hide_source_sharp),
-                    label: textcustom(text: 'Hide View'),
+                    label: textcustom(text: 'SHOW REALTIME RANKING'),
                     onPressed: () {
                       print('hide view');
                       showDialog(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/xgame/bottom/game.setting.dart';
 import 'package:tournament_client/xgame/bottom/game.time.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
@@ -27,7 +26,7 @@ class GameControlPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [ 
-            Container(
+            SizedBox(
               // color:MyColor.bedge.withOpacity(.5),
               width: width,
               height: heightItem,

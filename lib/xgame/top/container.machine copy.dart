@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/top/page.machine.parent.dart';
-import 'package:tournament_client/xgame/top/page.machine.child.dart';
 
 class MachineViewContainer extends StatelessWidget {
   const MachineViewContainer({Key? key}) : super(key: key);

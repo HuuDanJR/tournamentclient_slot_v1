@@ -71,7 +71,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   // Handle the "JP Dropped" logic based on the `droppedJP` flag
   void _handleDropLogic() {
     if (widget.droppedJP) {
-      Future.delayed(const Duration(seconds: 10), () {
+      Future.delayed( Duration(seconds: MyString.JPThrotDuration), () {
         if (mounted) {
           setState(() {
             showDroppedText = true;
@@ -94,7 +94,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
     ).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Easing.standard,
+        curve: Curves.easeInOut,
       ),
     );
   }
@@ -131,7 +131,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          showDroppedText == true
+          widget.droppedJP==true &&  showDroppedText == true
               ? jpDropedBox(
                   jpName: "VEGAS JP",
                   width: SizeConfig.jackpotWithItem,
@@ -154,7 +154,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "\$", // Add the "$" symbol as a separate Text widget
                         style: TextStyle(
                           fontSize: MyString.padding42,
@@ -162,18 +162,24 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: MyString.padding08,
                       ),
                       SlideOdometerTransition(
-                        verticalOffset: -MyString.padding16,
-                        letterWidth: MyString.padding32,
+                        verticalOffset: -MyString.padding24,
+                        groupSeparator: Text('.',style: const TextStyle(
+                          fontSize: MyString.padding42,
+                          color: MyColor.yellow_bg,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                        letterWidth: MyString.padding24,
                         odometerAnimation: animation,
                         numberTextStyle: const TextStyle(
                           fontSize: MyString.padding42,
                           color: MyColor.yellow_bg,
                           fontWeight: FontWeight.bold,
                         ),
+                        
                       ),
                     ],
                   ),

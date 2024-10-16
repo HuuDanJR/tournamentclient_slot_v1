@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/top/page.machine.parent.dart';
-import 'package:tournament_client/xgame/top/page.machine.child.dart';
 
 class MachineViewContainer extends StatelessWidget {
   const MachineViewContainer({Key? key}) : super(key: key);
@@ -37,12 +35,12 @@ class MachineViewContainer extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Container(
+              child:  SizedBox(
                   // color: MyColor.black_absolute,
                   width: width,
                   height: height,
-                  child: const
-                  MachineTopPage()),
+                  child: 
+                  const MachineTopPage()),
             ),
       
             // //background layer

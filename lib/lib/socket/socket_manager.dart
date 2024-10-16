@@ -94,14 +94,14 @@ class SocketManager {
 
     //JACKPOT FROM MONGODB
     _socket?.on('eventJackpot', (data) {
-      debugPrint('eventJackpot log: $data');
+      // debugPrint('eventJackpot log: $data');
       processJackpot(data);
     });
 
     //JACKPOT FROM MYSQL
     _socket?.on('eventJackpotNumber', (data) {
-      debugPrint('eventJackpotNumber log: $data');
-      debugPrint('eventJackpotNumber log:');
+      // debugPrint('eventJackpotNumber log: $data');
+      // debugPrint('eventJackpotNumber log:');
       processJackpotNumber(data);
     });
 
@@ -227,8 +227,7 @@ class SocketManager {
   }
 
   void processJackpotNumber(dynamic data) {
-    debugPrint('access processJackpotNumber $data');
-
+    // debugPrint('access processJackpotNumber $data');
     // Check if data is a map and contains the necessary fields
     if (data is Map<String, dynamic>) {
       try {
@@ -249,8 +248,7 @@ class SocketManager {
         debugPrint('Error parsing data jackpot number: $e');
       }
     } else {
-      debugPrint(
-          'Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
+      debugPrint( 'Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
     }
   }
 
@@ -331,6 +329,11 @@ class SocketManager {
     }
   }
 
+
+  void updateJackpotSettings(Map<String, dynamic> newSettings) {
+  socket!.emit('updateJackpotSetting', newSettings);
+  }
+
   //toglge view data or top ranking
   void emitToggleClient() {
     socket!.emit('emitToggleDisplay');
@@ -358,6 +361,7 @@ class SocketManager {
   void emitJackpotNumber() {
     socket!.emit('emitJackpotNumber');
   }
+
 
   void emitJackpotNumberInit() {
     debugPrint('emitJackpotNumberInit');

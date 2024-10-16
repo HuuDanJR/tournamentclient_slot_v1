@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/models/settingModel.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
 
-class GameSettingPage extends StatelessWidget {
+class GameSettingPage extends StatefulWidget {
   final SocketManager socketManager;
   final double width;
   final double height;
@@ -18,6 +17,17 @@ class GameSettingPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<GameSettingPage> createState() => _GameSettingPageState();
+}
+
+class _GameSettingPageState extends State<GameSettingPage> {
+
+  @override
+  void initState() {
+    widget.socketManager.emitSetting();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Map<String, dynamic>>>(
@@ -36,8 +46,8 @@ class GameSettingPage extends StatelessWidget {
         SettingModelList settingModelList =  SettingModelList.fromJson(snapshot.data!);
         return SizedBox(
           // padding:const  EdgeInsets.symmetric(horizontal:MyString.padding08),
-          width: width,
-          height: height,
+          width: widget.width,
+          height: widget.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,21 +55,12 @@ class GameSettingPage extends StatelessWidget {
             children: [
               ImageBoxNoText(
                 textSize: MyString.padding84,
-                width: width,
-                height: height * SizeConfig.controlItemHeightRatioBig,
+                width: widget.width,
+                height: widget.height * SizeConfig.controlItemHeightRatioBig,
                 asset: "asset/circle.png",
                 text: "${settingModelList.list.first.remaingame}",
               ),
-              // Text(
-              //   "ROUND", // First text
-              //   style: TextStyle(
-              //     color: MyColor.white,
-              //     fontSize: MyString.padding18,
-              //     fontWeight: FontWeight.w500, // Non-bold for first text
-              //   ),
-              //   textAlign: TextAlign.center, // Center align if needed
-              // ),
-              // padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
+              
               Expanded(child: 
               SizedBox(
               child: Column(
@@ -69,8 +70,8 @@ class GameSettingPage extends StatelessWidget {
               ImageBoxTitle(
                 hasChild: true,
                 textSize: MyString.padding42,
-                width: width * SizeConfig.controlItemWidthRatioSmall,
-                height: height * SizeConfig.controlItemHeightRatioSmall,
+                width: widget.width * SizeConfig.controlItemWidthRatioSmall,
+                height: widget.height * SizeConfig.controlItemHeightRatioSmall,
                 asset: "asset/round.png",
                 title: "MIN BET",
                 sizeTitle: MyString.padding18,
@@ -82,8 +83,8 @@ class GameSettingPage extends StatelessWidget {
               ImageBoxTitle(
                 hasChild: true,
                 textSize: MyString.padding42,
-                width: width * SizeConfig.controlItemWidthRatioSmall,
-                height: height * SizeConfig.controlItemHeightRatioSmall,
+                width: widget.width * SizeConfig.controlItemWidthRatioSmall,
+                height: widget.height * SizeConfig.controlItemHeightRatioSmall,
                 asset: "asset/round.png",
                 title: "MAX BET",
                 sizeTitle: MyString.padding18,
@@ -95,8 +96,8 @@ class GameSettingPage extends StatelessWidget {
               ImageBoxTitle(
                 hasChild: true,
                 textSize: MyString.padding42,
-                width: width * SizeConfig.controlItemWidthRatioSmall,
-                height: height * SizeConfig.controlItemHeightRatioSmall,
+                width: widget.width * SizeConfig.controlItemWidthRatioSmall,
+                height: widget.height * SizeConfig.controlItemHeightRatioSmall,
                 asset: "asset/round.png",
                 title: "BUY-IN AT",
                 sizeTitle: MyString.padding18,
@@ -106,69 +107,6 @@ class GameSettingPage extends StatelessWidget {
               ),
               )
               )
-              // Expanded(
-              //   child: Container(
-              //     alignment: Alignment.bottomCenter,
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.end,
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: [
-              //         ImageBox(
-              //           hasChild: true,
-              //           textSize: MyString.padding24,
-              //           width: width * SizeConfig.controlItemWidthRatioSmall,
-              //           height: height * SizeConfig.controlItemHeightRatioSmall,
-              //           asset: "asset/eclip.png",
-              //           title: "BUY-IN AT",
-              //           sizeTitle: MyString.padding14,
-              //           text: settingModelList.list.first.roundtext,
-              //         ),
-
-              //         // textcustomColor(
-              //         //   color:MyColor.white,
-              //         //   text: settingModelList.list.first.gametext,
-              //         //   size: MyString.padding16
-              //         // ),
-              //         const SizedBox(
-              //           height: MyString.padding36,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
-              //   child: ImageBox(
-              //     hasChild: true,
-              //     title: "MAX BET",
-              //     textSize: MyString.padding36,
-              //     sizeTitle: MyString.padding16,
-              //     width: width,
-              //     height: height * .15,
-              //     asset: "asset/round.png",
-              //     text: "${settingModelList.list.first.maxbet}",
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: MyString.padding12),
-              //   child: ImageBox(
-              //     hasChild: true,
-              //     sizeTitle: MyString.padding16,
-              //     title: "BUY IN AT",
-              //     textSize: MyString.padding36,
-              //     width: width,
-              //     height: height * .15,
-              //     asset: "asset/round.png",
-              //     text: "${settingModelList.list.first.buyin}",
-              //   ),
-              // ),
-              // Container(
-              //   width: width,
-              //   height: height * .2,
-              //   // color:MyColor.white,
-              //   child:Text('buy in: ${settingModelList.list.first.buyin}',style:TextStyle(color:MyColor.white)),
-
-              // ),
             ],
           ),
         );
