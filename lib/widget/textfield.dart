@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -44,10 +46,14 @@ Widget mytextFieldTitleSizeIcon({
     ),
     width: width,
     child: TextField(
+      selectionHeightStyle: BoxHeightStyle.tight,
+      enableSuggestions: true,
+      showCursor: true,
       keyboardType: textinputType,
       controller: controller,
       enabled: enable,
       decoration: InputDecoration(
+        isDense: true,
         prefixIcon: icon,
         border: InputBorder.none,
         fillColor: MyColor.grey_tab,

@@ -4,9 +4,11 @@ import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
+import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/widget/textfield.dart';
 import 'package:tournament_client/xpage/setting/bloc_machine/machine_bloc.dart';
 import 'package:tournament_client/xpage/setting/bloc_timer/timer_bloc.dart';
+import 'package:tournament_client/xpage/setting/dialog.confirm.dart';
 
 // // ignore: must_be_immutable
 // class SettingOperator extends StatelessWidget {
@@ -40,62 +42,86 @@ class SettingOperator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final TextEditingController controllerTimer = TextEditingController();
-
-    return BlocBuilder<TimerBloc, TimerState>(
-      builder: (context, state) {
-        final minutes = (state.duration / 60).floor();
-        final seconds = (state.duration % 60).floor();
-        return BlocBuilder<ListMachineBloc, ListMachineState>(
-          builder: (contextMachine, stateMachine) => Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: MyString.padding16, vertical: MyString.padding04),
-            width: width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    mytextFieldTitleSizeIcon(
-                        width: width / 3,
-                        icon: const Icon(Icons.timer),
-                        label: "Timer Minutes",
-                        text: '5',
-                        controller: controllerTimer,
-                        enable: true,
-                        textinputType: TextInputType.number),
-                    const SizedBox(
-                      width: MyString.padding16,
-                    ),
-                    _buildControlButtons(context, state, stateMachine,
-                        controllerTimer, mySocket),
-                    const SizedBox(
-                      width: MyString.padding16,
-                    ),
-                    Text(
-                      // Display the timer countdown in MM:SS format
-                      '$minutes:${seconds.toString().padLeft(2, '0')}',
-                      style: const TextStyle(
-                        fontSize: MyString.padding24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                TextButton.icon(
-                    onPressed: () {
-                      mySocket!.emitTime();
-                    },
-                    label: const Icon(Icons.refresh)),
-              ],
-            ),
-          ),
-        );
+    final TextEditingController controllerTimer =
+        TextEditingController(text: '${MyString.TIME_DEFAULT_MINUTES}');
+    return BlocListener<TimerBloc, TimerState>(
+      listener: (context, state) {
+        switch (state.status) {
+          case TimerStatus.finish:
+            debugPrint('timer admin finish - disable all machine');
+            service_api.updateStatusAll(status: 0).then((v) {
+              if (v['result']['affectedRows'] > 0) {
+                showSnackBar(context: context, message: "Disable all machine");
+              }
+            }).catchError((e) {
+              debugPrint(e);
+            });
+            break;
+          default:
+        }
       },
+      child: BlocBuilder<TimerBloc, TimerState>(
+        builder: (context, state) {
+          final minutes = (state.duration / 60).floor();
+          final seconds = (state.duration % 60).floor();
+          return BlocBuilder<ListMachineBloc, ListMachineState>(
+              builder: (contextMachine, stateMachine) {
+            return Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: MyString.padding16, vertical: MyString.padding04),
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      mytextFieldTitleSizeIcon(
+                          width: width / 5,
+                          icon: const Icon(Icons.airplay_rounded),
+                          label: "Timer Minutes",
+                          text: '',
+                          controller: controllerTimer,
+                          enable: true,
+                          textinputType: TextInputType.number),
+                      const SizedBox(
+                        width: MyString.padding16,
+                      ),
+                      _buildControlButtons(context, state, stateMachine,
+                          controllerTimer, mySocket),
+                      const SizedBox(
+                        width: MyString.padding16,
+                      ),
+                      Text(
+                        // Display the timer countdown in MM:SS format
+                        '$minutes:${seconds.toString().padLeft(2, '0')}',
+                        style: const TextStyle(
+                          fontSize: MyString.padding24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Tooltip(
+                    message: "Display time in client view",
+                    child: TextButton.icon(
+                        icon: const Icon(Icons.airplay_rounded),
+                        onPressed: () {
+                          showConfirmationDialog(context, "Display Time", () {
+                            mySocket!.emitTime();
+                          });
+                        },
+                        label: const Text('Display')),
+                  ),
+                ],
+              ),
+            );
+          });
+        },
+      ),
     );
   }
 }
@@ -133,6 +159,8 @@ Widget _buildControlButtons(
             if (v['status'] == 1) {
               socket!.emitTime();
             }
+          }).catchError((error) {
+            debugPrint(error);
           });
         });
       },
@@ -145,21 +173,19 @@ Widget _buildControlButtons(
         TextButton.icon(
           icon: const Icon(Icons.pause),
           onPressed: () {
-            _showConfirmationDialog(context, "Pause Game", () {
-              timerBloc.add(PauseTimer());
-              serviceAPIs
-                  .updateTimeLatest(
-                      minutes: state.duration ~/ 60,
-                      seconds: state.duration % 60,
-                      status: MyString.TIME_PAUSE)
-                  .then((v) {
-                if (v['status'] == 1) {
-                  socket!.emitTime();
-                }
-              });
-
-              updateStatusAll(context);
+            timerBloc.add(PauseTimer());
+            serviceAPIs
+                .updateTimeLatest(
+                    minutes: state.duration ~/ 60,
+                    seconds: state.duration % 60,
+                    status: MyString.TIME_PAUSE)
+                .then((v) {
+              if (v['status'] == 1) {
+                socket!.emitTime();
+              }
             });
+
+            updateStatusAll(context);
           },
           label: const Text('PAUSE'),
         ),
@@ -194,18 +220,16 @@ Widget _buildControlButtons(
         TextButton.icon(
           icon: const Icon(Icons.play_arrow_outlined, color: MyColor.green),
           onPressed: () {
-            _showConfirmationDialog(context, "Resume Game", () {
-              timerBloc.add(ResumeTimer());
-              serviceAPIs
-                  .updateTimeLatest(
-                      minutes: state.duration ~/ 60,
-                      seconds: state.duration % 60,
-                      status: MyString.TIME_RESUME)
-                  .then((v) {
-                if (v['status'] == 1) {
-                  socket!.emitTime();
-                }
-              });
+            timerBloc.add(ResumeTimer());
+            serviceAPIs
+                .updateTimeLatest(
+                    minutes: state.duration ~/ 60,
+                    seconds: state.duration % 60,
+                    status: MyString.TIME_RESUME)
+                .then((v) {
+              if (v['status'] == 1) {
+                socket!.emitTime();
+              }
             });
           },
           label: const Text('RESUME'),

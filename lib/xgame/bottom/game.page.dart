@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/xgame/bottom/game.control.dart';
 import 'package:tournament_client/xgame/bottom/game.jackpot.dart';
+import 'package:tournament_client/xgame/bottom/game.jackpot2.dart';
 import 'package:tournament_client/xgame/bottom/game.screen.dart';
+import 'package:tournament_client/xgame/bottom/size.config.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -34,6 +37,8 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final double widthJP =  MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
+    final double heightJP =  MediaQuery.of(context).size.height * SizeConfig.controlVerMain;
     return Scaffold(
       body:Container(
       width: width,
@@ -59,8 +64,24 @@ class _GamePageState extends State<GamePage> {
             bottom: 0,
             left:0,
             child: 
-            GameJackpot(
-              socketManager: socketManager,
+            SizedBox(
+              width: widthJP,
+              height: heightJP,
+              // color:MyColor.whiteOpacity,
+              child: 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GameJackpot(
+                    socketManager: socketManager,
+                  ),
+                  GameJackpot2(
+                    socketManager: socketManager,
+                  ),
+                ],
+              ),
             ),
           )
         ],

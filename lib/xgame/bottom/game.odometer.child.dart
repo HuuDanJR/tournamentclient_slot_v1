@@ -38,17 +38,10 @@ class _GameOdometerChildState extends State<GameOdometerChild>
 
   bool showDroppedText = false; // To show the delayed "JP Dropped" text
 
-  // Set the base duration default to 10 seconds
-  final int baseDurationDefault = 10;
-
   // Function to calculate animation duration based on the difference between start and end values
   Duration _calculateDuration(int startValue, int endValue) {
-    // const int baseValue = 100;
-    // final int difference = (endValue - startValue).abs(); // Absolute difference
-    // return Duration(
-    //   seconds: (difference * baseDurationDefault) ~/ baseValue,
-    // ); // Adjust duration
-    return Duration(seconds: baseDurationDefault);
+  // Set the base duration default to 10 seconds
+    return const Duration(seconds: MyString.JPThrotDuration);
   }
 
   @override
@@ -56,7 +49,6 @@ class _GameOdometerChildState extends State<GameOdometerChild>
     super.initState();
     _initializeAnimation();
     _handleDropLogic(); // Handle the "JP Dropped" logic
-
     animationController.forward();
   }
 
@@ -71,7 +63,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
   // Handle the "JP Dropped" logic based on the `droppedJP` flag
   void _handleDropLogic() {
     if (widget.droppedJP) {
-      Future.delayed( Duration(seconds: MyString.JPThrotDuration), () {
+      Future.delayed( const Duration(seconds: MyString.JPThrotDuration), () {
         if (mounted) {
           setState(() {
             showDroppedText = true;
@@ -94,7 +86,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
     ).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Curves.easeInOut,
+        curve: Easing.standard,
       ),
     );
   }
@@ -122,70 +114,65 @@ class _GameOdometerChildState extends State<GameOdometerChild>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: MyString.padding64),
-      width: widget.width,
-      height: widget.height,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          widget.droppedJP==true &&  showDroppedText == true
-              ? jpDropedBox(
-                  jpName: "VEGAS JP",
-                  width: SizeConfig.jackpotWithItem,
-                  height: widget.height * SizeConfig.jackpotHeightRation,
-                  asset: "asset/eclip.png",
-                  title: "CONGRATULATIONS\nYOU WIN",
-                  textSize: MyString.padding42,
-                  dropValue: widget.dropValue.toString(),
-                  machineNumber: widget.machineNumber,
-                )
-              : imageBoxTitleWidget(
-                  width: SizeConfig.jackpotWithItem,
-                  height: widget.height * SizeConfig.jackpotHeightRation,
-                  asset: "asset/eclip.png",
-                  title: widget.title1,
-                  drop: widget.droppedJP,
-                  sizeTitle: MyString.padding24,
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "\$", // Add the "$" symbol as a separate Text widget
-                        style: TextStyle(
-                          fontSize: MyString.padding42,
-                          color: MyColor.yellow_bg,
-                          fontWeight: FontWeight.bold,
-                        ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        widget.droppedJP==true &&  showDroppedText == true
+            ? jpDropedBox(
+                jpName: "VEGAS JP",
+                width: SizeConfig.jackpotWithItem,
+                height: widget.height * SizeConfig.jackpotHeightRation,
+                asset: "asset/eclip.png",
+                title: "CONGRATULATIONS\nYOU WIN",
+                textSize: MyString.padding42,
+                dropValue: widget.dropValue.toString(),
+                machineNumber: widget.machineNumber,
+              )
+            : imageBoxTitleWidget(
+                width: SizeConfig.jackpotWithItem,
+                height: widget.height * SizeConfig.jackpotHeightRation,
+                asset: "asset/eclip.png",
+                title: widget.title1,
+                drop: widget.droppedJP,
+                sizeTitle: MyString.padding24,
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "\$", // Add the "$" symbol as a separate Text widget
+                      style: TextStyle(
+                        fontSize: MyString.padding42,
+                        color: MyColor.yellow_bg,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(
-                        width: MyString.padding08,
+                    ),
+                    const SizedBox(
+                      width: MyString.padding08,
+                    ),
+                    SlideOdometerTransition(
+                      verticalOffset: -MyString.padding24,
+                      groupSeparator: const Text('.',style: TextStyle(
+                        fontSize: MyString.padding42,
+                        color: MyColor.yellow_bg,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                      letterWidth: MyString.padding24,
+                      odometerAnimation: animation,
+                      numberTextStyle: const TextStyle(
+                        fontSize: MyString.padding42,
+                        color: MyColor.yellow_bg,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SlideOdometerTransition(
-                        verticalOffset: -MyString.padding24,
-                        groupSeparator: Text('.',style: const TextStyle(
-                          fontSize: MyString.padding42,
-                          color: MyColor.yellow_bg,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                        letterWidth: MyString.padding24,
-                        odometerAnimation: animation,
-                        numberTextStyle: const TextStyle(
-                          fontSize: MyString.padding42,
-                          color: MyColor.yellow_bg,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        
-                      ),
-                    ],
-                  ),
-                )
-        ],
-      ),
+                      
+                    ),
+                  ],
+                ),
+              )
+      ],
     );
   }
 }

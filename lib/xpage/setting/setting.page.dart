@@ -29,12 +29,18 @@ class _SettingPageState extends State<SettingPage> {
   final TextEditingController controllerBuyInText = TextEditingController();
   final formatNumber = DateFormatter();
 
-  //Setting JP
+  //Setting JP VEGAS
   final TextEditingController controllerJPMin = TextEditingController(text: '${MyString.JPPriceMin}');
-  final TextEditingController controllerJPMax = TextEditingController(text: "${MyString.JPPriceMax}");
-  final TextEditingController controllerJPPercent = TextEditingController(text: "${MyString.JPPricePercent}");
-  final TextEditingController controllerJPThreshold = TextEditingController(text: "${MyString.JPPriceThresHold}");
-
+  final TextEditingController controllerJPMax =  TextEditingController(text: "${MyString.JPPriceMax}");
+  final TextEditingController controllerJPPercent =  TextEditingController(text: "${MyString.JPPricePercent}");
+  final TextEditingController controllerJPThreshold =  TextEditingController(text: "${MyString.JPPriceThresHold}");
+  final TextEditingController controllerJPduration =  TextEditingController(text: "${MyString.JPThrotDuration}");
+  //Setting JP LUCKY
+  final TextEditingController controllerJPMin2 = TextEditingController(text: '${MyString.JPPriceMin2}');
+  final TextEditingController controllerJPMax2 =  TextEditingController(text: "${MyString.JPPriceMax2}");
+  final TextEditingController controllerJPPercent2 =  TextEditingController(text: "${MyString.JPPricePercent2}");
+  final TextEditingController controllerJPThreshold2 =  TextEditingController(text: "${MyString.JPPriceThresHold2}");
+  final TextEditingController controllerJPduration2 =  TextEditingController(text: "${MyString.JPThrotDuration2}");
   @override
   void dispose() {
     // Dispose of controllers when the widget is disposed
@@ -81,7 +87,7 @@ class _SettingPageState extends State<SettingPage> {
             listener: (context, state) {
               if (state.status == SettingStatus.success &&
                   state.posts.isNotEmpty) {
-                _setControllerValues(state);
+                  _setControllerValues(state);
               }
             },
             child: BlocBuilder<SetttingBloc, SettingState>(
@@ -108,11 +114,247 @@ class _SettingPageState extends State<SettingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text("Setting JP"),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Tooltip(
+                                    message: "Display JP in client view",
+                                    child: TextButton.icon(
+                                        label: const Text("Display"),
+                                        onPressed: () {
+                                          showConfirmationDialog(
+                                            context, "Setting JP", () {
+                                            widget.mySocket!.emitJackpotNumberInit();
+                                            
+                                          });
+                                        },
+                                        icon: const Icon(Icons.airplay_rounded)),
+                                  ),
+                                  const SizedBox(width: MyString.padding08,),
+                                  Tooltip(
+                                    message: "Display JP 2 in client view",
+                                    child: TextButton.icon(
+                                        label: const Text("Display 2"),
+                                        onPressed: () {
+                                          showConfirmationDialog(
+                                            context, "Setting JP 2 ", () {
+                                            widget.mySocket!.emitJackpot2NumberInit();
+                                            
+                                          });
+                                        },
+                                        icon: const Icon(Icons.airplay_rounded)),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          //VEGAS PRICE 
+                          SizedBox(
+                            width: width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
+                                    label: "Min JP",
+                                    text: controllerJPMin.text,
+                                    controller: controllerJPMin,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
+                                    label: "Max JP",
+                                    text: controllerJPMax.text,
+                                    controller: controllerJPMax,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
+                                    label: "Threshold JP",
+                                    text: controllerJPThreshold.text,
+                                    controller: controllerJPThreshold,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon: const Icon(Icons.percent),
+                                    label: "Percent JP",
+                                    text: controllerJPPercent.text,
+                                    controller: controllerJPPercent,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon: const Icon(Icons.timer),
+                                    label: "Duration(second)",
+                                    text: controllerJPduration.text,
+                                    controller: controllerJPduration,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                              ],
+                            ),
+                          ),
+                          //LUCKY PRICE 
+                          SizedBox(
+                            width: width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon: const Icon(Icons.attach_money_outlined),
+                                    label: "Min JP 2",
+                                    text: controllerJPMin2.text,
+                                    controller: controllerJPMin2,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
+                                    label: "Max JP 2",
+                                    text: controllerJPMax2.text,
+                                    controller: controllerJPMax2,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
+                                    label: "Threshold JP 2",
+                                    text: controllerJPThreshold2.text,
+                                    controller: controllerJPThreshold2,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon: const Icon(Icons.percent),
+                                    label: "Percent JP 2",
+                                    text: controllerJPPercent2.text,
+                                    controller: controllerJPPercent2,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding04,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 6,
+                                    icon: const Icon(Icons.timer),
+                                    label: "Duration 2(second)",
+                                    text: controllerJPduration2.text,
+                                    controller: controllerJPduration2,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                              ],
+                            ),
+                          ),
+                          //JP button
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
                               TextButton.icon(
-                                  onPressed: () {
-                                    widget.mySocket!.emitJackpotNumberInit();
-                                  },
-                                  label: const Icon(Icons.refresh)),
+                                onPressed: () {
+                                  showConfirmationDialog( context, "Update Setting JP (Vegas Prize)", () {
+                                    debugPrint("showConfirmationDialog JP");
+                                    debugPrint( "Percent value: ${controllerJPPercent.text}");
+                                    debugPrint("Min value: ${controllerJPMin.text}");
+                                    debugPrint("Max value: ${controllerJPMax.text}");
+                                    debugPrint("defaultThreshold value: ${controllerJPThreshold.text}");
+                                    debugPrint("duration value: ${controllerJPduration.text}");
+                              
+                                    Map<String, dynamic> newSettings = {
+                                      "oldValue": double.parse(controllerJPMin.text),
+                                      "returnValue": double.parse(controllerJPMin.text), // Example of updating just one or more fields
+                                      "limit": double.parse(controllerJPMax.text),
+                                      "defaultThreshold":double.parse(controllerJPThreshold.text),
+                                      "throttleInterval":double.parse(controllerJPduration.text),
+                                      "percent": double.parse(controllerJPPercent.text)
+                                    };
+                                    widget.mySocket!.updateJackpotSettings(newSettings);
+                                    showSnackBar(context:context,message: "Setting JP Update");
+                                  });
+                                },
+                                label: const Text("Update Setting"),
+                                icon: const Icon(Icons.settings),
+                              ),
+                              const SizedBox(width: MyString.padding08,),
+
+                              TextButton.icon(
+                                onPressed: () {
+                                  showConfirmationDialog( context, "Update Setting JP (Lucky Price)", () {
+                                    debugPrint("showConfirmationDialog JP 2");
+                                    debugPrint("Percent2 value: ${controllerJPPercent2.text}");
+                                    debugPrint("Min2 value: ${controllerJPMin2.text}");
+                                    debugPrint("Max2 value: ${controllerJPMax2.text}");
+                                    debugPrint("defaultThreshold2 value: ${controllerJPThreshold2.text}");
+                                    debugPrint("duration2 value: ${controllerJPduration2.text}");
+                              
+                                    Map<String, dynamic> newSettings = {
+                                      "oldValue": double.parse(controllerJPMin2.text),
+                                      "returnValue": double.parse(controllerJPMin2.text), // Example of updating just one or more fields
+                                      "limit": double.parse(controllerJPMax2.text),
+                                      "defaultThreshold":double.parse(controllerJPThreshold2.text),
+                                      "throttleInterval":double.parse(controllerJPduration2.text),
+                                      "percent": double.parse(controllerJPPercent2.text)
+                                    };
+                                    widget.mySocket!.updateJackpot2Settings(newSettings);
+                                    showSnackBar(context:context,message: "Setting JP 2 Update");
+                                  });
+                                },
+                                label: const Text("Update Setting 2"),
+                                icon: const Icon(Icons.settings),
+                              ),
+                            ],
+                          ),
+
+                          const Divider(color: MyColor.grey),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text("Setting Game"),
+                              Tooltip(
+                                message: "Display game setting in client view",
+                                child: TextButton.icon(
+                                    label:const Text("Dislay"),
+                                    onPressed: () {
+                                        showConfirmationDialog(context, "Setting Game", (){
+                                        widget.mySocket!.emitSetting();
+                                      });
+                                    },
+                                    icon: const Icon(Icons.airplay_rounded)),
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -124,163 +366,38 @@ class _SettingPageState extends State<SettingPage> {
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
                                     icon:const Icon(Icons.attach_money_outlined),
-                                    label: "Min JP",
-                                    text: controllerJPMin.text,
-                                    controller: controllerJPMin,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
-                                const SizedBox(
-                                  width: MyString.padding08,
-                                ),
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 5,
-                                    icon: const Icon(Icons.attach_money_outlined),
-                                    label: "Max JP",
-                                    text: controllerJPMax.text,
-                                    controller: controllerJPMax,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
-                                const SizedBox(
-                                  width: MyString.padding08,
-                                ),
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 5,
-                                    icon: const Icon(Icons.attach_money_outlined),
-                                    label: "Threshold JP",
-                                    text: controllerJPThreshold.text,
-                                    controller: controllerJPThreshold,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
-                                const SizedBox(
-                                  width: MyString.padding08,
-                                ),
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 5,
-                                    icon: const Icon(Icons.percent),
-                                    label: "Percent JP",
-                                    text: controllerJPPercent.text,
-                                    controller: controllerJPPercent,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
-                              ],
-                            ),
-                          ),
-                          //JP button
-                          TextButton.icon(
-                            onPressed: () {
-                              showConfirmationDialog(context, "Update Setting JP", () {
-                                debugPrint("showConfirmationDialog JP");
-                                debugPrint("Percent value: ${controllerJPPercent.text}");
-                                debugPrint("Min value: ${controllerJPMin.text}");
-                                debugPrint("Max value: ${controllerJPMax.text}");
-                                debugPrint("defaultThreshold value: ${controllerJPThreshold.text}");
-                                
-                                Map<String, dynamic> newSettings = {
-                                  "oldValue": double.parse(controllerJPMin.text),
-                                  "returnValue":  double.parse(controllerJPMin.text),  // Example of updating just one or more fields
-                                  "limit":  double.parse(controllerJPMax.text),
-                                  "defaultThreshold":  double.parse(controllerJPThreshold.text),
-                                  
-                                  "percent": double.parse(controllerJPPercent.text)
-                                };
-                              widget.mySocket!.updateJackpotSettings(newSettings);
-                              });
-                            },
-                            label: const Text("Update Setting"),
-                            icon: const Icon(Icons.settings),
-                          ),
-
-                          const Divider(color: MyColor.grey),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text("Setting Game"),
-                              TextButton.icon(
-                                  onPressed: () {
-                                    widget.mySocket!.emitSetting();
-                                  },
-                                  label: const Icon(Icons.refresh)),
-                            ],
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 3,
-                                    icon:
-                                        const Icon(Icons.attach_money_outlined),
                                     label: "Min Bet",
                                     text: controllerMinBet.text,
                                     controller: controllerMinBet,
                                     enable: true,
                                     textinputType: TextInputType.number),
                                 const SizedBox(
-                                  width: MyString.padding16,
+                                  width: MyString.padding04,
                                 ),
                                 mytextFieldTitleSizeIcon(
-                                    width: width / 3,
-                                    icon:
-                                        const Icon(Icons.attach_money_outlined),
+                                    width: width / 5,
+                                    icon: const Icon(Icons.attach_money_outlined),
                                     label: "Max Bet",
                                     text: controllerMaxBet.text,
                                     controller: controllerMaxBet,
                                     enable: true,
                                     textinputType: TextInputType.number),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 3,
-                                    icon: const Icon(Icons.airplay),
-                                    label: "Remain Round",
-                                    text: controllerTotalRoud.text,
-                                    controller: controllerTotalRoud,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
                                 const SizedBox(
-                                  width: MyString.padding16,
+                                  width: MyString.padding04,
                                 ),
                                 mytextFieldTitleSizeIcon(
-                                    width: width / 3,
-                                    icon: const Icon(Icons.airplay),
-                                    label: "Current Round",
-                                    text: controllerCurrentRound.text,
-                                    controller: controllerCurrentRound,
-                                    enable: true,
-                                    textinputType: TextInputType.number),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                mytextFieldTitleSizeIcon(
-                                    width: width / 3,
-                                    icon:
-                                        const Icon(Icons.attach_money_outlined),
+                                    width: width / 5,
+                                    icon: const Icon(Icons.attach_money_outlined),
                                     label: "Buy-In",
                                     text: controllerBuyIn.text,
                                     controller: controllerBuyIn,
                                     enable: true,
                                     textinputType: TextInputType.number),
                                 const SizedBox(
-                                  width: MyString.padding16,
+                                  width: MyString.padding04,
                                 ),
                                 mytextFieldTitleSizeIcon(
-                                    width: width / 3,
+                                    width: width / 5,
                                     icon: const Icon(Icons.lock_clock_rounded),
                                     label: "Buy-In Text ",
                                     text: controllerBuyInText.text,
@@ -290,13 +407,39 @@ class _SettingPageState extends State<SettingPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: MyString.padding08,
+                          SizedBox(
+                            width: width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon: const Icon(Icons.airplay),
+                                    label: "Remain Round",
+                                    text: controllerTotalRoud.text,
+                                    controller: controllerTotalRoud,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                                const SizedBox(
+                                  width: MyString.padding08,
+                                ),
+                                mytextFieldTitleSizeIcon(
+                                    width: width / 5,
+                                    icon: const Icon(Icons.airplay),
+                                    label: "Current Round",
+                                    text: controllerCurrentRound.text,
+                                    controller: controllerCurrentRound,
+                                    enable: true,
+                                    textinputType: TextInputType.number),
+                              ],
+                            ),
                           ),
+
                           TextButton.icon(
                               icon: const Icon(Icons.settings),
                               onPressed: () {
-                                debugPrint("Update Setting");
+                                debugPrint("Update Setting ");
                                 showConfirmationDialog(
                                   context,
                                   "Update Setting",
@@ -310,8 +453,7 @@ class _SettingPageState extends State<SettingPage> {
                                     // debugPrint("buy in: ${controllerBuyIn.text}");
                                     // debugPrint("buy in note: ${controllerBuyInNote.text}");
 
-                                    serviceAPIs
-                                        .updateSetting(
+                                    serviceAPIs.updateSetting(
                                             remaintime:
                                                 '${state.posts.first.remaintime}',
                                             remaingame: int.parse(
@@ -348,6 +490,8 @@ class _SettingPageState extends State<SettingPage> {
                                 );
                               },
                               label: const Text("Update Setting")),
+                          
+                         
                         ],
                       ),
                     );

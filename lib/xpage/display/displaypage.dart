@@ -59,7 +59,7 @@ class _DisplayPageState extends State<DisplayPage> {
                     icon: const Icon(Icons.display_settings_outlined),
                     label: textcustom(text: "Show View"),
                     onPressed: () {
-                      print('show view');
+                      print('SHOW TOP RANKING');
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
@@ -113,13 +113,13 @@ class _DisplayPageState extends State<DisplayPage> {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: textcustom(text: "HIDE VIEW"),
+                          title: textcustom(text: "SHOW REALTIME RANKING"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               textcustom(
                                   text:
-                                      "Hide view top ranking displaying on screen if you click confirm")
+                                      "Show realtime ranking displaying on screen if you click confirm")
                             ],
                           ),
                           actions: [

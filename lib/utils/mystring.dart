@@ -135,5 +135,11 @@ class MyString {
   static const double JPPriceMax = 150;
   static const double JPPricePercent = 0.01;
   static const double JPPriceThresHold = 130;
-  static const int JPThrotDuration = 7; //5 seconds
+  static const int JPThrotDuration = 10; //5 seconds
+  //JP Min Max Value
+  static const double JPPriceMin2 = 50;
+  static const double JPPriceMax2 = 70;
+  static const double JPPricePercent2 = 0.005;
+  static const double JPPriceThresHold2 = 60;
+  static const int JPThrotDuration2 = 7; //5 seconds
 }

@@ -15,41 +15,29 @@ class SocketManager {
   late StreamController<List<Map<String, dynamic>>> _streamControllerView;
   late StreamController<List<Map<String, dynamic>>> _streamControllerSetting;
   late StreamController<List<Map<String, dynamic>>> _streamControllerTime;
-  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpot;
-  late StreamController<List<Map<String, dynamic>>>
-      _streamControllerJackpotNumber;
-
+  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpot; //from mongo 
+  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpotNumber; //from mysql
+  late StreamController<List<Map<String, dynamic>>> _streamControllerJackpotNumber2; //from mysql
   IO.Socket? get socket => _socket;
-
   Stream<List<Map<String, dynamic>>> get dataStream => _streamController.stream;
-  Stream<List<Map<String, dynamic>>> get dataStream2 =>
-      _streamController2.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamView =>
-      _streamControllerView.stream;
+  Stream<List<Map<String, dynamic>>> get dataStream2 => _streamController2.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamView => _streamControllerView.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
-      _streamControllerSetting.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamTime =>
-      _streamControllerTime.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>
-      _streamControllerJackpot.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamJackpotNumber =>
-      _streamControllerJackpotNumber.stream;
+  _streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamTime => _streamControllerTime.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>  _streamControllerJackpot.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpotNumber => _streamControllerJackpotNumber.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamJackpotNumber2 => _streamControllerJackpotNumber2.stream;
 
   SocketManager._() {
-    _streamController =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamController2 =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerView =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerSetting =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerTime =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpot =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpotNumber =
-        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamController = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamController2 =StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerView = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerSetting = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerTime = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpot = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpotNumber =  StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpotNumber2 =  StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
   void initSocket() {
@@ -103,6 +91,12 @@ class SocketManager {
       // debugPrint('eventJackpotNumber log: $data');
       // debugPrint('eventJackpotNumber log:');
       processJackpotNumber(data);
+    });
+
+    //JACKPOT FROM MYSQL
+    _socket?.on('eventJackpot2Number', (data) {
+      // debugPrint('eventJackpot2Number log: $data');
+      processJackpot2Number(data);
     });
 
     _socket?.connect();
@@ -252,6 +246,31 @@ class SocketManager {
     }
   }
 
+
+  void processJackpot2Number(dynamic data) {
+    // debugPrint('access processJackpot2Number $data');
+    if (data is Map<String, dynamic>) {
+      try {
+        Map<String, dynamic> jackpotMap = {
+          "averageCredit": data['averageCredit'],
+          "status": data['status'],
+          "timeCount": data['timeCount'],
+          "diff": data['diff'],
+          "returnValue": data['returnValue'],
+          "oldValue": data['oldValue'],
+          "drop": data['drop'],
+          "ip": data['ip'],
+        };
+
+        _streamControllerJackpotNumber2.add([jackpotMap]);
+      } catch (e) {
+        debugPrint('Error parsing data jackpot 2 number: $e');
+      }
+    } else {
+      debugPrint( 'Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
+    }
+  }
+
   void processData2(dynamic data) {
     final Map<String, dynamic>? jsonData = data as Map<String, dynamic>?;
 
@@ -330,8 +349,13 @@ class SocketManager {
   }
 
 
+  //update vegas prize
   void updateJackpotSettings(Map<String, dynamic> newSettings) {
-  socket!.emit('updateJackpotSetting', newSettings);
+    socket!.emit('updateJackpotSetting', newSettings);
+  }
+  //update lucky prize
+  void updateJackpot2Settings(Map<String, dynamic> newSettings) {
+    socket!.emit('updateJackpot2Setting', newSettings);
   }
 
   //toglge view data or top ranking
@@ -361,11 +385,18 @@ class SocketManager {
   void emitJackpotNumber() {
     socket!.emit('emitJackpotNumber');
   }
+  void emitJackpot2Number() {
+    socket!.emit('emitJackpot2Number');
+  }
 
 
   void emitJackpotNumberInit() {
     debugPrint('emitJackpotNumberInit');
     socket!.emit('emitJackpotNumberInitial');
+  }
+  void emitJackpot2NumberInit() {
+    debugPrint('emitJackpot2NumberInit');
+    socket!.emit('emitJackpot2NumberInitial');
   }
 
   // Emit the 'updateTime' event with the updated time data

@@ -122,6 +122,13 @@ class _SettingMachineBodyPageState extends State<SettingMachineBodyPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextButton.icon(
+                                icon: const Icon(Icons.refresh),
+                                onPressed: () {
+                                  _onRefresh();
+                                },
+                                label: const Text("Refresh")),
+                           const SizedBox(width: MyString.padding16,),
+                            TextButton.icon(
                                 icon: const Icon(Icons.check_circle),
                                 onPressed: () {
                                   showConfirmationDialog(
@@ -142,11 +149,11 @@ class _SettingMachineBodyPageState extends State<SettingMachineBodyPage> {
                                   showConfirmationDialog(
                                       context, "Disable All", () {
                                        debugPrint('disable all');
-                                       service_api.updateStatusAll(status: 0).then((v){
-                                        if(v['result']['affectedRows']>0){
-                                          _onRefresh();
-                                        }
-                                       });
+                                      //  service_api.updateStatusAll(status: 0).then((v){
+                                      //   if(v['result']['affectedRows']>0){
+                                      //     _onRefresh();
+                                      //   }
+                                      //  });
                                       });
                                 },
                                 label: const Text("Disable All")),
