@@ -119,7 +119,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.droppedJP==true &&  showDroppedText == true
+        widget.droppedJP==true &&  showDroppedText == true && widget.machineNumber != 0 && widget.machineNumber != null
             ? jpDropedBox(
                 jpName: "VEGAS JP",
                 width: SizeConfig.jackpotWithItem,

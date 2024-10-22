@@ -55,6 +55,8 @@ class _GameJackpotState extends State<GameJackpot> {
         late final int jackpotValueOld = data[0]['oldValue'].round();
         late final int selectedIp = data[0]['ip']  ?? 0 ;
         late final bool drop = data[0]['drop'];
+        // return Text('${snapshot.data}', style: TextStyle(color: MyColor.white));
+         
         return GameOdometerChild(height: height,width: width,
          startValue1: jackpotValueOld,
          endValue1: jackpotValue,

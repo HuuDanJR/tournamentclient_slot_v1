@@ -118,7 +118,7 @@ class _GameOdometer2ChildState extends State<GameOdometer2Child>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.droppedJP==true &&  showDroppedText == true
+        widget.droppedJP==true &&  showDroppedText == true && widget.machineNumber != 0 && widget.machineNumber != null
             ? jpDropedBox(
                 jpName: "LUCKY JP",
                 width: SizeConfig.jackpotWithItem,

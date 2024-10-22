@@ -25,8 +25,7 @@ class MyString {
   }
 
   static const String list_round = '${BASE}list_round';
-  static const String list_round_realtime =
-      '${BASE}list_ranking_realtime_group';
+  static const String list_round_realtime = '${BASE}list_ranking_realtime_group';
   static const String create_round = '${BASE}create_round';
   static const String create_round_realtime = '${BASE}save_list_station';
   static const String create_round_input = '${BASE}create_round_input';
@@ -40,8 +39,7 @@ class MyString {
     return url;
   }
 
-  static const String delete_ranking_all_and_add =
-      '${BASE}delete_ranking_all_create_default';
+  static const String delete_ranking_all_and_add =  '${BASE}delete_ranking_all_create_default';
 
   static const String list_station = '${BASE}list_station';
   static const String update_member_station = '${BASE}update_member';
@@ -85,7 +83,7 @@ class MyString {
   static const int TIME_DEFAULT_MINUTES = 5;
 
   static String list_data_station = '${BASE}find_data';
-  //LOGIN
+  //login
   static String login = '${BASE}login';
 
   //default column in settting server
