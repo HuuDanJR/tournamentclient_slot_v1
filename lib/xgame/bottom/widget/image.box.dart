@@ -71,6 +71,7 @@ Widget ImageBoxNoText(
     required double width,
     required double height,
     required String asset,
+    required String label,
     required String text}) {
   return Stack(
     alignment: Alignment.center,
@@ -94,11 +95,11 @@ Widget ImageBoxNoText(
           textAlign: TextAlign.center,
         ),
       ),
-      const Positioned(
+       Positioned(
         bottom: 0,
         child: Text(
-          "ROUND", // First text
-          style: TextStyle(
+          label, // First text
+          style: const TextStyle(
             color: MyColor.white,
             fontSize: MyString.padding18,
             fontWeight: FontWeight.w500, // Non-bold for first text
@@ -129,7 +130,7 @@ Widget ImageBoxTitle(
         // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
         alignment: Alignment.center,
         width: width,
-        height: height + MyString.padding24,
+        height: height + MyString.padding32,
         decoration: BoxDecoration(
             // color: MyColor.whiteOpacity,
             image: DecorationImage(

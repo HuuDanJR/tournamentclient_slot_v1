@@ -4,7 +4,6 @@ import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
-import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/widget/textfield.dart';
 import 'package:tournament_client/xpage/setting/bloc_machine/machine_bloc.dart';
 import 'package:tournament_client/xpage/setting/bloc_timer/timer_bloc.dart';
@@ -49,13 +48,13 @@ class SettingOperator extends StatelessWidget {
         switch (state.status) {
           case TimerStatus.finish:
             debugPrint('timer admin finish - disable all machine');
-            service_api.updateStatusAll(status: 0).then((v) {
-              if (v['result']['affectedRows'] > 0) {
-                showSnackBar(context: context, message: "Disable all machine");
-              }
-            }).catchError((e) {
-              debugPrint(e);
-            });
+            // service_api.updateStatusAll(status: 0).then((v) {
+            //   if (v['result']['affectedRows'] > 0) {
+            //     showSnackBar(context: context, message: "Disable all machine");
+            //   }
+            // }).catchError((e) {
+            //   debugPrint(e);
+            // });
             break;
           default:
         }
@@ -65,10 +64,9 @@ class SettingOperator extends StatelessWidget {
           final minutes = (state.duration / 60).floor();
           final seconds = (state.duration % 60).floor();
           return BlocBuilder<ListMachineBloc, ListMachineState>(
-              builder: (contextMachine, stateMachine) {
+            builder: (contextMachine, stateMachine) {
             return Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: MyString.padding16, vertical: MyString.padding04),
+              padding: const EdgeInsets.symmetric(horizontal: MyString.padding16, vertical: MyString.padding04),
               width: width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,8 +88,7 @@ class SettingOperator extends StatelessWidget {
                       const SizedBox(
                         width: MyString.padding16,
                       ),
-                      _buildControlButtons(context, state, stateMachine,
-                          controllerTimer, mySocket),
+                      _buildControlButtons(context, state, stateMachine, controllerTimer, mySocket),
                       const SizedBox(
                         width: MyString.padding16,
                       ),
@@ -141,28 +138,25 @@ Widget _buildControlButtons(
     return TextButton.icon(
       icon: const Icon(Icons.play_arrow, color: MyColor.green),
       onPressed: () {
-        _showConfirmationDialog(context, "Start Game", () {
-          final int customDuration =
-              int.tryParse(controller!.text) ?? MyString.TIME_DEFAULT_MINUTES;
-          final durationInSeconds =
-              customDuration * 60; // Convert minutes to seconds
-          int minutes =
-              durationInSeconds ~/ 60; // Calculate how many full minutes
+        late int customDuration   = int.tryParse(controller!.text) ?? MyString.TIME_DEFAULT_MINUTES;
+        _showConfirmationDialogContent(context, "Start Game", () {
+           customDuration = int.tryParse(controller!.text) ?? MyString.TIME_DEFAULT_MINUTES;
+          final durationInSeconds = customDuration * 60; // Convert minutes to seconds
+          int minutes = durationInSeconds ~/ 60; // Calculate how many full minutes
           int seconds = durationInSeconds % 60; // Get the remaining seconds
           timerBloc.add(StartTimer(durationInSeconds: durationInSeconds));
-          serviceAPIs
-              .updateTimeLatest(
+          serviceAPIs.updateTimeLatest(
                   minutes: minutes,
                   seconds: seconds,
                   status: MyString.TIME_START)
-              .then((v) {
+          .then((v) {
             if (v['status'] == 1) {
               socket!.emitTime();
             }
           }).catchError((error) {
             debugPrint(error);
           });
-        });
+        }, Text('Are you sure you want to process?\n\n+Game Time: $customDuration (minutes)'));
       },
       label: const Text('START'),
     );
@@ -315,6 +309,46 @@ Future<void> _showConfirmationDialog(
       return AlertDialog(
         title: Text(actionTitle),
         content: const Text('Are you sure you want to proceed?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop(false); // User pressed NO
+            },
+            child: const Text('NO'),
+          ),
+          TextButton.icon(
+            icon: const Icon(Icons.add_sharp, color: MyColor.red_accent),
+            onPressed: () {
+              Navigator.of(dialogContext).pop(true); // User pressed YES
+            },
+            label: const Text('YES'),
+          ),
+        ],
+      );
+    },
+  );
+
+  if (result == true) {
+    onConfirmed(); // Call the action if the user pressed YES
+  }
+}
+
+
+
+
+// Method to show a confirmation dialog
+Future<void> _showConfirmationDialogContent(
+  BuildContext context,
+  String actionTitle,
+  VoidCallback onConfirmed,
+  Widget widget
+) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+        title: Text(actionTitle),
+        content: widget,
         actions: [
           TextButton(
             onPressed: () {

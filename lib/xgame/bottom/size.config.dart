@@ -12,7 +12,7 @@ class SizeConfig {
 
   static const double controlItemWidthRatioBig = 1;
   static const double controlItemWidthRatioSmall = .9;
-  static const double controlItemHeightRatioSmall = 0.115;
+  static const double controlItemHeightRatioSmall = 0.1015;
   static const double controlItemHeightRatioBig = 0.3;
 
   //jacktpot

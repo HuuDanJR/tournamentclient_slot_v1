@@ -12,9 +12,9 @@ class TimerBottomState extends Equatable {
     required this.status,
   });
 
-  factory TimerBottomState.initial() {
-    return const TimerBottomState(
-      duration: TimerBottomBloc._defaultDuration, // Default duration
+  factory TimerBottomState.initial({int initialDuration = TimerBottomBloc._defaultDuration, }) {
+    return TimerBottomState(
+      duration: initialDuration, // Use the custom initial duration
       status: TimerBottomStatus.initial,
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/xgame/bottom/game.control.dart';
 import 'package:tournament_client/xgame/bottom/game.jackpot.dart';
 import 'package:tournament_client/xgame/bottom/game.jackpot2.dart';

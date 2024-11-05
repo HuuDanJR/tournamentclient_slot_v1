@@ -19,6 +19,7 @@ class GameTime extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -34,17 +35,14 @@ class GameTime extends StatelessWidget {
           if (snapshot.data!.isEmpty ||
               snapshot.data == null ||
               snapshot.data == []) {
-            return const Center(child: Icon(Icons.do_not_disturb_alt_sharp));
+              return const Center(child: Icon(Icons.do_not_disturb_alt_sharp));
           }
           TimeModelList timeModelList = TimeModelList.fromJson(snapshot.data!);
-          int totalSeconds = timeModelList.list.first.minutes * 60 +
-              timeModelList.list.first.seconds;
+          int totalSeconds = timeModelList.list.first.minutes * 60 + timeModelList.list.first.seconds;
           int status = timeModelList.list.first.status;
           // Trigger BLoC events based on the status from the stream
           if (status == 1) {
-            context
-                .read<TimerBottomBloc>()
-                .add(StartTimer(durationInSeconds: totalSeconds));
+            context.read<TimerBottomBloc>().add(StartTimer(durationInSeconds: totalSeconds));
           } else if (status == 2) {
             context.read<TimerBottomBloc>().add(PauseTimer());
           } else if (status == 3) {
@@ -52,6 +50,9 @@ class GameTime extends StatelessWidget {
           } else if (status == 4) {
             context.read<TimerBottomBloc>().add(StopTimer());
           }
+          // else if(status ==0 ){
+          //   debugPrint("Game.time.dart == 0");
+          // }
           return BlocBuilder<TimerBottomBloc, TimerBottomState>(
             builder: (context, state) {
               int minutes = state.duration ~/ 60;
@@ -69,8 +70,8 @@ class GameTime extends StatelessWidget {
                       subChild: textcustomColorBold(
                         lineHeight: 1,
                         text: ':',
-                        color: const Color.fromRGBO(255, 195, 64, 1),
-                        size: MyString.padding56,
+                        color: MyColor.yellow_bg,
+                        size: MyString.padding46,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -80,13 +81,13 @@ class GameTime extends StatelessWidget {
                           textcustomColorBold(
                             lineHeight: 1,
                             text: '$formattedMinutes\n$formattedSeconds',
-                            color: MyColor.yellowMain,
+                            color: MyColor.yellow_bg,
                             size: MyString.padding64,
                           ),
                         ],
                       )),
                   state.status == TimerBottomStatus.paused
-                      ? buttonStatus()
+                      ? buttonStatus(width,height)
                       : const SizedBox(),
                 ],
               );
@@ -96,8 +97,9 @@ class GameTime extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget buttonStatus() {
+Widget buttonStatus(width,height) {
     return Container(
         width: width,
         height: height,
@@ -109,8 +111,7 @@ class GameTime extends StatelessWidget {
           child: Icon(
             Icons.pause_circle,
             color: MyColor.white,
-            size: MyString.padding56,
+            size: MyString.padding32,
           ),
         ));
   }
-}

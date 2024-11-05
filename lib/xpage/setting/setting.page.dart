@@ -81,8 +81,7 @@ class _SettingPageState extends State<SettingPage> {
       padding: const EdgeInsets.all(MyString.padding16),
       child: BlocProvider(
           // lazy: false,
-          create: (_) =>
-              SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
+          create: (_) => SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
           child: BlocListener<SetttingBloc, SettingState>(
             listener: (context, state) {
               if (state.status == SettingStatus.success &&
@@ -119,6 +118,32 @@ class _SettingPageState extends State<SettingPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Tooltip(
+                                    message: "Hide view JP",
+                                    child: TextButton.icon(
+                                        label: const Text("Hide View"),
+                                        onPressed: () {
+                                          showConfirmationDialog(
+                                            context, "Hide View JP", () {
+                                            debugPrint('hide view jp');
+                                          });
+                                        },
+                                        icon: const Icon(Icons.hide_image)),
+                                  ),
+                                  const SizedBox(width: MyString.padding08,),
+                                  Tooltip(
+                                    message: "Hide view JP 2",
+                                    child: TextButton.icon(
+                                        label: const Text("Hide View 2"),
+                                        onPressed: () {
+                                          showConfirmationDialog(
+                                            context, "Hide View JP 2", () {
+                                            debugPrint('hide view jp 2');
+                                          });
+                                        },
+                                        icon: const Icon(Icons.hide_image_sharp)),
+                                  ),
+                                  const SizedBox(width: MyString.padding32,),
+                                  Tooltip(
                                     message: "Display JP in client view",
                                     child: TextButton.icon(
                                         label: const Text("Display"),
@@ -126,7 +151,6 @@ class _SettingPageState extends State<SettingPage> {
                                           showConfirmationDialog(
                                             context, "Setting JP", () {
                                             widget.mySocket!.emitJackpotNumberInit();
-                                            
                                           });
                                         },
                                         icon: const Icon(Icons.airplay_rounded)),
@@ -209,7 +233,7 @@ class _SettingPageState extends State<SettingPage> {
                                     label: "Duration(second)",
                                     text: controllerJPduration.text,
                                     controller: controllerJPduration,
-                                    enable: true,
+                                    enable: false,
                                     textinputType: TextInputType.number),
                               ],
                             ),
@@ -273,7 +297,7 @@ class _SettingPageState extends State<SettingPage> {
                                     label: "Duration 2(second)",
                                     text: controllerJPduration2.text,
                                     controller: controllerJPduration2,
-                                    enable: true,
+                                    enable: false,
                                     textinputType: TextInputType.number),
                               ],
                             ),
@@ -301,8 +325,11 @@ class _SettingPageState extends State<SettingPage> {
                                       "throttleInterval":double.parse(controllerJPduration.text),
                                       "percent": double.parse(controllerJPPercent.text)
                                     };
-                                    widget.mySocket!.updateJackpotSettings(newSettings);
-                                    showSnackBar(context:context,message: "Setting JP Update");
+                                    validateInput(percent: controllerJPPercent.text,min: controllerJPMin.text,max: controllerJPMax.text,threshold: controllerJPThreshold.text) == true ? 
+                                    {
+                                      widget.mySocket!.updateJackpotSettings(newSettings),
+                                      showSnackBar(context:context,message: "Setting JP Update")
+                                    } : showSnackBarError(context:context,message: "Setting JP Not Update, Invalid Fields");
                                   });
                                 },
                                 label: const Text("Update Setting"),
@@ -328,8 +355,11 @@ class _SettingPageState extends State<SettingPage> {
                                       "throttleInterval":double.parse(controllerJPduration2.text),
                                       "percent": double.parse(controllerJPPercent2.text)
                                     };
-                                    widget.mySocket!.updateJackpot2Settings(newSettings);
-                                    showSnackBar(context:context,message: "Setting JP 2 Update");
+                                    validateInput(percent: controllerJPPercent2.text,min: controllerJPMin2.text,max: controllerJPMax2.text,threshold: controllerJPThreshold2.text) == true ? 
+                                    {
+                                      widget.mySocket!.updateJackpot2Settings(newSettings),
+                                      showSnackBar(context:context,message: "Setting JP 2  Update")
+                                    } : showSnackBarError(context:context,message: "Setting JP 2  Not Update, Invalid Fields");
                                   });
                                 },
                                 label: const Text("Update Setting 2"),
@@ -388,7 +418,7 @@ class _SettingPageState extends State<SettingPage> {
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
                                     icon: const Icon(Icons.attach_money_outlined),
-                                    label: "Buy-In",
+                                    label: "Buy-In (Minutes)",
                                     text: controllerBuyIn.text,
                                     controller: controllerBuyIn,
                                     enable: true,
@@ -399,7 +429,7 @@ class _SettingPageState extends State<SettingPage> {
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
                                     icon: const Icon(Icons.lock_clock_rounded),
-                                    label: "Buy-In Text ",
+                                    label: "Buy-In (Text)",
                                     text: controllerBuyInText.text,
                                     controller: controllerBuyInText,
                                     enable: true,
@@ -501,4 +531,27 @@ class _SettingPageState extends State<SettingPage> {
           )),
     );
   }
+}
+
+
+
+bool? validateInput({String? percent, String? min, String? max, String? threshold}) {
+  // Check if all inputs are provided and are numbers
+  final percentNumber = double.tryParse(percent ?? '');
+  final minNumber = double.tryParse(min ?? '');
+  final maxNumber = double.tryParse(max ?? '');
+  final thresholdNumber = double.tryParse(threshold ?? '');
+  // Return false if any input is null or not a number
+  if (percentNumber == null || minNumber == null || maxNumber == null || thresholdNumber == null) {
+    return false;
+  }
+  // Validate percent < 1
+  if (percentNumber >= 1) {
+    return false;
+  }
+  // Validate min < threshold < max
+  if (!(minNumber < thresholdNumber && thresholdNumber < maxNumber)) {
+    return false;
+  }
+  return true; // All validations passed
 }

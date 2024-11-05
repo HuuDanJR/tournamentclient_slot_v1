@@ -119,7 +119,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.droppedJP==true &&  showDroppedText == true && widget.machineNumber != 0 && widget.machineNumber != null
+        widget.droppedJP==true &&  showDroppedText == true && widget.machineNumber != 0
             ? jpDropedBox(
                 jpName: "VEGAS JP",
                 width: SizeConfig.jackpotWithItem,
@@ -154,7 +154,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                       width: MyString.padding08,
                     ),
                     SlideOdometerTransition(
-                      verticalOffset: -MyString.padding24,
+                      verticalOffset: -MyString.padding32,
                       groupSeparator: const Text('.',style: TextStyle(
                         fontSize: MyString.padding42,
                         color: MyColor.yellow_bg,

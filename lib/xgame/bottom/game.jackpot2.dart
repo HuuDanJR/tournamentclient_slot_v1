@@ -22,7 +22,7 @@ class _GameJackpot2State extends State<GameJackpot2> {
   void initState() {
     debugPrint("INIT GAME JACKPOT 2");
     //emit lucky price
-    widget.socketManager.emitJackpot2Number();
+    // widget.socketManager.emitJackpot2Number();
     super.initState();
   }
 

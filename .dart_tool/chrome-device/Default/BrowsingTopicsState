@@ -28,7 +28,21 @@
          "hashed_domains": [  ],
          "topic": 56
       } ]
+   }, {
+      "calculation_time": "13374217184340181",
+      "config_version": 0,
+      "model_version": "0",
+      "padded_top_topics_start_index": 0,
+      "taxonomy_version": 0,
+      "top_topics_and_observing_domains": [  ]
+   }, {
+      "calculation_time": "13374842387192772",
+      "config_version": 0,
+      "model_version": "0",
+      "padded_top_topics_start_index": 0,
+      "taxonomy_version": 0,
+      "top_topics_and_observing_domains": [  ]
    } ],
    "hex_encoded_hmac_key": "209A20AE2B51E2B8F3CEEBA869ECC4B4C7E20BE3A7BFCE4F4F1167463D4249B5",
-   "next_scheduled_calculation_time": "13374130430514247"
+   "next_scheduled_calculation_time": "13375447187193681"
 }

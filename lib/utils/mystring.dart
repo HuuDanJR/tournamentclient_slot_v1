@@ -118,6 +118,7 @@ class MyString {
   static const double padding18 = 18.0;
   static const double padding32 = 32.0;
   static const double padding36 = 36.0;
+  static const double padding38 = 38.0;
   static const double padding42 = 42.0;
   static const double padding46 = 46.0;
   static const double padding56 = 56.0;
@@ -133,11 +134,11 @@ class MyString {
   static const double JPPriceMax = 150;
   static const double JPPricePercent = 0.01;
   static const double JPPriceThresHold = 130;
-  static const int JPThrotDuration = 10; //5 seconds
+  static const int JPThrotDuration = 6; //6 seconds
   //JP Min Max Value
   static const double JPPriceMin2 = 50;
   static const double JPPriceMax2 = 70;
   static const double JPPricePercent2 = 0.005;
   static const double JPPriceThresHold2 = 60;
-  static const int JPThrotDuration2 = 7; //5 seconds
+  static const int JPThrotDuration2 = 5; //5 seconds
 }

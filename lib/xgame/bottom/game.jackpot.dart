@@ -23,8 +23,7 @@ class _GameJackpotState extends State<GameJackpot> {
   void initState() {
     debugPrint("INIT GAME JACKPOT");
     //emit vegas price
-    widget.socketManager.emitJackpotNumber();
-    
+    // widget.socketManager.emitJackpotNumber();
     super.initState();
   }
 

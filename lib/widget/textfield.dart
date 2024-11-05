@@ -31,7 +31,9 @@ Widget mytextFieldTitleSizeIcon({
   required bool? enable,
   required TextInputType? textinputType,
   required String? label,
-  String? text
+  String? text,
+  String? Function(String?)? validator, // Add validator function
+ 
 }) {
   // Update the controller's text only if it's different from the current value
   // if (controller != null && text != null && controller.text != text) {
@@ -45,7 +47,8 @@ Widget mytextFieldTitleSizeIcon({
       borderRadius: BorderRadius.circular(MyString.padding16),
     ),
     width: width,
-    child: TextField(
+    child: TextFormField(
+      validator: validator,
       selectionHeightStyle: BoxHeightStyle.tight,
       enableSuggestions: true,
       showCursor: true,

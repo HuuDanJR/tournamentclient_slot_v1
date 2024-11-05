@@ -3,6 +3,7 @@ import 'package:tournament_client/lib/models/settingModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:tournament_client/xgame/bottom/game.time.buyin.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
 
@@ -49,24 +50,34 @@ class _GameSettingPageState extends State<GameSettingPage> {
           width: widget.width,
           height: widget.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
+              // ImageBoxNoText(
+              //   textSize: MyString.padding84,
+              //   width: widget.width,
+              //   height: widget.height * SizeConfig.controlItemHeightRatioBig,
+              //   asset: "asset/circle.png",
+              //   text: "${settingModelList.list.first.remaingame}",
+              // ),
+              
               ImageBoxNoText(
                 textSize: MyString.padding84,
                 width: widget.width,
                 height: widget.height * SizeConfig.controlItemHeightRatioBig,
                 asset: "asset/circle.png",
-                text: "${settingModelList.list.first.remaingame}",
+                text: "",
+                label: ""
               ),
               
               Expanded(child: 
               SizedBox(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                mainAxisSize: MainAxisSize.min,
+              children: [
               ImageBoxTitle(
                 hasChild: true,
                 textSize: MyString.padding42,
@@ -76,9 +87,6 @@ class _GameSettingPageState extends State<GameSettingPage> {
                 title: "MIN BET",
                 sizeTitle: MyString.padding18,
                 text: "${settingModelList.list.first.minbet}",
-              ),
-              const SizedBox(
-                height: MyString.padding32,
               ),
               ImageBoxTitle(
                 hasChild: true,
@@ -91,7 +99,7 @@ class _GameSettingPageState extends State<GameSettingPage> {
                 text: "${settingModelList.list.first.maxbet}",
               ),
               const SizedBox(
-                height: MyString.padding32,
+                height: MyString.padding72,
               ),
               ImageBoxTitle(
                 hasChild: true,
@@ -99,11 +107,26 @@ class _GameSettingPageState extends State<GameSettingPage> {
                 width: widget.width * SizeConfig.controlItemWidthRatioSmall,
                 height: widget.height * SizeConfig.controlItemHeightRatioSmall,
                 asset: "asset/round.png",
-                title: "BUY-IN AT",
+                title: "ROUND",
                 sizeTitle: MyString.padding18,
-                text: settingModelList.list.first.roundtext,
+                text: '${settingModelList.list.first.remaingame}',
               ),
-                ],
+              // ImageBoxTitle(
+              //   hasChild: true,
+              //   textSize: MyString.padding42,
+              //   width: widget.width * SizeConfig.controlItemWidthRatioSmall,
+              //   height: widget.height * SizeConfig.controlItemHeightRatioSmall,
+              //   asset: "asset/round.png",
+              //   title: "BUY-IN AT",
+              //   sizeTitle: MyString.padding18,
+              //   text: settingModelList.list.first.roundtext,
+              // ),
+              // Text('${settingModelList.list.first.buyin}',style:TextStyle(color:MyColor.white))
+              GameTimeBuyIn(
+                socketManager: widget.socketManager, 
+                durationMinutes: settingModelList.list.first.buyin,
+                width: widget.width * SizeConfig.controlItemWidthRatioSmall,
+                height: widget.height * SizeConfig.controlItemHeightRatioSmall,)],
               ),
               )
               )

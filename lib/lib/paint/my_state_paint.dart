@@ -324,7 +324,7 @@ class MyStatePaint extends CustomPainter {
   // Add border around the rectangle
   Paint borderPaint = Paint()
     ..color = Colors.transparent // Set your preferred border color
-    ..strokeWidth = 0.0  // Set the border width
+    ..strokeWidth = 1.0  // Set the border width
     ..style = PaintingStyle.stroke;  // Set the style to stroke to create the border
 
   // Draw the border around the rounded rectangle

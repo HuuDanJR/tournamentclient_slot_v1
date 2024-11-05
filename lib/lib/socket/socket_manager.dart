@@ -27,8 +27,7 @@ class SocketManager {
       _streamController2.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamView =>
       _streamControllerView.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
-      _streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>  _streamControllerSetting.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamTime =>
       _streamControllerTime.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>
