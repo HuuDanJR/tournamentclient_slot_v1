@@ -88,7 +88,7 @@ Widget ImageBoxNoText(
         child: Text(
           text, // Second text
           style: TextStyle(
-            color: MyColor.yellowMain,
+            color: MyColor.yellow_bg,
             fontSize: textSize,
             fontWeight: FontWeight.bold, // Bold for second text
           ),
@@ -130,12 +130,12 @@ Widget ImageBoxTitle(
         // margin:const EdgeInsets.symmetric(horizontal:MyString.padding12),
         alignment: Alignment.center,
         width: width,
-        height: height + MyString.padding32,
+        height: height + MyString.padding42,
         decoration: BoxDecoration(
-            // color: MyColor.whiteOpacity,
-            image: DecorationImage(
+          // color: MyColor.whiteOpacity,
+          image: DecorationImage(
           image: AssetImage(asset),
-          fit: BoxFit.contain,
+          fit: BoxFit.fitWidth,
         )),
         child: hasChild == false
             ? textcustomColorBold(

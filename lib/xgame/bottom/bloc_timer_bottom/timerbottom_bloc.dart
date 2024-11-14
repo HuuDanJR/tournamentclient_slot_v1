@@ -7,7 +7,6 @@ part 'timerbottom_event.dart';
 
 class TimerBottomBloc extends Bloc<TimerBottomEvent, TimerBottomState> {
   static const int _defaultDuration = 300; // 5 minutes in seconds
-  static const int _defaultDuration2 = 240; // 5 minutes in seconds
   Timer? _timer;
   bool _isPaused = false;
 
@@ -22,7 +21,15 @@ class TimerBottomBloc extends Bloc<TimerBottomEvent, TimerBottomState> {
     });
      
 
-    
+    on<SetTimer>((event, emit) {
+      _timer?.cancel();
+      emit(state.copyWith(
+        status: TimerBottomStatus.set,
+        duration: _defaultDuration, // Reset timer to default duration
+      ));
+    });
+     
+    //set timer to default initial value
 
     // Pause timer
     on<PauseTimer>((event, emit) {
@@ -45,7 +52,7 @@ class TimerBottomBloc extends Bloc<TimerBottomEvent, TimerBottomState> {
       _timer?.cancel();
       emit(state.copyWith(
         status: TimerBottomStatus.finish,
-        duration: _defaultDuration  , // Reset timer to default duration
+        duration: 0  , // Reset timer to default duration
       ));
     });
 

@@ -2,11 +2,10 @@ import 'package:flutter/foundation.dart';
 
 class MyString {
   static const int DEFAULTNUMBER = 111111;
-  static const String DEFAULT_USERNAME = 'admin';
-  static const String DEFAULTP_PASS = 'vegas123456';
+  static const String DEFAULT_USERNAME = 'admin_vegas';
+  static const String DEFAULTP_PASS = 'admin_vegas';
 
   static const String APP_NAME = "TNM SLOT V1";
-
   static const String ADRESS_SERVER = "localhost";
   // static const String ADRESS_SERVER = "10.20.10.36";
   // static const String ADRESS_SERVER = "192.168.101.58";
@@ -25,7 +24,7 @@ class MyString {
   }
 
   static const String list_round = '${BASE}list_round';
-  static const String list_round_realtime = '${BASE}list_ranking_realtime_group';
+  static const String list_round_realtime =  '${BASE}list_ranking_realtime_group';
   static const String create_round = '${BASE}create_round';
   static const String create_round_realtime = '${BASE}save_list_station';
   static const String create_round_input = '${BASE}create_round_input';
@@ -39,7 +38,7 @@ class MyString {
     return url;
   }
 
-  static const String delete_ranking_all_and_add =  '${BASE}delete_ranking_all_create_default';
+  static const String delete_ranking_all_and_add = '${BASE}delete_ranking_all_create_default';
 
   static const String list_station = '${BASE}list_station';
   static const String update_member_station = '${BASE}update_member';
@@ -80,6 +79,8 @@ class MyString {
   static const int TIME_PAUSE = 2;
   static const int TIME_RESUME = 3;
   static const int TIME_STOP = 4;
+  static const int TIME_SET = 5;
+
   static const int TIME_DEFAULT_MINUTES = 5;
 
   static String list_data_station = '${BASE}find_data';
@@ -87,22 +88,31 @@ class MyString {
   static String login = '${BASE}login';
 
   //default column in settting server
-  static const String DEFAULT_COLUMN = '9';
-  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 34.5 : 36.5;
-  static const double DEFAULT_ROW = 10;
-  static const double DEFAULT_SPACING_LING = kIsWeb ? 18.5 : 18.5;
-  static const double DEFAULT_OFFSETX = 2;
-  static const double DEFAULT_OFFSETX_TEXT = 0.5;
-  static const double DEFAULT_OFFSETX_TITLE = 0.5;
-  static const double DEFAULT_TEXTSIZE = 24.0;
-  static const double DEFAULT_TEXTSIZE_WEB = 32;
+  static const String DEFAULT_COLUMN = '8';
+  static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 70.5 : 36.5;
+  static const double DEFAULT_SPACING_LING = kIsWeb ? 45 : 18.5;
+  // static const double DEFAULT_HEIGHT_LINE = kIsWeb ? 34.5 : 36.5;
+  // static const double DEFAULT_SPACING_LING = kIsWeb ? 18.5 : 18.5;
+
+  static const double DEFAULT_ROW = 8;
+  // static const double DEFAULT_OFFSETX = 2;
+  static const double DEFAULT_OFFSETX = 2.5;
+  static const double DEFAULT_OFFSETX_TEXT_VERTICAL = 5;
+  static const double DEFAULT_OFFSETX_TITLE = 0;
+  // static const double DEFAULT_OFFSETX_TEXT = 0.5;
+  // static const double DEFAULT_OFFSETX_TITLE = 0.5;
+  static const double DEFAULT_TEXTSIZE = 38.5;
+  static const double DEFAULT_TEXTSIZE_WEB = 38.5;
+  static const double DEFAULT_TEXTSIZE_TITLE = 47.5;
+  static const double DEFAULT_TEXTSIZE_WEB_TITLE = 47.5;
+  // static const double DEFAULT_TEXTSIZE = 24.0;
+  // static const double DEFAULT_TEXTSIZE_WEB = 32;
   static const double DEFAULT_TEXTSIZE_DRAWLINE = 11;
   static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 13;
-  // static const double DEFAULT_TEXTSIZE_DRAWLINE = 12.0;
-  // static const double DEFAULT_TEXTSIZE_DRAWLINE_WEB = 12.0;
+
 
   //border radius default
-  static const double DEFAULT_BORDERRADIUS = 2.5;
+  static const double DEFAULT_BORDERRADIUS = 3.5;
 
   static const double padding02 = 02.0;
   static const double padding04 = 04.0;
@@ -112,6 +122,7 @@ class MyString {
   static const double padding12 = 12.0;
   static const double padding14 = 14.0;
   static const double padding20 = 20.0;
+  static const double padding22 = 22.0;
   static const double padding24 = 24.0;
   static const double padding26 = 26.0;
   static const double padding28 = 28.0;
@@ -121,6 +132,7 @@ class MyString {
   static const double padding38 = 38.0;
   static const double padding42 = 42.0;
   static const double padding46 = 46.0;
+  static const double padding48 = 48.0;
   static const double padding56 = 56.0;
   static const double padding64 = 64.0;
   static const double padding72 = 72.0;
@@ -129,16 +141,19 @@ class MyString {
   static const double padding116 = 116.0;
   static const String fontFamily = 'Poppins';
 
+
+  //JP MAX
+  static const double JPPercentMax = 5;
   //JP Min Max Value
-  static const double JPPriceMin = 100;
-  static const double JPPriceMax = 150;
-  static const double JPPricePercent = 0.01;
-  static const double JPPriceThresHold = 130;
-  static const int JPThrotDuration = 6; //6 seconds
+  static const double JPPriceMin = 50;
+  static const double JPPriceMax = 100;
+  static const double JPPricePercent = 0.5;
+  static const double JPPriceThresHold = 85;
+  static const int JPThrotDuration = 7; //7 seconds
   //JP Min Max Value
-  static const double JPPriceMin2 = 50;
+  static const double JPPriceMin2 = 20;
   static const double JPPriceMax2 = 70;
-  static const double JPPricePercent2 = 0.005;
-  static const double JPPriceThresHold2 = 60;
-  static const int JPThrotDuration2 = 5; //5 seconds
+  static const double JPPricePercent2 = 0.5;
+  static const double JPPriceThresHold2 = 45;
+  static const int JPThrotDuration2 = 7; //6 seconds
 }

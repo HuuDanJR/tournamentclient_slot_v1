@@ -1,7 +1,7 @@
 part of 'timerbottom_bloc.dart';
 
 
-enum TimerBottomStatus { initial, ticking, paused, finish }
+enum TimerBottomStatus { initial, ticking, paused, finish,set }
 
 class TimerBottomState extends Equatable {
   final int duration;

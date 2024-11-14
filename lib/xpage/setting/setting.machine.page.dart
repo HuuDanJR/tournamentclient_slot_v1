@@ -149,11 +149,11 @@ class _SettingMachineBodyPageState extends State<SettingMachineBodyPage> {
                                   showConfirmationDialog(
                                       context, "Disable All", () {
                                        debugPrint('disable all');
-                                      //  service_api.updateStatusAll(status: 0).then((v){
-                                      //   if(v['result']['affectedRows']>0){
-                                      //     _onRefresh();
-                                      //   }
-                                      //  });
+                                        //  service_api.updateStatusAll(status: 0).then((v){
+                                        //   if(v['result']['affectedRows']>0){
+                                        //     _onRefresh();
+                                        //   }
+                                        //  });
                                       });
                                 },
                                 label: const Text("Disable All")),
@@ -245,13 +245,17 @@ Widget itemList(
         ),
         itemListRT(
           width: width,
-          child:
-              textcustom(size: MyString.padding14, text: model[index]!.machine),
+          child: textcustom(size: MyString.padding14, text: model[index]!.machine),
         ),
         itemListRT(
           width: width,
-          child:
-              textcustom(size: MyString.padding14, text: '${model[index]!.ip}'),
+          child: textcustom(size: MyString.padding14, text: '${model[index]!.ip}'),
+        ),
+        itemListRT(
+          width: width,
+          child: textcustom(
+              size: MyString.padding14,
+              text: '${model[index]!.bet / 100}\$'),
         ),
         itemListRT(
           width: width,

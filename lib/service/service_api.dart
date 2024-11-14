@@ -67,7 +67,7 @@ class ServiceAPIs {
       );
       return (response.data);
     } on DioError catch (e) {
-      print(e.message);
+      debugPrint(e.message);
     }
     return null;
   }

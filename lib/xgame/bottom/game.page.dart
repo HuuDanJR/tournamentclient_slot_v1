@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
 import 'package:tournament_client/xgame/bottom/game.control.dart';
 import 'package:tournament_client/xgame/bottom/game.jackpot.dart';
-import 'package:tournament_client/xgame/bottom/game.jackpot2.dart';
 import 'package:tournament_client/xgame/bottom/game.screen.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({Key? key}) : super(key: key);
+  final String selectedNumber;
+  const GamePage({Key? key,required this.selectedNumber}) : super(key: key);
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -21,7 +21,6 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     debugPrint('lib/xgame/bottom/game.page.dart');
     socketManager.initSocket();
-    
   }
 
   @override
@@ -31,61 +30,71 @@ class _GamePageState extends State<GamePage> {
     socketManager.disposeSocket();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final double widthJP =  MediaQuery.of(context).size.width * SizeConfig.screenVerMain;
-    final double heightJP =  MediaQuery.of(context).size.height * SizeConfig.controlVerMain;
+    final double widthJP = width * SizeConfig.screenVerMain;
+    final double heightJP = height * SizeConfig.controlVerMain;
+
     return Scaffold(
-      body:Container(
+        body: Container(
       width: width,
       height: height,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-        image: Image.asset('asset/bg.jpg').image,
-        fit: BoxFit.cover,
-        filterQuality: FilterQuality.none,
-      ),),
+          image: Image.asset('asset/bg.jpg').image,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.none,
+        ),
+      ),
       child: Stack(
         children: [
-          const GameScreenPage(),  
+          const GameScreenPage(),
           //GAME CONTROL
           Positioned(
-            top: 0,
-            right: 0,
-            child: GameControlPage(
-              socketManager:socketManager
-            )),
+              top: 0,
+              right: 0,
+              child: GameControlPage(socketManager: socketManager,selectedNumber:widget.selectedNumber)),
           //JACKPOT
           Positioned(
             bottom: 0,
-            left:0,
-            child: 
-            SizedBox(
+            left: 0,
+            child: SizedBox(
               width: widthJP,
               height: heightJP,
               // color:MyColor.whiteOpacity,
-              child: 
-              Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   GameJackpot(
                     socketManager: socketManager,
                   ),
-                  GameJackpot2(
-                    socketManager: socketManager,
-                  ),
+                  SizedBox(
+                    width: widthJP / 2,
+                    height: heightJP / 2,
+                  )
                 ],
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     GameJackpot(
+              //       socketManager: socketManager,
+              //     ),
+              //     GameJackpot2(
+              //       socketManager: socketManager,
+              //     ),
+              //   ],
+              // ),
             ),
           )
         ],
       ),
-      )
-    );
+    ));
   }
 }

@@ -54,6 +54,8 @@ flutter:
     - asset/blackbg.png
     - asset/bgcolor1.png
     - asset/bgcolor2.png
+    - asset/bg_topranking.jpeg
+    - asset/bg_ranking.jpeg
 
   fonts:
     - family: Poppins

@@ -38,6 +38,11 @@ Widget SettingMachineTitle({required double width}) {
           itemListRT(
             width: width,
             child: textcustom(
+                text: 'Bet', size: MyString.padding14, isBold: true),
+          ),
+          itemListRT(
+            width: width,
+            child: textcustom(
                 text: 'Credit', size: MyString.padding14, isBold: true),
           ),
           itemListRT(

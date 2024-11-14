@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:get/get.dart';
+import 'package:tournament_client/utils/mystring.dart';
 import 'models/rectangle.dart';
 import 'paint/my_state_paint.dart';
 import "package:flutter/material.dart";
@@ -146,8 +147,8 @@ class _BarChartRaceState extends State<BarChartRace> {
     // //vegas setting
     // const double paddingVer = kIsWeb ? 60.0 : 16.0;
     //vegas plaza setting
-    const double paddingVer = kIsWeb ? 0.0 : 16.0;
-    const double paddingHoz = kIsWeb ? 16.0 : 12.0;
+    const double paddingVer = kIsWeb ? MyString.padding28 : MyString.padding16;
+    const double paddingHoz = kIsWeb ? MyString.padding22 : MyString.padding12;
 
     return Scaffold(
         backgroundColor: Colors.transparent,
@@ -173,8 +174,10 @@ class _BarChartRaceState extends State<BarChartRace> {
                 spaceBetweenTwoRectangles: widget.spaceBetweenTwoRectangles!,
                 maxValue: currentData![0].maxValue,
                 totalWidth: kIsWeb
-                    ? constraints.maxWidth * .885
-                    : constraints.maxWidth * .835,
+                    ? constraints.maxWidth * .9
+                    : constraints.maxWidth * .9,
+                    // ? constraints.maxWidth * .885
+                    // : constraints.maxWidth * .835,
                 title: widget.title,
                 titleTextStyle: widget.titleTextStyle,
                 maxLength: null,
@@ -191,8 +194,7 @@ class _BarChartRaceState extends State<BarChartRace> {
     }
   }
 
-  Future<void> makeTransition(
-      List<Rectangle> before, List<Rectangle> after) async {
+  Future<void> makeTransition(List<Rectangle> before, List<Rectangle> after) async {
     int nbFrames = widget.framesBetweenTwoStates;
     int fps = widget.framesBetweenTwoStates;
 

@@ -12,10 +12,10 @@ class SizeConfig {
 
   static const double controlItemWidthRatioBig = 1;
   static const double controlItemWidthRatioSmall = .9;
-  static const double controlItemHeightRatioSmall = 0.1015;
+  static const double controlItemHeightRatioSmall = 0.0925;
   static const double controlItemHeightRatioBig = 0.3;
 
   //jacktpot
-  static const double jackpotWithItem = 215.0;
-  static const double jackpotHeightRation = 0.85;
+  static const double jackpotWithItem = 275.0;
+  static const double jackpotHeightRation = 0.885;
 }

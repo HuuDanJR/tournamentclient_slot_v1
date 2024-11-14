@@ -52,7 +52,7 @@ class MyStatePaint extends CustomPainter {
     linePaint.style = PaintingStyle.stroke;
     linePaint.strokeWidth = .5;
     linePaint.strokeCap = StrokeCap.round;
-    maxLength = kIsWeb ? totalWidth * 0.865 : totalWidth * 0.835;
+    maxLength = kIsWeb ? totalWidth * 0.8875 : totalWidth * 0.8875;
   }
     final double yShift = 55;
     final double xShift = 80;
@@ -67,13 +67,14 @@ class MyStatePaint extends CustomPainter {
   final TextStyle textStyle = GoogleFonts.bebasNeue(
     color: MyColor.white,
     fontSize: kIsWeb ? MyString.DEFAULT_TEXTSIZE_WEB : MyString.DEFAULT_TEXTSIZE,
-    // fontSize: kIsWeb ? 29.0 : 24.0,
+  );
+  final TextStyle textStyleTitle = GoogleFonts.bebasNeue(
+    color: MyColor.red_accent,
+    fontSize: kIsWeb ? MyString.DEFAULT_TEXTSIZE_WEB_TITLE : MyString.DEFAULT_TEXTSIZE_TITLE,
   );
   final TextStyle textStyleLabel = GoogleFonts.bebasNeue(
-    color: MyColor.yellow3,
-    // color: MyColor.red_text2,
+    color:  MyColor.yellow3,
     fontSize: kIsWeb ? MyString.DEFAULT_TEXTSIZE_WEB : MyString.DEFAULT_TEXTSIZE,
-    // fontSize: kIsWeb ? 29.0 : 24.0,
   );
 
   final TextStyle textStyleDrawLine = GoogleFonts.nunito(
@@ -108,8 +109,7 @@ class MyStatePaint extends CustomPainter {
           Rectangle(
               position: currentState[i].position,
               length: currentState[i].length,
-              color: i == index ? MyColor.yellow : Colors.white,
-              // color: i == index ? MyColor.yellow : MyColor.white,
+              color: Colors.white,
               value: currentState[i].value,
               maxValue: maxValue,
               label: currentState[i].label,
@@ -117,14 +117,14 @@ class MyStatePaint extends CustomPainter {
           canvas,
           spaceBetweenTwoRectangles,
           offset_text,
-          offset_title);
+          offset_title,
+          i,
+          index!,
+          );
     }
-
-    
 
     // draw current state label
     String stateLabel = currentState[0].stateLabel;
-
     _drawStateLabel(canvas, size, stateLabel);
   }
 
@@ -160,10 +160,10 @@ class MyStatePaint extends CustomPainter {
     // draw the title of the chart
     textPainter.text = TextSpan(
       text: title,
-      style: titleTextStyle ?? textStyleBold,
+      style: titleTextStyle ,
     );
     
-    double x = totalWidth / 2;
+    double x = totalWidth /  1.75 ;
     double y = -40;
     // double y = -50;
     // double y = -60;
@@ -176,105 +176,12 @@ class MyStatePaint extends CustomPainter {
     textPainter.paint(
       canvas,
       Offset(
-        -textPainter.width / 1 ,
+        -textPainter.width / 1,
         -textPainter.height / 2,
       ),
     );
     canvas.restore();
   }
-
-  // void _drawRectangle(
-  //     Rectangle rect,
-  //     Canvas canvas,
-  //     double spaceBetweenTwoRectangles,
-  //     double offsetxText,
-  //     double offsetxTitle) {
-  //   // draw rectangle
-  //   final gradient = LinearGradient(
-  //   colors: [rect.color, MyColor.yellowMain], // Adjust colors as needed
-  //   begin: Alignment.centerLeft,
-  //   end: Alignment.centerRight,
-  //   );
-
-  //   // draw rectangle
-  //   Path path = Path();
-  //   double maxHeight = numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) - spaceBetweenTwoRectangles;
-  //   // define postitons of the four corner to draw the rectangle
-  //   double x1 = 0, y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
-  //   // if the rectancles if outside, we don't draw it
-  //   if (y1 >= maxHeight) return;
-  //   // min is to draw a rectangle partially, (in case it's showning up or hiding)
-  //   double x2 = rect.length * maxLength!, y2 = min(y1 + rectHeight, maxHeight);
-
-  //   path.moveTo(x1, y1);
-  //   path.lineTo(x2, y1);
-  //   path.lineTo(x2, y2);
-  //   path.lineTo(x1, y2);
-  //   rectPaint.color = rect.color;
-  //   canvas.drawPath(path, rectPaint);
-
-
-  // //APPY GRADIENT AND BORDER RADIUS:
-  // double borderRadius = MyString.DEFAULT_BORDERRADIUS; // Customize as needed
-  // RRect rrect = RRect.fromRectAndRadius(
-  //   Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)),
-  //   Radius.circular(borderRadius),
-  // );
-  // rectPaint.shader = gradient.createShader(Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)));
-  //   // Draw the rounded rectangle
-  // canvas.drawRRect(rrect, rectPaint);
-  // //END HERE
-
-
-  //   // draw value (text)
-  //   String value = rect.value.round().toString();
-  //   if (value.length > 5) {
-  //     value = "${value.substring(0, 5)}..";
-  //   }
-  //   textPainter.text = TextSpan(
-  //     // text: '\$${(double.parse(value)).toStringAsFixed((double.parse(value)).truncateToDouble() == double.parse(value) ? 0 : 2)}',
-  //     text: (formatAsCurrency(double.parse(value))),
-  //     // text: '\$${(double.parse(value))}',
-  //     // text:formatAsCurrency(double.parse(value)),
-  //     style: textStyleLabel,
-  //   );
-  //   canvas.save();
-  //   textPainter.layout();
-  //   canvas.translate(x2, y1 + offset_text);
-  //   // canvas.translate(x2, y1 + MyString.DEFAULT_OFFSETX_TEXT);
-  //   // canvas.translate(x2, y1 + 9);
-  //   textPainter.paint(
-  //     canvas,
-  //     const Offset(
-  //       MyString.DEFAULT_OFFSETX,
-  //       0,
-  //     ),
-  //   );
-  //   canvas.restore();
-
-  //   // draw the title for each rectangle
-  //   String label = rect.label;
-  //   if (label.length > 11) {
-  //     label = "${label.substring(0, 9)}..";
-  //   }
-  //   textPainter.text = TextSpan(
-  //     text: label,
-  //     style: textStyle,
-  //   );
-  //   canvas.save();
-  //   textPainter.layout();
-  //   canvas.translate(0 - 9, y1 + offset_title);
-  //   // canvas.translate(0 - 9, y1 + MyString.DEFAULT_OFFSETX_TITLE);
-  //   // canvas.translate(0 - 9, y1 + 9);
-  //   textPainter.paint(
-  //     canvas,
-  //     Offset(
-  //       -textPainter.width - 2,
-  //       0,
-  //     ),
-  //   );
-  //   canvas.restore();
-  // }
 
 
 
@@ -283,25 +190,30 @@ class MyStatePaint extends CustomPainter {
     Canvas canvas,
     double spaceBetweenTwoRectangles,
     double offsetxText,
-    double offsetxTitle) {
+    double offsetxTitle,
+    int i,      // Current rectangle index
+    int index   // Target index for secondary gradient
+    ) {
 
-  // Define gradient to apply on the rectangle
-  final gradient = LinearGradient(
-    colors: [rect.color, MyColor.yellowMain], // Adjust colors as needed
-    // colors: [MyColor.greenLight, MyColor.greenDart], // Adjust colors as needed
+  // Define primary gradient to apply on the rectangle
+  final gradientPrimary = LinearGradient(
+    colors: [rect.color, MyColor.yellowMain],// Adjust color as needed 
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+  // Define selected gradient color to apply on the rectangle
+  const gradientSelected =  LinearGradient(
+    colors:  [MyColor.greenLight, MyColor.greenDart,MyColor.greenDart2,MyColor.green_accent], // Adjust colors as needed
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
 
   // Calculate max height based on the number of rectangles
   double maxHeight = numberOfRactanglesToShow * (rectHeight + spaceBetweenTwoRectangles) - spaceBetweenTwoRectangles;
-
   // Define positions of the four corners to draw the rectangle
-  double x1 = 0, y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
-  
+  double x1 = -5, y1 = rect.position * (rectHeight + spaceBetweenTwoRectangles);
   // If the rectangle is outside, don't draw it
   if (y1 >= maxHeight) return;
-  
   // Calculate the position to draw the rectangle partially (if it's showing up or hiding)
   double x2 = rect.length * maxLength!, y2 = min(y1 + rectHeight, maxHeight);
 
@@ -314,6 +226,7 @@ class MyStatePaint extends CustomPainter {
     Radius.circular(borderRadius),
   );
 
+  final gradient = (i == index) ? gradientSelected : gradientPrimary;   
   // Apply the gradient as a shader
   rectPaint.shader = gradient.createShader(Rect.fromPoints(Offset(x1, y1), Offset(x2, y2)));
   rectPaint.style = PaintingStyle.fill;  // Ensure the paint is filling the shape
@@ -396,14 +309,11 @@ class MyStatePaint extends CustomPainter {
   }
 
   void _drawLine(
-      Canvas canvas, double posX, int value, double spaceBetweenTwoRectangles) {
+    Canvas canvas, double posX, int value, double spaceBetweenTwoRectangles) {
     Path path = Path();
     // define the two point of the line
     double x1 = posX, y1 = 0;
-    double x2 = posX,
-        y2 = numberOfRactanglesToShow *
-                (rectHeight + spaceBetweenTwoRectangles) -
-            spaceBetweenTwoRectangles;
+    double x2 = posX,y2 = numberOfRactanglesToShow *  (rectHeight + spaceBetweenTwoRectangles) -   spaceBetweenTwoRectangles;
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
     canvas.drawPath(path, linePaint);

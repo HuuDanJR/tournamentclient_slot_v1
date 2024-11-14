@@ -50,9 +50,10 @@ class GameTime extends StatelessWidget {
           } else if (status == 4) {
             context.read<TimerBottomBloc>().add(StopTimer());
           }
-          // else if(status ==0 ){
-          //   debugPrint("Game.time.dart == 0");
-          // }
+          else if (status == 5) {
+            context.read<TimerBottomBloc>().add(SetTimer());
+          }
+          
           return BlocBuilder<TimerBottomBloc, TimerBottomState>(
             builder: (context, state) {
               int minutes = state.duration ~/ 60;
@@ -83,6 +84,7 @@ class GameTime extends StatelessWidget {
                             text: '$formattedMinutes\n$formattedSeconds',
                             color: MyColor.yellow_bg,
                             size: MyString.padding64,
+                            // size:MyString.padding18
                           ),
                         ],
                       )),

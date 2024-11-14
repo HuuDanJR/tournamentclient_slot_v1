@@ -30,17 +30,27 @@ class _SettingPageState extends State<SettingPage> {
   final formatNumber = DateFormatter();
 
   //Setting JP VEGAS
-  final TextEditingController controllerJPMin = TextEditingController(text: '${MyString.JPPriceMin}');
-  final TextEditingController controllerJPMax =  TextEditingController(text: "${MyString.JPPriceMax}");
-  final TextEditingController controllerJPPercent =  TextEditingController(text: "${MyString.JPPricePercent}");
-  final TextEditingController controllerJPThreshold =  TextEditingController(text: "${MyString.JPPriceThresHold}");
-  final TextEditingController controllerJPduration =  TextEditingController(text: "${MyString.JPThrotDuration}");
+  final TextEditingController controllerJPMin =
+      TextEditingController(text: '${MyString.JPPriceMin}');
+  final TextEditingController controllerJPMax =
+      TextEditingController(text: "${MyString.JPPriceMax}");
+  final TextEditingController controllerJPPercent =
+      TextEditingController(text: "${MyString.JPPricePercent}");
+  final TextEditingController controllerJPThreshold =
+      TextEditingController(text: "${MyString.JPPriceThresHold}");
+  final TextEditingController controllerJPduration =
+      TextEditingController(text: "${MyString.JPThrotDuration}");
   //Setting JP LUCKY
-  final TextEditingController controllerJPMin2 = TextEditingController(text: '${MyString.JPPriceMin2}');
-  final TextEditingController controllerJPMax2 =  TextEditingController(text: "${MyString.JPPriceMax2}");
-  final TextEditingController controllerJPPercent2 =  TextEditingController(text: "${MyString.JPPricePercent2}");
-  final TextEditingController controllerJPThreshold2 =  TextEditingController(text: "${MyString.JPPriceThresHold2}");
-  final TextEditingController controllerJPduration2 =  TextEditingController(text: "${MyString.JPThrotDuration2}");
+  final TextEditingController controllerJPMin2 =
+      TextEditingController(text: '${MyString.JPPriceMin2}');
+  final TextEditingController controllerJPMax2 =
+      TextEditingController(text: "${MyString.JPPriceMax2}");
+  final TextEditingController controllerJPPercent2 =
+      TextEditingController(text: "${MyString.JPPricePercent2}");
+  final TextEditingController controllerJPThreshold2 =
+      TextEditingController(text: "${MyString.JPPriceThresHold2}");
+  final TextEditingController controllerJPduration2 =
+      TextEditingController(text: "${MyString.JPThrotDuration2}");
   @override
   void dispose() {
     // Dispose of controllers when the widget is disposed
@@ -61,7 +71,8 @@ class _SettingPageState extends State<SettingPage> {
     controllerTotalRoud.text = '${state.posts.first.remaingame}';
     controllerCurrentRound.text = '${state.posts.first.run}';
     controllerBuyIn.text = '${state.posts.first.buyin}';
-    controllerLastUpdate.text =  formatNumber.formatDateAndTime(state.posts.first.lastupdate);
+    controllerLastUpdate.text =
+        formatNumber.formatDateAndTime(state.posts.first.lastupdate);
     controllerBuyInText.text = '${state.posts.first.roundtext}';
   }
 
@@ -81,12 +92,13 @@ class _SettingPageState extends State<SettingPage> {
       padding: const EdgeInsets.all(MyString.padding16),
       child: BlocProvider(
           // lazy: false,
-          create: (_) => SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
+          create: (_) =>
+              SetttingBloc(httpClient: http.Client())..add(SettingFetched()),
           child: BlocListener<SetttingBloc, SettingState>(
             listener: (context, state) {
               if (state.status == SettingStatus.success &&
                   state.posts.isNotEmpty) {
-                  _setControllerValues(state);
+                _setControllerValues(state);
               }
             },
             child: BlocBuilder<SetttingBloc, SettingState>(
@@ -118,62 +130,43 @@ class _SettingPageState extends State<SettingPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Tooltip(
-                                    message: "Hide view JP",
-                                    child: TextButton.icon(
-                                        label: const Text("Hide View"),
-                                        onPressed: () {
-                                          showConfirmationDialog(
-                                            context, "Hide View JP", () {
-                                            debugPrint('hide view jp');
-                                          });
-                                        },
-                                        icon: const Icon(Icons.hide_image)),
-                                  ),
-                                  const SizedBox(width: MyString.padding08,),
-                                  Tooltip(
-                                    message: "Hide view JP 2",
-                                    child: TextButton.icon(
-                                        label: const Text("Hide View 2"),
-                                        onPressed: () {
-                                          showConfirmationDialog(
-                                            context, "Hide View JP 2", () {
-                                            debugPrint('hide view jp 2');
-                                          });
-                                        },
-                                        icon: const Icon(Icons.hide_image_sharp)),
-                                  ),
-                                  const SizedBox(width: MyString.padding32,),
-                                  Tooltip(
                                     message: "Display JP in client view",
-                                    child: TextButton.icon(
-                                        label: const Text("Display"),
+                                    child: ElevatedButton.icon(
+                                        label: const Text("Display & View JP"),
                                         onPressed: () {
-                                          showConfirmationDialog(
-                                            context, "Setting JP", () {
-                                            widget.mySocket!.emitJackpotNumberInit();
+                                          showConfirmationDialog(context,
+                                              "Setting JP: Display, View & Reset JP (vegas prize)",
+                                              () {
+                                            widget.mySocket!
+                                                .emitJackpotNumberInit();
                                           });
                                         },
-                                        icon: const Icon(Icons.airplay_rounded)),
+                                        icon:
+                                            const Icon(Icons.airplay_rounded)),
                                   ),
-                                  const SizedBox(width: MyString.padding08,),
+                                  const SizedBox(
+                                    width: MyString.padding24,
+                                  ),
                                   Tooltip(
                                     message: "Display JP 2 in client view",
-                                    child: TextButton.icon(
-                                        label: const Text("Display 2"),
+                                    child: ElevatedButton.icon(
+                                        label:
+                                            const Text("Display & View JP 2 "),
                                         onPressed: () {
-                                          showConfirmationDialog(
-                                            context, "Setting JP 2 ", () {
-                                            widget.mySocket!.emitJackpot2NumberInit();
-                                            
+                                          showConfirmationDialog(context,
+                                              "Setting JP 2: Display, View & Reset JP 2 (lucky prize) ",
+                                              () {
+                                            widget.mySocket! .emitJackpot2NumberInit();
                                           });
                                         },
-                                        icon: const Icon(Icons.airplay_rounded)),
+                                        icon:
+                                            const Icon(Icons.airplay_rounded)),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                          //VEGAS PRICE 
+                          //VEGAS PRICE
                           SizedBox(
                             width: width,
                             child: Row(
@@ -238,7 +231,7 @@ class _SettingPageState extends State<SettingPage> {
                               ],
                             ),
                           ),
-                          //LUCKY PRICE 
+                          //LUCKY PRICE
                           SizedBox(
                             width: width,
                             child: Row(
@@ -247,7 +240,8 @@ class _SettingPageState extends State<SettingPage> {
                               children: [
                                 mytextFieldTitleSizeIcon(
                                     width: width / 6,
-                                    icon: const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Min JP 2",
                                     text: controllerJPMin2.text,
                                     controller: controllerJPMin2,
@@ -307,63 +301,121 @@ class _SettingPageState extends State<SettingPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              TextButton.icon(
+                              ElevatedButton.icon(
+                                iconAlignment: IconAlignment.start,
                                 onPressed: () {
-                                  showConfirmationDialog( context, "Update Setting JP (Vegas Prize)", () {
+                                  showConfirmationDialog(context,
+                                      "Update Setting JP (Vegas Prize)", () {
                                     debugPrint("showConfirmationDialog JP");
-                                    debugPrint( "Percent value: ${controllerJPPercent.text}");
-                                    debugPrint("Min value: ${controllerJPMin.text}");
-                                    debugPrint("Max value: ${controllerJPMax.text}");
-                                    debugPrint("defaultThreshold value: ${controllerJPThreshold.text}");
-                                    debugPrint("duration value: ${controllerJPduration.text}");
-                              
+                                    debugPrint(
+                                        "Percent value: ${controllerJPPercent.text}");
+                                    debugPrint(
+                                        "Min value: ${controllerJPMin.text}");
+                                    debugPrint(
+                                        "Max value: ${controllerJPMax.text}");
+                                    debugPrint(
+                                        "defaultThreshold value: ${controllerJPThreshold.text}");
+                                    debugPrint(
+                                        "duration value: ${controllerJPduration.text}");
+
                                     Map<String, dynamic> newSettings = {
-                                      "oldValue": double.parse(controllerJPMin.text),
-                                      "returnValue": double.parse(controllerJPMin.text), // Example of updating just one or more fields
-                                      "limit": double.parse(controllerJPMax.text),
-                                      "defaultThreshold":double.parse(controllerJPThreshold.text),
-                                      "throttleInterval":double.parse(controllerJPduration.text),
-                                      "percent": double.parse(controllerJPPercent.text)
+                                      "oldValue":
+                                          double.parse(controllerJPMin.text),
+                                      "returnValue": double.parse(controllerJPMin
+                                          .text), // Example of updating just one or more fields
+                                      "limit":
+                                          double.parse(controllerJPMax.text),
+                                      "defaultThreshold": double.parse(
+                                          controllerJPThreshold.text),
+                                      "throttleInterval": double.parse(
+                                          controllerJPduration.text),
+                                      "percent":
+                                          double.parse(controllerJPPercent.text)
                                     };
-                                    validateInput(percent: controllerJPPercent.text,min: controllerJPMin.text,max: controllerJPMax.text,threshold: controllerJPThreshold.text) == true ? 
-                                    {
-                                      widget.mySocket!.updateJackpotSettings(newSettings),
-                                      showSnackBar(context:context,message: "Setting JP Update")
-                                    } : showSnackBarError(context:context,message: "Setting JP Not Update, Invalid Fields");
+                                    validateInput(
+                                                percent:
+                                                    controllerJPPercent.text,
+                                                min: controllerJPMin.text,
+                                                max: controllerJPMax.text,
+                                                threshold: controllerJPThreshold
+                                                    .text) ==
+                                            true
+                                        ? {
+                                            widget.mySocket!
+                                                .updateJackpotSettings(
+                                                    newSettings),
+                                            showSnackBar(
+                                                context: context,
+                                                message: "Setting JP Update")
+                                          }
+                                        : showSnackBarError(
+                                            context: context,
+                                            message:
+                                                "Setting JP Not Update, Invalid Fields");
                                   });
                                 },
                                 label: const Text("Update Setting"),
-                                icon: const Icon(Icons.settings),
+                                icon: const Icon(Icons.settings_outlined),
                               ),
-                              const SizedBox(width: MyString.padding08,),
-
-                              TextButton.icon(
+                              const SizedBox(
+                                width: MyString.padding24,
+                              ),
+                              ElevatedButton.icon(
+                                iconAlignment: IconAlignment.start,
                                 onPressed: () {
-                                  showConfirmationDialog( context, "Update Setting JP (Lucky Price)", () {
+                                  showConfirmationDialog(context,
+                                      "Update Setting JP (Lucky Price)", () {
                                     debugPrint("showConfirmationDialog JP 2");
-                                    debugPrint("Percent2 value: ${controllerJPPercent2.text}");
-                                    debugPrint("Min2 value: ${controllerJPMin2.text}");
-                                    debugPrint("Max2 value: ${controllerJPMax2.text}");
-                                    debugPrint("defaultThreshold2 value: ${controllerJPThreshold2.text}");
-                                    debugPrint("duration2 value: ${controllerJPduration2.text}");
-                              
+                                    debugPrint(
+                                        "Percent2 value: ${controllerJPPercent2.text}");
+                                    debugPrint(
+                                        "Min2 value: ${controllerJPMin2.text}");
+                                    debugPrint(
+                                        "Max2 value: ${controllerJPMax2.text}");
+                                    debugPrint(
+                                        "defaultThreshold2 value: ${controllerJPThreshold2.text}");
+                                    debugPrint(
+                                        "duration2 value: ${controllerJPduration2.text}");
+
                                     Map<String, dynamic> newSettings = {
-                                      "oldValue": double.parse(controllerJPMin2.text),
-                                      "returnValue": double.parse(controllerJPMin2.text), // Example of updating just one or more fields
-                                      "limit": double.parse(controllerJPMax2.text),
-                                      "defaultThreshold":double.parse(controllerJPThreshold2.text),
-                                      "throttleInterval":double.parse(controllerJPduration2.text),
-                                      "percent": double.parse(controllerJPPercent2.text)
+                                      "oldValue":
+                                          double.parse(controllerJPMin2.text),
+                                      "returnValue": double.parse(controllerJPMin2
+                                          .text), // Example of updating just one or more fields
+                                      "limit":
+                                          double.parse(controllerJPMax2.text),
+                                      "defaultThreshold": double.parse(
+                                          controllerJPThreshold2.text),
+                                      "throttleInterval": double.parse(
+                                          controllerJPduration2.text),
+                                      "percent": double.parse(
+                                          controllerJPPercent2.text)
                                     };
-                                    validateInput(percent: controllerJPPercent2.text,min: controllerJPMin2.text,max: controllerJPMax2.text,threshold: controllerJPThreshold2.text) == true ? 
-                                    {
-                                      widget.mySocket!.updateJackpot2Settings(newSettings),
-                                      showSnackBar(context:context,message: "Setting JP 2  Update")
-                                    } : showSnackBarError(context:context,message: "Setting JP 2  Not Update, Invalid Fields");
+                                    validateInput(
+                                                percent:
+                                                    controllerJPPercent2.text,
+                                                min: controllerJPMin2.text,
+                                                max: controllerJPMax2.text,
+                                                threshold:
+                                                    controllerJPThreshold2
+                                                        .text) ==
+                                            true
+                                        ? {
+                                            widget.mySocket!
+                                                .updateJackpot2Settings(
+                                                    newSettings),
+                                            showSnackBar(
+                                                context: context,
+                                                message: "Setting JP 2  Update")
+                                          }
+                                        : showSnackBarError(
+                                            context: context,
+                                            message:
+                                                "Setting JP 2  Not Update, Invalid Fields");
                                   });
                                 },
                                 label: const Text("Update Setting 2"),
-                                icon: const Icon(Icons.settings),
+                                icon: const Icon(Icons.settings_outlined),
                               ),
                             ],
                           ),
@@ -376,10 +428,11 @@ class _SettingPageState extends State<SettingPage> {
                               const Text("Setting Game"),
                               Tooltip(
                                 message: "Display game setting in client view",
-                                child: TextButton.icon(
-                                    label:const Text("Dislay"),
+                                child: ElevatedButton.icon(
+                                    label: const Text("Dislay"),
                                     onPressed: () {
-                                        showConfirmationDialog(context, "Setting Game", (){
+                                      showConfirmationDialog(
+                                          context, "Setting Game", () {
                                         widget.mySocket!.emitSetting();
                                       });
                                     },
@@ -395,7 +448,8 @@ class _SettingPageState extends State<SettingPage> {
                               children: [
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
-                                    icon:const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Min Bet",
                                     text: controllerMinBet.text,
                                     controller: controllerMinBet,
@@ -406,7 +460,8 @@ class _SettingPageState extends State<SettingPage> {
                                 ),
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
-                                    icon: const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Max Bet",
                                     text: controllerMaxBet.text,
                                     controller: controllerMaxBet,
@@ -417,7 +472,8 @@ class _SettingPageState extends State<SettingPage> {
                                 ),
                                 mytextFieldTitleSizeIcon(
                                     width: width / 5,
-                                    icon: const Icon(Icons.attach_money_outlined),
+                                    icon:
+                                        const Icon(Icons.attach_money_outlined),
                                     label: "Buy-In (Minutes)",
                                     text: controllerBuyIn.text,
                                     controller: controllerBuyIn,
@@ -466,8 +522,8 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
 
-                          TextButton.icon(
-                              icon: const Icon(Icons.settings),
+                           ElevatedButton.icon(
+                              icon: const Icon(Icons.settings_outlined),
                               onPressed: () {
                                 debugPrint("Update Setting ");
                                 showConfirmationDialog(
@@ -483,7 +539,8 @@ class _SettingPageState extends State<SettingPage> {
                                     // debugPrint("buy in: ${controllerBuyIn.text}");
                                     // debugPrint("buy in note: ${controllerBuyInNote.text}");
 
-                                    serviceAPIs.updateSetting(
+                                    serviceAPIs
+                                        .updateSetting(
                                             remaintime:
                                                 '${state.posts.first.remaintime}',
                                             remaingame: int.parse(
@@ -520,8 +577,6 @@ class _SettingPageState extends State<SettingPage> {
                                 );
                               },
                               label: const Text("Update Setting")),
-                          
-                         
                         ],
                       ),
                     );
@@ -533,20 +588,22 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-
-
-bool? validateInput({String? percent, String? min, String? max, String? threshold}) {
+bool? validateInput(
+    {String? percent, String? min, String? max, String? threshold}) {
   // Check if all inputs are provided and are numbers
   final percentNumber = double.tryParse(percent ?? '');
   final minNumber = double.tryParse(min ?? '');
   final maxNumber = double.tryParse(max ?? '');
   final thresholdNumber = double.tryParse(threshold ?? '');
   // Return false if any input is null or not a number
-  if (percentNumber == null || minNumber == null || maxNumber == null || thresholdNumber == null) {
+  if (percentNumber == null ||
+      minNumber == null ||
+      maxNumber == null ||
+      thresholdNumber == null) {
     return false;
   }
   // Validate percent < 1
-  if (percentNumber >= 1) {
+  if (percentNumber >= MyString.JPPercentMax) {
     return false;
   }
   // Validate min < threshold < max

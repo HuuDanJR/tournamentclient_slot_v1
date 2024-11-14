@@ -126,7 +126,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                 height: widget.height * SizeConfig.jackpotHeightRation,
                 asset: "asset/eclip.png",
                 title: "CONGRATULATIONS\nYOU WIN",
-                textSize: MyString.padding42,
+                textSize: MyString.padding46,
                 dropValue: widget.dropValue.toString(),
                 machineNumber: widget.machineNumber,
               )
@@ -145,7 +145,7 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                     const Text(
                       "\$", // Add the "$" symbol as a separate Text widget
                       style: TextStyle(
-                        fontSize: MyString.padding42,
+                        fontSize: MyString.padding46,
                         color: MyColor.yellow_bg,
                         fontWeight: FontWeight.bold,
                       ),
@@ -156,14 +156,14 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                     SlideOdometerTransition(
                       verticalOffset: -MyString.padding32,
                       groupSeparator: const Text('.',style: TextStyle(
-                        fontSize: MyString.padding42,
+                        fontSize: MyString.padding46,
                         color: MyColor.yellow_bg,
                         fontWeight: FontWeight.bold,
                       ),),
                       letterWidth: MyString.padding24,
                       odometerAnimation: animation,
                       numberTextStyle: const TextStyle(
-                        fontSize: MyString.padding42,
+                        fontSize: MyString.padding46,
                         color: MyColor.yellow_bg,
                         fontWeight: FontWeight.bold,
                       ),

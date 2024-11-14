@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tournament_client/lib/models/timeModel.dart';
-import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
@@ -25,9 +24,9 @@ class GameTimeBuyIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int totalDurationInput = durationMinutes*60;
     return BlocProvider(
-      create: (context) =>
-          TimerBottomBloc(initialDuration: durationMinutes * 60),
+      create: (context) => TimerBottomBloc(initialDuration: totalDurationInput),
       child: StreamBuilder<List<Map<String, dynamic>>>(
         stream: SocketManager().dataStreamTime,
         builder: (context, snapshot) {
@@ -56,6 +55,9 @@ class GameTimeBuyIn extends StatelessWidget {
           } else if (status == 4) {
             context.read<TimerBottomBloc>().add(StopTimer());
           }
+          else if (status == 5) {
+            context.read<TimerBottomBloc>().add(SetTimer());
+          }
 
           return BlocBuilder<TimerBottomBloc, TimerBottomState>(
             builder: (context, state) {
@@ -63,75 +65,31 @@ class GameTimeBuyIn extends StatelessWidget {
               int seconds = state.duration % 60;
               String formattedMinutes = minutes.toString().padLeft(2, '0');
               String formattedSeconds = seconds.toString().padLeft(2, '0');
-              String formattedMinutesInput =(totalSeconds ~/ 60).toString().padLeft(2, '0');
-              String formattedSecondsInput = (totalSeconds % 60).toString().padLeft(2, '0');
+
+              String formattedMinutesInput = (totalDurationInput ~/ 60).toString().padLeft(2, '0');
+              String formattedSecondsInput = (totalDurationInput % 60).toString().padLeft(2, '0');
               return Stack(
                 alignment: Alignment.center,
                 children: [
                   // Text('${formattedMinutesInput} : ${formattedSecondsInput}}',style: TextStyle(color:MyColor.white),),
-                  totalSeconds > 0 ?
-                       ImageBoxTitle(
+                
+                  ImageBoxTitle(
                           hasChild: true,
                           textSize: MyString.padding42,
                           width: width,
                           height: height,
                           asset: "asset/round.png",
+                          // title: "${state.status}",
                           title: "BUY-IN AT",
                           sizeTitle: MyString.padding18,
-                          text: state.status == TimerBottomStatus.initial || state.status == TimerBottomStatus.finish ?'$formattedMinutesInput:$formattedSecondsInput'  :  '$formattedMinutes:$formattedSeconds',
-                        ) 
-                      : totalSeconds == 0 ? Text('end finish') :  Container(),
-                  if (state.status == TimerBottomStatus.paused)
-                    buttonStatus(width, height)
-                  else
-                    const SizedBox(),
+                          text:state.status == TimerBottomStatus.set ? '$formattedMinutesInput:$formattedSecondsInput' :   '$formattedMinutes:$formattedSeconds'  ,
+                  ),
+                     
+                  if (state.status == TimerBottomStatus.paused) buttonStatus(width, height)
+                  else  const SizedBox(),
                 ],
               );
-              // switch (state.status) {
-              //   case TimerBottomStatus.initial:
-              //     return Text('initial');
-              //   case TimerBottomStatus.finish:
-              //     return ImageBoxTitle(
-              //       hasChild: true,
-              //       textSize: MyString.padding42,
-              //       width: width,
-              //       height: height,
-              //       asset: "asset/round.png",
-              //       title: "BUY-IN AT",
-              //       sizeTitle: MyString.padding18,
-              //        text: '$formattedMinutes:$formattedSeconds',
-              //     );
-              //   case TimerBottomStatus.ticking:
-              //     return ImageBoxTitle(
-              //       hasChild: true,
-              //       textSize: MyString.padding42,
-              //       width: width,
-              //       height: height,
-              //       asset: "asset/round.png",
-              //       title: "BUY-IN AT",
-              //       sizeTitle: MyString.padding18,
-              //       text: '$formattedMinutes:$formattedSeconds',
-              //     );
-              //   case TimerBottomStatus.paused:
-              //     return Stack(
-              //       alignment: Alignment.center,
-              //       children: [
-              //         ImageBoxTitle(
-              //           hasChild: true,
-              //           textSize: MyString.padding42,
-              //           width: width,
-              //           height: height,
-              //           asset: "asset/round.png",
-              //           title: "BUY-IN AT",
-              //           sizeTitle: MyString.padding18,
-              //           text: '$formattedMinutes:$formattedSeconds',
-              //         ),
-              //         buttonStatus(width, height),
-              //       ],
-              //     );
-              //   default:
-              //     return SizedBox();
-              // }
+              
             },
           );
         },

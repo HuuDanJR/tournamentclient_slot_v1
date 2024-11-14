@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
@@ -41,8 +42,8 @@ class SettingOperator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final TextEditingController controllerTimer =
-        TextEditingController(text: '${MyString.TIME_DEFAULT_MINUTES}');
+    final ServiceAPIs serviceAPIs = ServiceAPIs();
+    final TextEditingController controllerTimer =  TextEditingController(text: '${MyString.TIME_DEFAULT_MINUTES}');
     return BlocListener<TimerBloc, TimerState>(
       listener: (context, state) {
         switch (state.status) {
@@ -108,7 +109,11 @@ class SettingOperator extends StatelessWidget {
                         icon: const Icon(Icons.airplay_rounded),
                         onPressed: () {
                           showConfirmationDialog(context, "Display Time", () {
-                            mySocket!.emitTime();
+                          serviceAPIs.updateTimeLatest(
+                                  minutes: state.duration ~/ 60,
+                                  seconds: state.duration % 60,
+                                  status: MyString.TIME_SET)
+                          .then((v) {mySocket!.emitTime();});
                           });
                         },
                         label: const Text('Display')),
@@ -168,8 +173,7 @@ Widget _buildControlButtons(
           icon: const Icon(Icons.pause),
           onPressed: () {
             timerBloc.add(PauseTimer());
-            serviceAPIs
-                .updateTimeLatest(
+            serviceAPIs.updateTimeLatest(
                     minutes: state.duration ~/ 60,
                     seconds: state.duration % 60,
                     status: MyString.TIME_PAUSE)

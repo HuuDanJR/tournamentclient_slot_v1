@@ -57,7 +57,7 @@ class _DisplayPageState extends State<DisplayPage> {
                 children: [
                   ElevatedButton.icon(
                     icon: const Icon(Icons.display_settings_outlined),
-                    label: textcustom(text: "Show View"),
+                    label: textcustom(text: "SHOW TOP RANKING"),
                     onPressed: () {
                       print('SHOW TOP RANKING');
                       showDialog(

@@ -205,6 +205,11 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                           itemListRT(
                             width: width,
                             child: textcustom(
+                                text: 'BET', size: MyString.padding14, isBold: true),
+                          ),
+                          itemListRT(
+                            width: width,
+                            child: textcustom(
                                 text: 'CREDIT', size: MyString.padding14, isBold: true),
                           ),
                           itemListRT(
@@ -271,6 +276,12 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                                             child: textcustom(
                                               size:MyString.padding14,
                                                 text: '${model.list[index].ip}'),
+                                          ),
+                                          itemListRT(
+                                            width: width,
+                                            child: textcustom(
+                                              size:MyString.padding14,
+                                              text:'${model.list[index].bet / 100}\$'),
                                           ),
                                           itemListRT(
                                             width: width,

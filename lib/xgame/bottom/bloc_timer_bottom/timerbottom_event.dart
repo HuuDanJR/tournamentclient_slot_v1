@@ -19,7 +19,6 @@ class StartTimer extends TimerBottomEvent {
 
 class Tick extends TimerBottomEvent {
   final int duration;
-
   const Tick(this.duration);
 
   @override
@@ -31,3 +30,5 @@ class PauseTimer extends TimerBottomEvent {}
 class ResumeTimer extends TimerBottomEvent {}
 
 class StopTimer extends TimerBottomEvent {}
+
+class SetTimer extends TimerBottomEvent{}

@@ -45,13 +45,13 @@ double? detectResolutionSpacing({input}) {
 //OFFSET
 double? detectResolutionOffsetX({input}) {
   double offsetX =
-      (MyString.DEFAULT_OFFSETX_TEXT / input) * MyString.DEFAULT_ROW;
+      (MyString.DEFAULT_OFFSETX_TEXT_VERTICAL / input) * MyString.DEFAULT_ROW;
   if (input <= 5) {
     // debugPrint('offsetX <=5 ${MyString.DEFAULT_OFFSETX_TEXT + offsetX * 2}');
-    return MyString.DEFAULT_OFFSETX_TEXT + offsetX * 2;
+    return MyString.DEFAULT_OFFSETX_TEXT_VERTICAL + offsetX * 2;
   } else if (input <= 10) {
     // debugPrint('offsetX <=10 ${MyString.DEFAULT_OFFSETX_TEXT + offsetX}');
-    return MyString.DEFAULT_OFFSETX_TEXT + offsetX * 1.5;
+    return MyString.DEFAULT_OFFSETX_TEXT_VERTICAL + offsetX * 1.5;
   } else if (input > 10 && input <= 20) {
     const value = 0.0;
     // debugPrint('offsetX 10->20: $value');

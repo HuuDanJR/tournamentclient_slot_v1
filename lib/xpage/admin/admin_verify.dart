@@ -8,6 +8,7 @@ import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/navigation/navigation_page.dart';
 import 'package:tournament_client/xgame/top/container.machine.dart';
+import 'package:tournament_client/xgame/top/page.machine.parent_realtime.dart';
 // import "dart:html" as html;
 
 class AdminVerify extends StatefulWidget {
@@ -19,9 +20,9 @@ class AdminVerify extends StatefulWidget {
 class _AdminVerifyState extends State<AdminVerify> {
   final TextEditingController controllerName = TextEditingController(text: '');
   final TextEditingController controllerPass = TextEditingController(text: '');
+  final TextEditingController controllerNumber = TextEditingController(text: '');
 
-  GlobalKey<RefreshIndicatorState> refreshKey =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   final ServiceAPIs serviceAPIs = ServiceAPIs();
   late Image backgroundImage; 
 
@@ -127,9 +128,21 @@ class _AdminVerifyState extends State<AdminVerify> {
                         isTopRanking: true,
                       );
                     },
-                    label: textcustom(text: "Login Admin", size: MyString.padding16)),
+                label: textcustom(text: "Login Admin", size: MyString.padding16)),
                 const SizedBox(height: MyString.padding08),
                 const Divider(color: MyColor.grey_tab),
+                const SizedBox(height: MyString.padding16),
+                TextField(
+                  enabled: true,
+                  controller: controllerNumber,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                      suffix: Icon(Icons.numbers),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      hintText: 'Number (Optional)',
+                      hintStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal),
+                      labelStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal)),
+                ),
                 const SizedBox(height: MyString.padding08),
                 //ROW VIEW PLAYERS
                 Row(
@@ -148,10 +161,23 @@ class _AdminVerifyState extends State<AdminVerify> {
                       width: MyString.padding24,
                     ),
                     TextButton.icon(
+                        icon: const Icon(Icons.person),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (_) =>  MachineTopPageRealTime(
+                            selectedNumber: controllerNumber.text,
+                          )));
+                        },
+                        label: textcustom(text: "View as Player", size: MyString.padding16)),
+                    const SizedBox(
+                      width: MyString.padding24,
+                    ),
+                    ElevatedButton.icon(
                         icon: const Icon(Icons.person_2_outlined),
                         onPressed: () {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (_) => const GamePage()));
+                          builder: (_) =>  GamePage(
+                            selectedNumber: controllerNumber.text,
+                          )));
                           debugPrint('Game');
                         },
                         label: textcustom(text: "Game", size: MyString.padding16)),
