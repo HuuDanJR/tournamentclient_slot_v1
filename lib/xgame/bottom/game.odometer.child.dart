@@ -4,6 +4,7 @@ import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
+import 'package:tournament_client/xgame/bottom/widget/jackpot.drop.box.dart';
 
 class GameOdometerChild extends StatefulWidget {
   final int startValue1;
@@ -120,7 +121,11 @@ class _GameOdometerChildState extends State<GameOdometerChild>
       mainAxisSize: MainAxisSize.min,
       children: [
         widget.droppedJP==true &&  showDroppedText == true && widget.machineNumber != 0
-            ? jpDropedBox(
+            ? 
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                jpDropedBox(
                 jpName: "VEGAS JP",
                 width: SizeConfig.jackpotWithItem,
                 height: widget.height * SizeConfig.jackpotHeightRation,
@@ -129,7 +134,15 @@ class _GameOdometerChildState extends State<GameOdometerChild>
                 textSize: MyString.padding46,
                 dropValue: widget.dropValue.toString(),
                 machineNumber: widget.machineNumber,
-              )
+              ),
+              Center(
+                child: JackpotDropBoxPage(
+                 width: SizeConfig.jackpotWithItem,
+                 height: widget.height * SizeConfig.jackpotHeightRation,
+                ),
+              )],
+            )
+            
             : imageBoxTitleWidget(
                 width: SizeConfig.jackpotWithItem,
                 height: widget.height * SizeConfig.jackpotHeightRation,

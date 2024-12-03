@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/main.dart';
+import 'package:tournament_client/utils/checkuuid.dart';
+import 'package:tournament_client/utils/generate_string.dart';
 import 'package:tournament_client/xgame/bottom/game.page.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/utils/mycolors.dart';
@@ -24,11 +26,16 @@ class _AdminVerifyState extends State<AdminVerify> {
 
   GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   final ServiceAPIs serviceAPIs = ServiceAPIs();
-  late Image backgroundImage; 
+  late Image backgroundImage;
+  final String uniqueId = getOrCreateUniqueId();
+
 
   @override
   void initState() {
     backgroundImage = Image.asset('asset/bg2.jpg');
+    if(uniqueId.isNotEmpty){
+       serviceAPIs.createNewDevice(deviceId: uniqueId, deviceName: 'DEVICE_${generateRandomString(8)}', deviceInfo: "");
+    }
     super.initState();
   }
 
@@ -37,6 +44,8 @@ class _AdminVerifyState extends State<AdminVerify> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     precacheImage(backgroundImage.image, context);
+
+
   }
 
   @override
@@ -48,10 +57,10 @@ class _AdminVerifyState extends State<AdminVerify> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+        final uniqueId = getOrCreateUniqueId();
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        // Your scaffold content
         body: Container(
           height: height,
           width: width,
@@ -90,6 +99,7 @@ class _AdminVerifyState extends State<AdminVerify> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 TextFormField(
                   enabled: true,
                   controller: controllerName,
@@ -115,8 +125,8 @@ class _AdminVerifyState extends State<AdminVerify> {
                       suffix: Icon(Icons.password_outlined),
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       hintText: 'Password',
-                      hintStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal),
-                      labelStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal)),
+                      hintStyle: TextStyle(fontFamily: MyString.fontFamily, fontWeight: FontWeight.normal),
+                      labelStyle: TextStyle(fontFamily: MyString.fontFamily, fontWeight: FontWeight.normal)),
                 ),
                 const SizedBox(
                   height: MyString.padding36,
@@ -143,6 +153,7 @@ class _AdminVerifyState extends State<AdminVerify> {
                       hintStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal),
                       labelStyle: TextStyle(fontFamily: MyString.fontFamily,fontWeight: FontWeight.normal)),
                 ),
+                Text("DeviceID: $uniqueId ",style:const TextStyle(color: MyColor.grey_tab,fontSize: MyString.padding12)),
                 const SizedBox(height: MyString.padding08),
                 //ROW VIEW PLAYERS
                 Row(
@@ -177,6 +188,7 @@ class _AdminVerifyState extends State<AdminVerify> {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (_) =>  GamePage(
                             selectedNumber: controllerNumber.text,
+                            uniqueId:uniqueId,
                           )));
                           debugPrint('Game');
                         },

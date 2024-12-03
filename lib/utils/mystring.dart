@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class MyString {
   static const int DEFAULTNUMBER = 111111;
@@ -11,6 +12,7 @@ class MyString {
   // static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8086/api/';
   static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
+  // static const String BASEURL = 'http://$ADRESS_SERVER:8086/';
   static const String API_KEY = '';
 
   static const String list_ranking = '${BASE}list_ranking';
@@ -49,6 +51,10 @@ class MyString {
   static const String add_ranking_realtime = '${BASE}add_ranking_realtime';
   static const String settings = '${BASE}findsetting';
   static const String setting_update = '${BASE}update_setting';
+
+  //JACKPOT HISTORY
+  static const String jackpot_history = '${BASE}jackpot_drop/jackpot_drop_paging?page=1&limit=30';
+
   //DEFAULT PADDING IN SETTING
   static const double TOP_PADDING_TOPRAKINGREALTIME = 18.0;
 
@@ -73,6 +79,16 @@ class MyString {
   static const String get_stream_all = '${BASE}stream/all_stream';
   //JACKPOT
   static const String get_jackpot_all = '${BASE}jackpot/all_jackpot';
+
+  //DEVICE
+  static const CREATE_NEW_DEVICE = "${BASE}device/create_device";
+  static const LIST_DEVICE_ALL = "${BASE}device/list_device";
+  static String delete_device_by_id (id){
+    return '${BASE}device/delete_device/$id';
+  }
+  static String update_device_by_id (id){
+    return '${BASE}device/update_device/$id';
+  }
 
   static const int TIME_INIT = 0;
   static const int TIME_START = 1;

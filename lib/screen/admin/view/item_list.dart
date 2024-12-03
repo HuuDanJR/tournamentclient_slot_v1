@@ -4,6 +4,7 @@ import 'package:tournament_client/screen/admin/model/rankingList.dart';
 import 'package:tournament_client/screen/admin/view/hover.cubit.dart';
 import 'package:tournament_client/service/format.date.factory.dart';
 import 'package:tournament_client/utils/mycolors.dart';
+import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 
 class ItemListView extends StatelessWidget {
@@ -42,40 +43,40 @@ class ItemListView extends StatelessWidget {
               ),
             ),
             child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(MyString.padding08),
                 child: Row(
                   children: [
                     SizedBox(
                       width: itemWidth,
-                      child: textcustom(text: '${index + 1}', size: 16.0),
+                      child: textcustom(text: '${index + 1}', size: MyString.padding16),
                     ),
                     SizedBox(
                       width: itemWidth,
                       child: textcustom(
-                          text: post.customerNumber.toString(), size: 16.0),
+                          text: post.customerNumber.toString(), size: MyString.padding16),
                     ),
                     SizedBox(
                       width: itemWidth,
                       child: textcustom(
                           text: post.customerName.toString().toUpperCase(),
-                          size: 16.0),
+                          size: MyString.padding16),
                     ),
                     SizedBox(
                       width: itemWidth,
-                      child: textcustom(text: '${post.point}', size: 16.0),
+                      child: textcustom(text: '${post.point}', size: MyString.padding16),
                     ),
                     SizedBox(
                         width: itemWidth,
                         child: textcustom(
                             text: dateformat.formatTimeAFullLocal(
                                 DateTime.parse(post.createdAt!)),
-                            size: 16.0)),
+                            size: MyString.padding16)),
                     SizedBox(
                         width: itemWidth,
                         child: textcustom(
                             text: dateformat
                                 .formatDate(DateTime.parse(post.createdAt!)),
-                            size: 16.0)),
+                            size: MyString.padding16)),
                     Expanded(
                       child: SizedBox(
                           width: itemWidth,
@@ -85,11 +86,13 @@ class ItemListView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
+                                  tooltip: 'Edit',
                                   onPressed: () {
                                     onPressEdit();
                                   },
                                   icon: const Icon(Icons.edit)),
                               IconButton(
+                                  tooltip: "Delete",
                                   onPressed: () {
                                     onPressDelete();
                                   },

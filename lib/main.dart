@@ -5,6 +5,7 @@ import 'package:tournament_client/xpage/admin/admin_verify.dart';
 import 'package:tournament_client/xpage/container/containerpage.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tournament_client/utils/mycolors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,27 +30,29 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _checkLoginStatus() async {
     isLoggedIn = await UserLoginManager.isLoggedIn();
-    setState(() {}); // Update the UI based on the login status
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: MyString.APP_NAME,
         theme: ThemeData(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          cardColor: Colors.white,
+          cardColor: MyColor.grey_tab,
           platform: TargetPlatform.windows,
           hoverColor: Colors.grey.shade200,
-          primaryColor: Colors.red,
-          dividerColor: Colors.grey.shade200,
-          indicatorColor: Colors.red,
+          primaryColor: MyColor.appBar,
+          dividerColor: Colors.grey,
+          indicatorColor: MyColor.appBar,
           scaffoldBackgroundColor: Colors.white,
-          highlightColor: Colors.grey.shade200,
+          highlightColor: Colors.grey,
           hintColor: Colors.grey,
           disabledColor: Colors.grey,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(hoverColor: MyColor.grey_tab),
+          colorScheme: ColorScheme.fromSeed(seedColor: MyColor.red),
           useMaterial3: false,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: GoogleFonts.poppins().fontFamily,
@@ -61,9 +64,18 @@ class _MyAppState extends State<MyApp> {
           '/containerPage': (context) => ContainerPage(
                 url: MyString.BASEURL,
                 selectedIndex: MyString.DEFAULTNUMBER,
-          ),
+              ),
         },
         home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
+        // home: isLoggedIn == false ? const AdminVerify() : const NavigationPage());
+        // home:
+        //  Center(
+        //   child: JackpotDropBoxPage(
+        //     width: SizeConfig.jackpotWithItem,
+        //     height: height * SizeConfig.jackpotHeightRation,
+        //   ),
+        // )
+        // );
         // home:  const MachineViewContainer());
   }
 }

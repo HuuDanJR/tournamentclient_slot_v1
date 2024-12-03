@@ -3,6 +3,7 @@ import 'package:tournament_client/lib/models/settingModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
 import 'package:tournament_client/lib/socket/socket_manager.dart';
+import 'package:tournament_client/xgame/bottom/game.setting.number.dart';
 import 'package:tournament_client/xgame/bottom/game.time.buyin.dart';
 import 'package:tournament_client/xgame/bottom/size.config.dart';
 import 'package:tournament_client/xgame/bottom/widget/image.box.dart';
@@ -11,10 +12,12 @@ class GameSettingPage extends StatefulWidget {
   final SocketManager socketManager;
   final String selectedNumber;
   final double width;
+  final String uniqueId;
   final double height;
   const GameSettingPage({
     required this.socketManager,
     required this.width,
+    required this.uniqueId,
     required this.height,
     required this.selectedNumber,
     Key? key,
@@ -46,8 +49,8 @@ class _GameSettingPageState extends State<GameSettingPage> {
             snapshot.data == []) {
           return const Center(child: Icon(Icons.do_not_disturb_alt_sharp));
         }
-        SettingModelList settingModelList =
-            SettingModelList.fromJson(snapshot.data!);
+        SettingModelList settingModelList =SettingModelList.fromJson(snapshot.data!);
+        // debugPrint('snapshot data setting: ${snapshot.data}');
         return SizedBox(
           // padding:const  EdgeInsets.symmetric(horizontal:MyString.padding08),
           width: widget.width,
@@ -65,13 +68,20 @@ class _GameSettingPageState extends State<GameSettingPage> {
               //   text: "${settingModelList.list.first.remaingame}",
               // ),
 
-              ImageBoxNoText(
-                  textSize: MyString.padding84,
+              // ImageBoxNoText(
+              //     textSize: MyString.padding84,
+              //     width: widget.width,
+              //     height: widget.height * SizeConfig.controlItemHeightRatioBig,
+              //     asset: "asset/circle.png",
+              //     text: widget.selectedNumber,
+              //     label: ""),
+              GameSettingNumberPage(
+                  socketManager: widget.socketManager,
                   width: widget.width,
+                  uniqueId:widget.uniqueId,
                   height: widget.height * SizeConfig.controlItemHeightRatioBig,
-                  asset: "asset/circle.png",
-                  text: "${widget.selectedNumber}",
-                  label: ""),
+                  selectedNumber: widget.selectedNumber,
+              ),
 
               Expanded(
                   child: SizedBox(
@@ -80,6 +90,7 @@ class _GameSettingPageState extends State<GameSettingPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    const SizedBox(height: MyString.padding16,),
                     ImageBoxTitle(
                       hasChild: true,
                       textSize: MyString.padding42,
@@ -105,7 +116,7 @@ class _GameSettingPageState extends State<GameSettingPage> {
                       text: "${settingModelList.list.first.maxbet}",
                     ),
                     Container(
-                      height: MyString.padding96,
+                      height: MyString.padding72,
                     ),
                     ImageBoxTitle(
                       hasChild: true,

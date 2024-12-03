@@ -47,31 +47,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
       appBar: AppBar(
         title:  textcustom(text:'Set Up Top Ranking',size: MyString.padding16),
         actions: [
-          // ElevatedButton(
-          //     onPressed: () {
-          //       showDialog(
-          //         context: context,
-          //         builder: (context) => AlertDialog(
-          //           title: textcustom(text: "Save Ranking Realtime History"),
-          //           content: textcustom(text: 'Click confirm to save ranking realtime history'),
-          //           actions: [
-          //             TextButton(
-          //               onPressed: () {
-          //                 Navigator.of(context).pop(); // Close the dialog
-          //               },
-          //               child: const Text('CANCEL'),
-          //             ),
-          //             TextButton(
-          //               onPressed: () {
-          //                 Navigator.of(context).pop();
-          //               },
-          //               child: const Text('CONFIRM'),
-          //             ),
-          //           ],
-          //         ),
-          //       );
-          //     },
-          //     child: textcustom(text: "SAVE HISTORY")),
+          
           ElevatedButton(
               onPressed: () {
                 showDialog(
@@ -106,8 +82,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                           } else {
                             widget.mySocket!.emitEventChangeLimitTopRanking(
                                 int.parse(controllerLimit.text));
-                            showSnackBar(
-                                context: context, message: 'Setting Finished');
+                            showSnackBar(context: context, message: 'Setting Finished');
                             Navigator.of(context).pop();
                           }
                         },
@@ -117,7 +92,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                   ),
                 );
               },
-              child: textcustom(text: "Setting Limit",size: MyString.padding12)),
+              child: textcustom(text: "Setting Limit")),
           ElevatedButton(
               onPressed: () {
                 debugPrint('add round');
@@ -141,7 +116,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          print('data create round');
+                          debugPrint('data create round');
                           showLoaderDialog(context);
                           try {
                             service_api.addRealTimeRanking().then((value) {
@@ -154,7 +129,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                               Navigator.of(context).pop();
                             });
                           } catch (e) {
-                            print('error when add round $e');
+                            debugPrint('error when add round $e');
                             Navigator.of(context).pop();
                           }
                         },
@@ -164,10 +139,10 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                   ),
                 );
               },
-              child: textcustom(text: "Add Round",size: MyString.padding12)),
+              child: textcustom(text: "Add Round")),
           TextButton.icon(
               onPressed: () {
-                print('rebuild top rank');
+                debugPrint('rebuild top rank');
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -195,7 +170,7 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
                 );
               },
               icon: const Icon(Icons.refresh_rounded,color:MyColor.white),
-              label: textcustomColor(text: "Refresh View",size: MyString.padding12,color:MyColor.white))
+              label: textcustomColor(text: "Refresh View",color:MyColor.white))
         ],
       ),
       floatingActionButtonLocation:
@@ -205,17 +180,6 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            // FloatingActionButton(
-            //   tooltip: 'Refresh list to view updated data',
-            //   backgroundColor: MyColor.green,
-            //   onPressed: () {
-
-            //   },
-            //   child: const Icon(Icons.refresh_outlined),
-            // ),
-            // const SizedBox(
-            //   width: 16.0,
-            // ),
             FloatingActionButton(
               tooltip: 'Reset List Ranking To Default',
               backgroundColor: MyColor.red,
@@ -258,20 +222,18 @@ class _SetupTopRankingPageState extends State<SetupTopRankingPage> {
             FloatingActionButton(
                 tooltip: "add new ranking",
                 onPressed: () {
-                  print('add');
+                  debugPrint('add');
                   openAlertDialog(
                       function: () {
-                        service_api
-                            .createRanking(
+                        service_api.createRanking(
                                 customer_name: controllerName.text,
                                 customer_number: controllerNumber.text,
                                 point: controllerPoint.text)
                             .then((value) {
-                          showSnackBar(
-                              context: context, message: value['message']);
+                          showSnackBar(context: context, message: value['message']);
                           setState(() {});
                           if (value['status'] == true) {
-                            print('run it');
+                            debugPrint('run it');
                           }
                         }).whenComplete(() {
                           setState(() {

@@ -21,13 +21,14 @@ class SocketManager {
       _streamControllerJackpotNumber; //from mysql
   late StreamController<List<Map<String, dynamic>>>
       _streamControllerJackpotNumber2; //from mysql
+  late StreamController<List<Map<String, dynamic>>>_streamControllerDevice; //from mongodb data
   IO.Socket? get socket => _socket;
   Stream<List<Map<String, dynamic>>> get dataStream => _streamController.stream;
-  Stream<List<Map<String, dynamic>>> get dataStream2 =>
-      _streamController2.stream;
+  Stream<List<Map<String, dynamic>>> get dataStream2 =>  _streamController2.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamView =>
       _streamControllerView.stream;
-  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>  _streamControllerSetting.stream;
+  Stream<List<Map<String, dynamic>>> get dataStreamSetting =>
+      _streamControllerSetting.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamTime =>
       _streamControllerTime.stream;
   Stream<List<Map<String, dynamic>>> get dataStreamJackpot =>
@@ -37,15 +38,29 @@ class SocketManager {
   Stream<List<Map<String, dynamic>>> get dataStreamJackpotNumber2 =>
       _streamControllerJackpotNumber2.stream;
 
+  Stream<List<Map<String, dynamic>>> get dataStreamDevice =>
+      _streamControllerDevice.stream;
+
   SocketManager._() {
-    _streamController = StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamController2 =  StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerView =  StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerSetting =  StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerTime = StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpot = StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpotNumber = StreamController<List<Map<String, dynamic>>>.broadcast();
-    _streamControllerJackpotNumber2 = StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamController =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamController2 =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerView =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerSetting =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerTime =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpot =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpotNumber =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    _streamControllerJackpotNumber2 =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
+    //stream device
+    _streamControllerDevice =
+        StreamController<List<Map<String, dynamic>>>.broadcast();
   }
 
   void initSocket() {
@@ -58,6 +73,12 @@ class SocketManager {
       'reconnectionAttempts': 10, // Number of reconnection attempts
       'reconnectionDelay': 5000, // Delay between reconnections
       'transports': ['websocket'],
+    });
+
+    //EVENT DEVICE
+    _socket?.on('eventDevice', (data) {
+      // debugPrint('eventDevice JSON: $data');
+      processDevice(data);
     });
 
     _socket?.on('eventFromServer', (data) {
@@ -77,13 +98,13 @@ class SocketManager {
 
     //SETTING VIEW
     _socket?.on('eventSetting', (data) {
-      debugPrint('eventSetting');
-      debugPrint('eventSetting SocketManager: $data');
+      // debugPrint('eventSetting');
+      // debugPrint('eventSetting SocketManager: $data');
       processDataSetting(data);
     });
     //TIME VIEW
     _socket?.on('eventTime', (data) {
-      debugPrint('eventTime SocketManager');
+      debugPrint('eventTime SocketManager $data');
       // debugPrint('eventTime SocketManager: $data');
       processDataTime(data);
     });
@@ -121,7 +142,7 @@ class SocketManager {
 
 //process data setting
   void processDataSetting(dynamic data) {
-    debugPrint('processDataSetting');
+    // debugPrint('processDataSetting');
     for (var jsonData in data) {
       try {
         // Create a Map to represent the display data
@@ -146,8 +167,9 @@ class SocketManager {
 
 //processDataTime
   void processDataTime(dynamic data) {
-    // debugPrint('processDataTime');
+    debugPrint('processDataTime');
     for (var jsonData in data) {
+          debugPrint('processDataTime JSON: $jsonData');
       try {
         // Create a Map to represent the display data
         Map<String, dynamic> data = {
@@ -210,7 +232,8 @@ class SocketManager {
           "initValue": jsonData['initValue'],
           "startValue": jsonData['startValue'],
           "endValue": jsonData['endValue'],
-          "createdAt": jsonData['createdAt'], // This can remain a String or DateTime based on your requirement
+          "createdAt": jsonData[
+              'createdAt'], // This can remain a String or DateTime based on your requirement
           "hitDateTime": jsonData['hitDateTime'],
           "hitValue": jsonData['hitValue'],
           "machineId": jsonData['machineId'],
@@ -274,7 +297,8 @@ class SocketManager {
         debugPrint('Error parsing data jackpot 2 number: $e');
       }
     } else {
-      debugPrint('Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
+      debugPrint(
+          'Error: expected Map<String, dynamic> but received: ${data.runtimeType}');
     }
   }
 
@@ -320,6 +344,28 @@ class SocketManager {
       }
     }
   }
+
+  void processDevice(dynamic data) {
+  debugPrint('ACCESS processDevice $data');
+  List<Map<String, dynamic>> deviceList = [];
+  for (var jsonData in data) {
+    try {
+      Map<String, dynamic> dataMap = {
+        "_id": jsonData['_id'] as String, // Ensure _id is treated as a String
+        "deviceId": jsonData['deviceId'] as String ?? "",
+        "deviceName": jsonData['deviceName'] as String ?? "",
+        "deviceInfo": jsonData['deviceInfo'] as String ?? "",
+        "createdAt": jsonData['createdAt'],
+        "__v": jsonData['__v'],
+      };
+      deviceList.add(dataMap);
+    } catch (e) {
+      debugPrint('Error parsing data device: $e');
+    }
+  }
+  _streamControllerDevice.add(deviceList);
+}
+
 
   void emitEventFromClient() {
     _socket?.emit('eventFromClient');
@@ -378,6 +424,12 @@ class SocketManager {
   //emit data setting
   void emitSetting() {
     socket!.emit('emitSetting');
+  }
+
+  //emit data setting
+  void emitDevice() {
+    debugPrint('called emitDevice');
+    socket!.emit('emitDevice');
   }
 
   //emit data time

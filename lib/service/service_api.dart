@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tournament_client/lib/models/deviceModel.dart';
 import 'package:tournament_client/lib/models/jackModel.dart';
+import 'package:tournament_client/lib/models/jackpotDropModel.dart';
 import 'package:tournament_client/lib/models/streamModel.dart';
 import 'package:tournament_client/lib/models/timeModel.dart';
 import 'package:tournament_client/utils/mystring.dart';
@@ -112,6 +114,32 @@ class ServiceAPIs {
     // final List<List<double>> list = response.data;
     // print('reponse: $list');
     return response.data;
+  }
+
+  //List JP History
+  Future<JackpotHistoryModel?> listJPHistory([int startIndex = 0,int postLimit = 30]) async {
+    debugPrint("listJPHistory: startIndex=$startIndex, postLimit=$postLimit");
+    try {
+      final response = await dio.get(
+        MyString.jackpot_history,
+        queryParameters: {'start': '$startIndex', 'limit': '$postLimit'},
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+
+      late final jackpotData = JackpotHistoryModel.fromJson(response.data);
+      debugPrint("listJPHistory url: ${MyString.jackpot_history}\nTotal results: ${jackpotData.data.length}");
+      return jackpotData;
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+    return null;
   }
 
   //List report
@@ -480,10 +508,7 @@ class ServiceAPIs {
     return null;
   }
 
-
-
-
-  //Update status all station or disable all 
+  //Update status all station or disable all
   Future<dynamic> updateStatusAll({required int status}) async {
     Map<String, dynamic> body = {
       "status": status,
@@ -510,9 +535,6 @@ class ServiceAPIs {
       debugPrint(e.message);
     }
   }
-
-
-
 
   Future<dynamic> updateSetting(
       {required String remaintime,
@@ -626,8 +648,7 @@ class ServiceAPIs {
       debugPrint('_fetchRaking');
       final dio = Dio();
       final response = await dio.get(
-        MyString
-            .list_ranking_data, // Use http instead of https if it's not secured
+        MyString.list_ranking_data, // Use http instead of https if it's not secured
         queryParameters: {'start': '$startIndex', 'limit': '$postLimit'},
       );
       if (response.statusCode == 200) {
@@ -806,20 +827,22 @@ class ServiceAPIs {
     return TimeModelList.fromJson(response.data);
   }
 
-
   Timer? _debounceRequestCall;
-  
 
   //UPDATE TIME APIs
-  Future<dynamic> updateTimeByID({required String id,required int minutes,required int seconds, required int status }) async {
+  Future<dynamic> updateTimeByID(
+      {required String id,
+      required int minutes,
+      required int seconds,
+      required int status}) async {
     Map<String, dynamic> body = {
-        "id":id,
-        "minutes":minutes,
-        "seconds":seconds,
-        "status": status 
+      "id": id,
+      "minutes": minutes,
+      "seconds": seconds,
+      "status": status
     };
     if (_debounceRequestCall?.isActive ?? false) _debounceRequestCall?.cancel();
-     _debounceRequestCall = Timer(const Duration(seconds: 1), () async {
+    _debounceRequestCall = Timer(const Duration(seconds: 1), () async {
       Map<String, dynamic> body = {
         "id": id,
         "minutes": minutes,
@@ -844,12 +867,14 @@ class ServiceAPIs {
     // Return some placeholder value if you need to return immediately
     return Future.value(null);
   }
+
   //UPDATE TIME APIs
-  Future<dynamic> updateTimeLatest({ int? minutes, int? seconds, required int status }) async {
+  Future<dynamic> updateTimeLatest(
+      {int? minutes, int? seconds, required int status}) async {
     Map<String, dynamic> body = {
-        "minutes":minutes,
-        "seconds":seconds,
-        "status": status 
+      "minutes": minutes,
+      "seconds": seconds,
+      "status": status
     };
     final response = await dio.put(
       MyString.update_time_latest,
@@ -867,11 +892,7 @@ class ServiceAPIs {
     return (response.data);
   }
 
-
-
-
-
-  //STREAM GET ALL 
+  //STREAM GET ALL
   Future<StreamModel?> getStreamAll() async {
     final response = await dio.get(
       MyString.get_stream_all,
@@ -888,7 +909,7 @@ class ServiceAPIs {
     return StreamModel.fromJson(response.data);
   }
 
-  //STREAM GET ALL 
+  //STREAM GET ALL
   Future<JackpotModel?> getJackpotAll() async {
     final response = await dio.get(
       MyString.get_jackpot_all,
@@ -903,6 +924,100 @@ class ServiceAPIs {
     );
     // debugPrint('getJackpotAll: ${response.data}');
     return JackpotModel.fromJson(response.data);
+  }
+
+
+  //CREATE DEVICE
+
+  Future<dynamic> createNewDevice({required String deviceId,required String deviceName, required String deviceInfo}
+      ) async {
+    Map<String, dynamic> body = {
+      "deviceId":deviceId,
+      "deviceName":deviceName,
+      "deviceInfo":deviceInfo
+    };
+    try {
+      final response = await dio.post(
+        MyString.CREATE_NEW_DEVICE,
+        data: body,
+        // data: body,
+        options: Options(
+          contentType: Headers.jsonContentType,
+          receiveTimeout: receiveAndSendTimeout,
+          sendTimeout: receiveAndSendTimeout,
+          followRedirects: false,
+          validateStatus: (status) {
+            return true;
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        ),
+      );
+      return (response.data);
+    } on DioError catch (e) {
+      debugPrint(e.message);
+    }
+  }
+
+  //List Device All
+
+  //show list member all
+  Future<DeviceModel> listDevicesAll() async {
+    debugPrint('API ListDeviceAll  ${MyString.LIST_DEVICE_ALL}');
+    final response = await dio.get(
+      MyString.LIST_DEVICE_ALL,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    debugPrint('${response.data}');
+    return DeviceModel.fromJson(response.data);
+  }
+
+//Delete Device by _id
+  Future<dynamic> deleteDeviceById(id) async {
+    debugPrint('API deleteDeviceById  ${MyString.delete_device_by_id(id)}');
+    final response = await dio.delete(
+      MyString.delete_device_by_id(id),
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    // debugPrint('${response.data}');
+    return (response.data);
+  }
+//Update Device by _id
+  Future<dynamic> updatedeviceByID({required id,required deviceName,required deviceInfo}) async {
+    debugPrint('API updatedeviceByID  ${MyString.update_device_by_id(id)}');
+    final Map<String,dynamic> data = {
+      "deviceName":deviceName,
+      "deviceInfo":deviceInfo
+    };
+    final response = await dio.put(
+      MyString.update_device_by_id(id),
+      data: data,
+      options: Options(
+        receiveTimeout: receiveAndSendTimeout,
+        sendTimeout: receiveAndSendTimeout,
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    // debugPrint('${response.data}');
+    return (response.data);
   }
 
 }

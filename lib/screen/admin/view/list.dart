@@ -1,7 +1,6 @@
 import 'dart:ui';
-
 import 'package:tournament_client/screen/admin/bloc/list_bloc.dart';
-
+import 'package:tournament_client/widget/loading.indicator.dart';
 import 'item_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +11,6 @@ import 'package:tournament_client/widget/textfield.dart';
 import 'package:tournament_client/widget/showsnackbar.dart';
 import 'package:tournament_client/service/service_api.dart';
 import 'package:tournament_client/screen/admin/view/item_list.dart';
-import 'package:tournament_client/widget/loader.bottom.custom.dart';
-
-
-
-
-
-
 
 class ListRanking extends StatefulWidget {
   const ListRanking({Key? key}) : super(key: key);
@@ -83,14 +75,12 @@ class _ListRankingState extends State<ListRanking> {
                         ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
                             return index >= state.posts.length
-                                ? BottomLoaderCustom(
-                                    function: () => _onRefresh(),
-                                  )
+                                ? loadingIndicatorSize()
                                 : ItemListView(
                                     post: state.posts[index],
                                     index: index,
                                     onPressEdit: () {
-                                      print('onPRess Edit');
+                                      debugPrint('onPRess Edit');
                                       showDialog(
                                       context: context,
                                       builder: (context) =>AlertDialog(

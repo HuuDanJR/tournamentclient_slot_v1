@@ -32,6 +32,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "audio_session",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/audio_session-0.1.21",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "bloc",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/bloc-8.1.4",
       "packageUri": "lib/",
@@ -114,6 +120,12 @@
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/collection-1.18.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "confetti",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/confetti-0.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "convert",
@@ -294,6 +306,24 @@
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/json_serializable-4.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "just_audio",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/just_audio-0.9.42",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "just_audio_platform_interface",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/just_audio_platform_interface-4.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "just_audio_web",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/just_audio_web-0.4.13",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker",
@@ -770,7 +800,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2024-11-08T10:09:28.797431Z",
+  "generated": "2024-12-03T10:04:10.874030Z",
   "generator": "pub",
   "generatorVersion": "3.5.0-113.0.dev",
   "flutterRoot": "file:///opt/homebrew/Caskroom/flutter/3.10.6/flutter",

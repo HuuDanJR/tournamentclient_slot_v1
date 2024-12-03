@@ -136,7 +136,7 @@ class DateFormatter {
     return formattedDate;
   }
 
- 
+
   String FormatDate(value) {
     String formattedDate = DateFormat('dd-MM-yyyy').format(value);
     return formattedDate;
@@ -205,6 +205,15 @@ class DateFormatter {
 
   String formatDayDateTimeFull(value) {
     String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss a').format(value);
+    return formattedDate;
+  }
+
+
+    String formatDateAFullLocalStandar(DateTime value) {
+    //If you want to parse in Flutter
+    DateTime date = DateTime.parse(value.toString()).toUtc();
+    DateTime dateLocal = date.toLocal();
+    String formattedDate = DateFormat(' HH:mm dd-MM-yyyy ').format(dateLocal);
     return formattedDate;
   }
 }

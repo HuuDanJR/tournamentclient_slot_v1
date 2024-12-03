@@ -4,6 +4,7 @@ class MyColor {
   //brand color
   // ignore: constant_identifier_names
   static const Color blue_coinbase = Color(0xFF0052FF);
+  static const Color appBar = Color(0xFF3F51B5);
   // ignore: constant_identifier_names
   static const Color red_japanguild = Color(0xFFf20000);
   // ignore: constant_identifier_names

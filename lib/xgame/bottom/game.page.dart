@@ -7,7 +7,8 @@ import 'package:tournament_client/xgame/bottom/size.config.dart';
 
 class GamePage extends StatefulWidget {
   final String selectedNumber;
-  const GamePage({Key? key,required this.selectedNumber}) : super(key: key);
+  final String uniqueId;
+  const GamePage({Key? key,required this.selectedNumber,required this.uniqueId}) : super(key: key);
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -55,7 +56,7 @@ class _GamePageState extends State<GamePage> {
           Positioned(
               top: 0,
               right: 0,
-              child: GameControlPage(socketManager: socketManager,selectedNumber:widget.selectedNumber)),
+              child: GameControlPage(uniqueId:widget.uniqueId ?? "",socketManager: socketManager,selectedNumber:widget.selectedNumber)),
           //JACKPOT
           Positioned(
             bottom: 0,

@@ -1,5 +1,5 @@
 name: tournament_client
-description: TNM Client displays ranking.
+description: TNM Client App.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -14,6 +14,7 @@ dependencies:
   cached_network_image: ^3.2.3
   chewie: ^1.7.1
   collection: ^1.17.0
+  confetti: ^0.8.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
   dio_http_cache: ^0.3.0
@@ -26,11 +27,13 @@ dependencies:
   google_fonts: ^5.1.0
   http: any
   intl: ^0.18.1
+  just_audio: ^0.9.42
   lottie: ^2.6.0
   odometer: ^3.0.0
   shared_preferences: ^2.2.2
   socket_io_client: ^2.0.3
   url_launcher: ^6.2.5
+  uuid: ^4.5.1
   video_player: ^2.7.2
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -56,6 +59,8 @@ flutter:
     - asset/bgcolor2.png
     - asset/bg_topranking.jpeg
     - asset/bg_ranking.jpeg
+    - asset/sound.mp3
+    - asset/effect.mp4
 
   fonts:
     - family: Poppins

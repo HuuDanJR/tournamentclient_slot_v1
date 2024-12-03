@@ -7,7 +7,8 @@ import 'package:tournament_client/xgame/bottom/size.config.dart';
 class GameControlPage extends StatelessWidget {
   final SocketManager socketManager;
   final String selectedNumber;
-  const GameControlPage({required this.socketManager,required this.selectedNumber, Key? key})
+  final String uniqueId;
+  const GameControlPage({required this.socketManager,required this.selectedNumber,required this.uniqueId, Key? key})
       : super(key: key);
 
   @override
@@ -33,6 +34,7 @@ class GameControlPage extends StatelessWidget {
               height: heightItem,
               child: GameSettingPage(
                   socketManager: socketManager,
+                  uniqueId:uniqueId,
                   selectedNumber:selectedNumber,
                   width: width,
                   height: heightItem),

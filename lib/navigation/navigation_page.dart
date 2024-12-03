@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournament_client/main.dart';
+import 'package:tournament_client/xpage/device/devicepage.dart';
+import 'package:tournament_client/xpage/jackpot/jackpot_history.dart';
 import 'package:tournament_client/xpage/setting/setting.container.dart';
 import 'package:tournament_client/xpage/setup/setup_realtime.dart';
 import 'package:tournament_client/xpage/display/displaypage.dart';
@@ -39,7 +41,7 @@ class _NavigationPageState extends State<NavigationPage> {
   void dispose() {
     super.dispose();
     mySocket.disposeSocket();
-    
+
   }
 
   @override
@@ -50,10 +52,11 @@ class _NavigationPageState extends State<NavigationPage> {
       SettingContainer(mySocket:mySocket), //setting realtime page
       SetupTopRankingPage(mySocket: mySocket),
       SetupRealtimePage(mySocket: mySocket),
-      
       const HistoryPageTop(),
       const HistoryPageRealTime(),
-      DisplayPage(mySocket: mySocket)
+      DisplayPage(mySocket: mySocket),
+      DevicesPage(mySocket: mySocket),
+      JackpotHistory(),
     ];
     return
       Scaffold(
@@ -133,7 +136,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     ],
                   ),
                   groupAlignment: groupAligment,
-                  
+
                   selectedIndex: _selectedIndex,
                   onDestinationSelected: (int index) {
                     setState(() {
@@ -154,8 +157,8 @@ class _NavigationPageState extends State<NavigationPage> {
                       ),
                       label: Text('Settings',textAlign: TextAlign.center,),
                     ),
-                
-                
+
+
                     NavigationRailDestination(
                       icon: Icon(
                         Icons.list,
@@ -168,7 +171,7 @@ class _NavigationPageState extends State<NavigationPage> {
                       ),
                       label: Text('Top'),
                     ),
-                
+
                     NavigationRailDestination(
                       indicatorColor: MyColor.orange,
                       icon: Icon(
@@ -181,7 +184,7 @@ class _NavigationPageState extends State<NavigationPage> {
                       ),
                       label: Text('Realtime'),
                     ),
-                   
+
                     NavigationRailDestination(
                       icon: Icon(
                         Icons.data_array,
@@ -217,6 +220,30 @@ class _NavigationPageState extends State<NavigationPage> {
                         size: MyString.padding24,
                       ),
                       label: Text('Display'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.device_hub,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.device_hub,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('Devices'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(
+                        Icons.money,
+                        size: MyString.padding24,
+                      ),
+                      indicatorColor: MyColor.orange,
+                      selectedIcon: Icon(
+                        Icons.money_rounded,
+                        size: MyString.padding24,
+                      ),
+                      label: Text('JP History'),
                     ),
                   ],
                 ),

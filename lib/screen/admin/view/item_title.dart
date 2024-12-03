@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tournament_client/service/format.date.factory.dart';
 import 'package:tournament_client/utils/mycolors.dart';
 import 'package:tournament_client/utils/mystring.dart';
 import 'package:tournament_client/widget/text.dart';
@@ -9,8 +8,6 @@ class AdminItemTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final dateFormat = DateFormatter();
     final width = MediaQuery.of(context).size.width;
     final double widthItem = width / 7.5;
     return Material(
@@ -71,15 +68,3 @@ class AdminItemTitle extends StatelessWidget {
   }
 }
 
-Widget rowItem({icon, String? text}) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Icon(icon),
-      Text(
-        text!,
-      )
-    ],
-  );
-}

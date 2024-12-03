@@ -99,9 +99,19 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
             child: const Icon(Icons.add, color: MyColor.white)),
         appBar: AppBar(
           centerTitle: false,
+          backgroundColor: MyColor.appBar,
           title:  textcustom(text:'Set Up Real Time Display',size:MyString.padding16),
           actions: [
-            ElevatedButton(
+            TextButton.icon(
+                icon:const Icon(Icons.refresh_sharp,color:MyColor.white),
+                onPressed: () {
+                  setState(() {
+                     showSnackBar(context: context, message: 'List Updated');
+                  });
+                },
+                label: textcustomColor(text: "Refresh",color:MyColor.white)),
+            TextButton.icon(
+                icon:const Icon(Icons.settings,color:MyColor.white),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -120,12 +130,14 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                       ),
                       actions: [
                         TextButton(
+                          
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
                           child: const Text('CANCEL'),
                         ),
                         TextButton(
+                          
                           onPressed: () {
                             debugPrint("onPressed: emitEventChangeLimitRealTimeRanking");
                             if (int.parse(controllerLimit.text) > 20) {
@@ -147,7 +159,7 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                     ),
                   );
                 },
-                child: textcustom(text: "Setting Limit",size: MyString.padding12)),
+                label: textcustomColor(text: "Setting Limit",color:MyColor.white)),
           ],
         ),
         body: FutureBuilder(
@@ -436,8 +448,7 @@ class _SetupRealtimePageState extends State<SetupRealtimePage> {
                                                                   .display ==
                                                               0
                                                           ? Icons.close_outlined
-                                                          : Icons
-                                                              .remove_red_eye_rounded)),
+                                                          : Icons.remove_red_eye_rounded)),
                                                   IconButton(
                                                       onPressed: () {
                                                         debugPrint('delete');
